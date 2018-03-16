@@ -1,4 +1,3 @@
-from ..helpers.image_getter import get_image
 from .game_object import GameObject
 from .direction import Direction
 
