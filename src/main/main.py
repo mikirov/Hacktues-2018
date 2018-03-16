@@ -15,12 +15,8 @@ gamepad1 = InputDevice('/dev/input/event2')
 
 # set up players
 player1 = player.Player(50, 50, 'player.png')  
-<<<<<<< HEAD
-player2 = player.Player(45, 50, 'player.png')
-projectiles = []
-=======
 player2 = player.Player(150, 50, 'player.png')
->>>>>>> 3bf52f35ef0bef23e1554ad0997398e29d576c11
+projectiles = []
 
 # main class
 class App:
@@ -56,7 +52,8 @@ class App:
         elif event.code == c1_l2:
             player1.hit()
         elif event.code == c1_r1:
-            player1.shoot()
+            projectile = player1.shoot()
+            projectiles.append(projectile)
         elif event.code == c1_r2:
             player1.build()
 
@@ -70,13 +67,6 @@ class App:
             player2.move(Direction.LEFT)
         elif event.code == c2_right_btn:
             player2.move(Direction.RIGHT)
-<<<<<<< HEAD
-
-        if event.code == c1_r1:
-            projectile = player1.shoot()
-            projectiles.append(projectile)
-
-=======
         
         elif event.code == c2_l1:
             pass        
@@ -86,7 +76,7 @@ class App:
             pass
         elif event.code == c2_r2:
             pass
->>>>>>> 3bf52f35ef0bef23e1554ad0997398e29d576c11
+
     def loop(self):
         self.clock.tick(60)
 

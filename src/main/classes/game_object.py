@@ -17,11 +17,7 @@ class GameObject:
         elif direction == Direction.RIGHT:
             self.x += self.speed
 
-<<<<<<< HEAD
     def __str__(self):
-=======
-def __str__(self):
->>>>>>> 3bf52f35ef0bef23e1554ad0997398e29d576c11
         return '{} at (x: {}, y: {})'.format(
             self.__class__.__name__, self.x, self.y
         )

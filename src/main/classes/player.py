@@ -1,12 +1,9 @@
+import random
+
 from .direction import Direction
 from .game_object import GameObject
-<<<<<<< HEAD
 from .projectile import Projectile
-
-=======
 from .abilities import *
-import random
->>>>>>> 3bf52f35ef0bef23e1554ad0997398e29d576c11
 
 class Player(GameObject):
     def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100):
