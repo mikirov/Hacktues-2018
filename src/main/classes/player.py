@@ -7,13 +7,13 @@ class Player(GameObject):
         self.hp = hp
     
     def move(self, direction):
-        if direction == Direction.UP:
+        if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
-        elif direction == Direction.DOWN:
+        elif direction == Direction.DOWN and self.y < 480:
             self.y += self.speed
-        elif direction == Direction.LEFT:
+        elif direction == Direction.LEFT and self.x > 0:
             self.x -= self.speed
-        elif direction == Direction.RIGHT:
+        elif direction == Direction.RIGHT and self.x < 800:
             self.x += self.speed
 
     def shoot(self):
