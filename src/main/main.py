@@ -11,8 +11,8 @@ gamepad = InputDevice('/dev/input/event3')
 gamepad2 = InputDevice('/dev/input/event4')
 
 # setting up players
-player1 = player.Player(50, 500)
-player2 = player.Player(450, 500)
+player1 = player.Player(50, 500, get_image('player.png'))  # TODO: add later
+player2 = player.Player(450, 500, get_image('player.png'))  # TODO: add later
 #main class
 class App:
     def __init__(self):
