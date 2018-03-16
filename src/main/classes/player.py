@@ -1,5 +1,6 @@
 from .direction import Direction
 from .game_object import GameObject
+from .projectile import Projectile
 
 
 class Player(GameObject):
@@ -20,5 +21,10 @@ class Player(GameObject):
         self.current_facing = direction
 
     def shoot(self):
-        pass 
+        # TODO: fix these arbitrary values
+        projectile = Projectile(
+            self.start_x + 10, self.start_y - 10,
+            Direction.UP, 'projectile.png'
+        )
+        return projectile
 
