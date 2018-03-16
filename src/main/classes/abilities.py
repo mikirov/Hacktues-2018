@@ -17,3 +17,11 @@ class Ability:
 
     def dmg_change(self, proj, dmg):
         proj.dmg = dmg
+
+class Heal(Ability):
+    def __init__(self, cooldown, amount):
+        super().__init__("Heal","passive", cooldown)
+        self.amount = amount
+
+    def __call__(self, *args, **kwargs):
+        args[0].hp += self.amount

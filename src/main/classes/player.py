@@ -1,6 +1,6 @@
 from .direction import Direction
 from .game_object import GameObject
-from .abilities import Ability
+from .abilities import *
 import random
 
 class Player(GameObject):
@@ -8,9 +8,8 @@ class Player(GameObject):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.hp = hp
         self.current_facing = None
-        self.heal_ab = Ability("Heal", "passive", 5)
-        self.heal_ab.amount = random.randint(1,10)
-        self.heal_ab.func = self.heal_ab.hp_change(self, self.hp+self.heal_ab.amount)
+        self.heal_ab = Heal(5, random.randint(1,10))
+
     
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
@@ -25,7 +24,7 @@ class Player(GameObject):
 
     def heal(self):
         if self.heal_ab.current_cooldown == 0:
-            self.heal_ab()
+            self.heal_ab(self)
             self.heal_ab.current_cooldown = self.heal_ab.cool
 
     def shoot(self):
