@@ -52,6 +52,7 @@ class AbilitiesTests(unittest.TestCase):
         ability = Ability('Heal', 'stats_based', 3)
         ability.heal_amount = 20
         ability.hp_change(self.player, self.player.hp + ability.heal_amount)
+        self.assertEqual(ability(), 156)
         self.assertEqual(self.player.hp, 120)
 
 
