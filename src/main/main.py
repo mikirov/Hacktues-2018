@@ -4,6 +4,7 @@ from evdev import InputDevice, categorize, ecodes
 from classes import player
 from helpers.image_getter import get_image
 from controller_config import *
+from classes.direction import Direction
 
 
 # set up gamepad
@@ -32,23 +33,23 @@ class App:
         if event.type == pygame.QUIT:
             self._running = False
         if event.code == c1_down_btn:
-            player1.move(1)
+            player1.move(Direction.DOWN)
         if event.code == c1_up_btn:
-            player1.move(0)
+            player1.move(Direction.UP)
         if event.code == c1_left_btn:
-            player1.move(2)
+            player1.move(Direction.LEFT)
         if event.code == c1_right_btn:
-            player1.move(3)
+            player1.move(Direction.RIGHT)
         # player 2 buttons :
 
         if event.code == c2_down_btn:
-            player2.move(1)
+            player2.move(Direction.DOWN)
         if event.code == c2_up_btn:
-            player2.move(0)
+            player2.move(Direction.UP)
         if event.code == c2_left_btn:
-            player2.move(2)
+            player2.move(Direction.LEFT)
         if event.code == c2_right_btn:
-            player2.move(3)
+            player2.move(Direction.RIGHT)
 
     def loop(self):
         self.clock.tick(60)
