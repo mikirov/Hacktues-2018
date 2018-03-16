@@ -1,3 +1,4 @@
+
 class Ability:
     def __init__(self, name, ab_type, image=None):
         self.name = name
@@ -7,3 +8,4 @@ class Ability:
 
     def hp_change(self,pl, amount):
         pl.hp = amount
+
