@@ -4,16 +4,18 @@ from evdev import InputDevice, categorize, ecodes
 from classes import player
 from helpers.image_getter import get_image
 from controller_config import *
+from classes.direction import Direction
 
 
-#setting up gamepad
-gamepad = InputDevice('/dev/input/event3')
+# set up gamepad
+gamepad = InputDevice('/dev/input/event2')
 gamepad2 = InputDevice('/dev/input/event4')
 
-# setting up players
-player1 = player.Player(50, 500)
-player2 = player.Player(450, 500)
-#main class
+# set up players
+player1 = player.Player(50, 50, 'player.png')  
+player2 = player.Player(45, 50, 'player.png')
+
+# main class
 class App:
     def __init__(self):
         self._running = True
@@ -23,38 +25,38 @@ class App:
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size, pygame.SCALPHA)
+        self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
-
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
         if event.code == c1_down_btn:
-            player1.move_down()
+            player1.move(Direction.DOWN)
         if event.code == c1_up_btn:
-            player1.move_up()
+            player1.move(Direction.UP)
         if event.code == c1_left_btn:
-            player1.move_left()
+            player1.move(Direction.LEFT)
         if event.code == c1_right_btn:
-            player1.move_right()
+            player1.move(Direction.RIGHT)
         # player 2 buttons :
 
         if event.code == c2_down_btn:
-            player2.move_down()
+            player2.move(Direction.DOWN)
         if event.code == c2_up_btn:
-            player2.move_up()
+            player2.move(Direction.UP)
         if event.code == c2_left_btn:
-            player2.move_left()
+            player2.move(Direction.LEFT)
         if event.code == c2_right_btn:
-            player2.move_right()
+            player2.move(Direction.RIGHT)
+
     def loop(self):
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(get_image('player.png'), (player1.x,player1.y))
-        self.screen.blit(get_image('player.png'), (player2.x, player2.y))
+        self.screen.blit(get_image(player1.filepath), (player1.x, player1.y))
+        self.screen.blit(get_image(player2.filepath), (player2.x, player2.y))
 
         pygame.display.flip()
 
@@ -65,8 +67,9 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-        while( self._running ):
-            for event1, event2 in gamepad.read_loop(), gamepad2.read_loop():
+        while self._running:
+            print(self._running)
+            for event1, event2 in zip(gamepad.read_loop(), gamepad2.read_loop()):
                 if event1.type == ecodes.EV_KEY:
                     if event1.value == 1:
                         self.on_event(event1)
@@ -77,6 +80,8 @@ class App:
             self.render()
         self.cleanup()
 
+
 if __name__ == "__main__" :
     theApp = App()
     theApp.execute()
+
