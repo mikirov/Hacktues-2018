@@ -17,19 +17,19 @@ class GameObjectTest(unittest.TestCase):
         self.assertEqual(10, self.game_object.speed)
 
     def test_move_up(self):
-        self.game_object.move_up()
+        self.game_object.move(Direction.UP)
         self.assertEqual(110, self.game_object.y)
 
     def test_move_down(self):
-        self.game_object.move_down()
+        self.game_object.move(Direction.DOWN)
         self.assertEqual(130, self.game_object.y)
 
     def test_move_right(self):
-        self.game_object.move_right()
+        self.game_object.move(Direction.RIGHT)
         self.assertEqual(110, self.game_object.x)
 
     def test_move_left(self):
-        self.game_object.move_left()
+        self.game_object.move(Direction.LEFT)
         self.assertEqual(90, self.game_object.x)
 
 

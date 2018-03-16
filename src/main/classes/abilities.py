@@ -1,4 +1,3 @@
-from ..helpers.image_getter import get_image
 from .game_object import GameObject
 
 
@@ -50,7 +49,10 @@ class Build(Ability):
             stone.x -= 5
         if facing == Direction.RIGHT: 
             stone.x += 5
+<<<<<<< HEAD
         
        # screen.blit(get_image(self.image_filepath), (stone.x, stone.y))
 
+=======
+>>>>>>> 50ec18f8cb181fa69d2c004fba967ccff20da23b
         return stone
