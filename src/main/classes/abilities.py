@@ -1,5 +1,8 @@
+from ..helpers.image_getter import get_image
+from .game_object import GameObject
+
 class Ability:
-    def __init__(self, name, ab_type, cooldown, image=None):
+    def __init__(self, name, ab_type, cooldown):
         self.name = name
         self.ab_type = ab_type
         self.cool = cooldown
@@ -25,17 +28,25 @@ class Heal(Ability):
     def __call__(self, *args, **kwargs):
         args[0].hp += self.amount
 
-class Build(Ability): # set file path
+class Build(Ability):
     def __init__(self, cooldown):
         super().__init__("Build", "active",cooldown)
+        self.image_filepath = "stone.png" # set file path
 
     def __call__(self, *args, **kwargs):
+
         facing = args[0].current_facing
-        if facing == 0:
-            pass
-        if facing == 1:
-            pass
-        if facing == 2:
-            pass
-        if facing == 3:
-            pass
+        player = args[0]
+        screen = args[1]
+        x = args[0].x
+        y = args[0].y
+        stone = GameObject(x, y, self.image_filepath)
+        if facing == 0: #UP
+            stone.y -= 5
+        if facing == 1: #DOWN
+            stone.y += 5
+        if facing == 2: #LEFT
+            stone.x -= 5
+        if facing == 3: #RIGHT
+            stone.x += 5
+        screen.blit(get_image(self.image_filepath), (stone.x, stone.y))
