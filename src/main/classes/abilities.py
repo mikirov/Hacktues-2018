@@ -4,6 +4,7 @@ class Ability:
         self.name = name
         self.ab_type = ab_type
         self.cool = cooldown
+        self.current_cooldown = 0
         self.func = None
     def __str__(self):
         return self.name
