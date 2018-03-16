@@ -16,7 +16,7 @@ gamepad1 = InputDevice('/dev/input/event2')
 # set up players
 player1 = player.Player(50, 50, 'player.png')  
 player2 = player.Player(150, 50, 'player.png')
-
+objects = []
 # main class
 class App:
     def __init__(self):
@@ -55,7 +55,7 @@ class App:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
         elif event.code == c1_r2:
-            player1.build()
+            objects.append(player1.build(player1))
 
         # player 2 buttons :
 
@@ -86,6 +86,8 @@ class App:
 
         for prj in self.projectiles:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
+        for obj in objects:
+            self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
 
         pygame.display.flip()
 
