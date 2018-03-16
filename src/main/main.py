@@ -6,14 +6,15 @@ from helpers.image_getter import get_image
 from controller_config import *
 
 
-#setting up gamepad
+# set up gamepad
 gamepad = InputDevice('/dev/input/event3')
 gamepad2 = InputDevice('/dev/input/event4')
 
-# setting up players
-player1 = player.Player(50, 500, get_image('player.png'))  # TODO: add later
-player2 = player.Player(450, 500, get_image('player.png'))  # TODO: add later
-#main class
+# set up players
+player1 = player.Player(50, 500, 'player.png')  # TODO: add later
+player2 = player.Player(450, 500, 'player.png')  # TODO: add later
+
+# main class
 class App:
     def __init__(self):
         self._running = True
@@ -26,7 +27,6 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
-
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -49,12 +49,13 @@ class App:
             player2.move_left()
         if event.code == c2_right_btn:
             player2.move_right()
+
     def loop(self):
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(get_image('player.png'), (player1.x,player1.y))
-        self.screen.blit(get_image('player.png'), (player2.x, player2.y))
+        self.screen.blit(get_image(player1.filepath), (player1.x, player1.y))
+        self.screen.blit(get_image(player2.filepath), (player2.x, player2.y))
 
         pygame.display.flip()
 
@@ -65,7 +66,7 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-        while( self._running ):
+        while self._running:
             for event1, event2 in gamepad.read_loop(), gamepad2.read_loop():
                 if event1.type == ecodes.EV_KEY:
                     if event1.value == 1:
@@ -77,6 +78,8 @@ class App:
             self.render()
         self.cleanup()
 
+
 if __name__ == "__main__" :
     theApp = App()
     theApp.execute()
+
