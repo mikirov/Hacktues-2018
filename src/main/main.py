@@ -3,7 +3,7 @@ import pygame
 from evdev import InputDevice, categorize, ecodes
 from .controller_config import *
 from .classes import player
-from .helpers/image_getter import *
+from .helpers.image_getter import *
 
 #setting up gamepad
 gamepad = InputDevice('/dev/input/event3')
@@ -53,7 +53,7 @@ class App:
 
     def render(self):
         self.screen.blit(get_image('player.png'), (player1.x,player1.y))
-	    self.screen.blit(get_image('player.png'), (player2.x,player2.y))
+        self.screen.blit(get_image('player.png'), (player2.x,player2.y))
         pygame.display.flip()
 
     def cleanup(self):
