@@ -1,9 +1,10 @@
-
 import pygame
 from evdev import InputDevice, categorize, ecodes
+
 gamepad = InputDevice('/dev/input/event3')
 
 from controller_config import *
+
 
 class App:
     def __init__(self):
@@ -19,6 +20,7 @@ class App:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
+
     def loop(self):
         pass
 
@@ -32,7 +34,7 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-        while( self._running ):
+        while self._running:
             for event in gamepad.read_loop():
                 if event.type == ecodes.EV_KEY:
                     if event.value == 1:
@@ -42,6 +44,7 @@ class App:
             self.render()
         self.cleanup()
 
-if __name__ == "__main__" :
+
+if __name__ == "__main__":
     theApp = App()
     theApp.execute()
