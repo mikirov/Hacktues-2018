@@ -8,7 +8,6 @@ from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
 
-
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event3')
 # gamepad2 = InputDevice('/dev/input/event4')
@@ -26,11 +25,16 @@ class App:
         self.clock = None
         self.projectiles = []
         self.objects = []
+
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
+        image1 = get_image(player1.image_filepath)
+        player1.image_width, player1.image_height = image1.get_width(), image1.get_height()
+        image2 = get_image(player2.image_filepath)
+        player2.image_width, player2.image_height = image2.get_width(), image2.get_height()
 
     def on_event(self, event):
         if event.type == pygame.QUIT:

@@ -14,7 +14,8 @@ class Player(GameObject):
         self.current_facing = None
         self.heal_ab = Heal(5, random.randint(1,10))
         self.build_ab = Build(6)
-
+        self.image_width = None
+        self.image_height = None
     
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
@@ -38,8 +39,8 @@ class Player(GameObject):
     def shoot(self):
         # TODO: fix these arbitrary values
         projectile = Projectile(
-            self.x + 10, self.y - 10,
-            Direction.UP, 'projectile.png'
+            self.x + self.image_width // 2, self.y - self.image_height // 2,
+            self.current_facing, 'projectile.png'
         )
         return projectile
 
