@@ -16,7 +16,6 @@ gamepad1 = InputDevice('/dev/input/event2')
 # set up players
 player1 = player.Player(50, 50, 'player.png')  
 player2 = player.Player(150, 50, 'player.png')
-projectiles = []
 
 # main class
 class App:
@@ -25,6 +24,7 @@ class App:
         self.screen = None
         self.size = self.width, self.height = 640, 400
         self.clock = None
+        self.projectiles = []
 
     def on_init(self):
         pygame.init()
@@ -53,9 +53,9 @@ class App:
             player1.hit()
         elif event.code == c1_r1:
             projectile = player1.shoot()
-            projectiles.append(projectile)
+            self.projectiles.append(projectile)
         elif event.code == c1_r2:
-            player1.build(player1, self.screen)
+            player1.build()
 
         # player 2 buttons :
 
@@ -84,7 +84,7 @@ class App:
         self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
-        for prj in projectiles:
+        for prj in self.projectiles:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
 
         pygame.display.flip()
@@ -96,11 +96,11 @@ class App:
         if self.on_init() == False:
             self._running = False
 
+        current_time = time()
         self.screen.fill((255, 255, 255))
         self.render()
-        current_time = time()
         for event1 in gamepad1.read_loop():
-            print("Projectiles:", len(projectiles))
+            print("Projectiles:", len(self.projectiles))
 
             if not self._running:
                 break
@@ -108,15 +108,17 @@ class App:
             current_time = time()
             time_delta = current_time - previous_time 
 
-            to_remove = []
-            for i in range(0, len(projectiles)):
-                prj = projectiles[i]
+            to_remove = set()
+            for i in range(0, len(self.projectiles)):
+                prj = self.projectiles[i]
                 prj.move(time_delta)
                 if not 0 <= prj.x <= self.width or not 0 <= prj.y <= self.height:
-                    to_remove.append(i)
+                    to_remove.add(i)
 
-            for i in to_remove:
-                del projectiles[i]
+            print(len(to_remove))
+            self.projectiles = list(filter(lambda prj: not prj in to_remove, self.projectiles))
+
+            self.projectiles = list(filter(lambda prj: self.projectiles.index(prj) not in to_remove, self.projectiles))
 
             if event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
