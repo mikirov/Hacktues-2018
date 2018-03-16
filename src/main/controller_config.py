@@ -7,5 +7,5 @@ c2_right_btn = 304
 
 c1_up_btn= 288
 c1_left_btn= 291
-c1_down_btn= 290
-c1_right_btn= 289
+c1_down_btn =290
+c1_right_btn = 289
