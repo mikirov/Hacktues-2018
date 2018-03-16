@@ -1,5 +1,5 @@
 import unittest
-from src.main.classes import Abilities
+from src.main.classes import abilities
 
 class MyTestCase(unittest.TestCase):
     def test_something(self):
