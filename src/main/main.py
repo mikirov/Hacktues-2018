@@ -14,8 +14,8 @@ gamepad1 = InputDevice('/dev/input/event2')
 # gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
-player1 = player.Player(50, 50, 'player.png')  
-player2 = player.Player(150, 50, 'player.png')
+player1 = player.Player(50, 50, 'frontpl.png')  
+player2 = player.Player(150, 50, 'frontpl.png')
 objects = []
 # main class
 class App:
@@ -37,10 +37,10 @@ class App:
             self._running = False
         elif event.code == c1_down_btn:
             player1.move(Direction.DOWN)
-            player1.image_filepath = 'backpl.png'
+            player1.image_filepath = 'frontpl.png'
         elif event.code == c1_up_btn:
             player1.move(Direction.UP)
-            player1.image_filepath = 'frontpl.png'
+            player1.image_filepath = 'backpl.png'
         elif event.code == c1_left_btn:
             player1.move(Direction.LEFT)
             player1.image_filepath = 'leftpl.png'
@@ -101,11 +101,9 @@ class App:
         current_time = time()
         self.screen.fill((255, 255, 255))
         self.render()
-        for event1 in gamepad1.read_loop():
-            print("Projectiles:", len(self.projectiles))
+        while self._running:
+            event1 = gamepad1.read_one()
 
-            if not self._running:
-                break
             previous_time = current_time
             current_time = time()
             time_delta = current_time - previous_time 
