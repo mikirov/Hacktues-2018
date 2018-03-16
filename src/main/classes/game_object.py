@@ -20,3 +20,8 @@ class GameObject:
     def move_left(self, step=1):
         self.x -= step * self.speed
 
+    def __str__(self):
+        return '{} at (x: {}, y: {})'.format(
+            self.__class__.__name__, self.x, self.y
+        )
+
