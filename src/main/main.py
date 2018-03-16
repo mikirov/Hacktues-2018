@@ -103,8 +103,6 @@ class App:
         self.screen.fill((255, 255, 255))
         self.render()
         while self._running:
-            event1 = gamepad1.read_one()
-
             previous_time = current_time
             current_time = time()
             time_delta = current_time - previous_time 
@@ -118,7 +116,8 @@ class App:
 
             self.projectiles = list(filter(lambda prj: self.projectiles.index(prj) not in to_remove, self.projectiles))
 
-            if event1.type == ecodes.EV_KEY:
+            event1 = gamepad1.read_one()
+            if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
             self.loop()
             self.render()
