@@ -82,7 +82,7 @@ class App:
 
     def render(self):
         self.screen.blit(self.background.image,self.background.rect) 
-       self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
+        self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
         for prj in self.projectiles:
