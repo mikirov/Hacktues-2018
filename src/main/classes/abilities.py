@@ -1,6 +1,6 @@
 from ..helpers.image_getter import get_image
 from .game_object import GameObject
-
+from .direction import Direction
 
 class Ability:
     def __init__(self, name, ab_type, cooldown):
