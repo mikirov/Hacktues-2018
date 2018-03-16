@@ -1,3 +1,5 @@
+from .direction import Direction
+
 class GameObject:
     def __init__(self, start_x, start_y, image_filepath=None, speed=10):
         self.x = start_x
@@ -17,16 +19,16 @@ class GameObject:
     def move_left(self, step=1):
         self.x -= step * self.speed
     
-    def move(self, direction) {
-        if direction == UP:
+    def move(self, direction):
+        if direction == Direction.UP:
             self.y -= self.speed
-        elif direction == DOWN:
+        elif direction == Direction.DOWN:
             self.y += self.speed
-        elif direction == LEFT:
+        elif direction == Direction.LEFT:
             self.x += self.speed
-        elif direction == RIGHT:
+        elif direction == Direction.RIGHT:
             self.x -= self.speed
-    }
+
 
     def __str__(self):
         return '{} at (x: {}, y: {})'.format(
