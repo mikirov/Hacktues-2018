@@ -23,7 +23,7 @@ class App:
     def __init__(self):
         self._running = True
         self.screen = None
-        self.size = self.weight, self.height = 640, 400
+        self.size = self.width, self.height = 640, 400
         self.clock = None
 
     def on_init(self):
@@ -100,14 +100,23 @@ class App:
         self.render()
         current_time = time()
         for event1 in gamepad1.read_loop():
+            print("Projectiles:", len(projectiles))
+
             if not self._running:
                 break
             previous_time = current_time
             current_time = time()
             time_delta = current_time - previous_time 
 
-            for prj in projectiles:
+            to_remove = []
+            for i in range(0, len(projectiles)):
+                prj = projectiles[i]
                 prj.move(time_delta)
+                if not 0 <= prj.x <= self.width or not 0 <= prj.y <= self.height:
+                    to_remove.append(i)
+
+            for i in to_remove:
+                del projectiles[i]
 
             if event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
