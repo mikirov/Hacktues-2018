@@ -7,5 +7,5 @@ def make_hitbox(obj):
     hitbox = pygame.Rect(obj.x, obj.y, width, height)
     obj.hitbox = hitbox
 
-def colides(obj1, obj2):
+def collides(obj1, obj2):
     return obj1.hitbox.colliderect(obj2.hitbox)
