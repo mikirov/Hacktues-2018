@@ -34,12 +34,16 @@ class App:
             self._running = False
         elif event.code == c1_down_btn:
             player1.move(Direction.DOWN)
+            player1.image_filepath = 'backpl.png'
         elif event.code == c1_up_btn:
             player1.move(Direction.UP)
+            player1.image_filepath = 'frontpl.png'
         elif event.code == c1_left_btn:
             player1.move(Direction.LEFT)
+            player1.image_filepath = 'leftpl.png'
         elif event.code == c1_right_btn:
             player1.move(Direction.RIGHT)
+            player1.image_filepath = 'rightpl.png'
         elif event.code == c1_l1:
             player1.heal() 
         elif event.code == c1_l2:
