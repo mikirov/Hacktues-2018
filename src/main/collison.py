@@ -6,3 +6,6 @@ def make_hitbox(obj):
     width, height = surface.get_width(), surface.get_height()
     hitbox = pygame.Rect(obj.x, obj.y, width, height)
     obj.hitbox = hitbox
+
+def colides(obj1, obj2):
+    return obj1.hitbox.colliderect(obj2.hitbox)
