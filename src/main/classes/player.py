@@ -32,7 +32,7 @@ class Player(GameObject):
     def shoot(self):
         # TODO: fix these arbitrary values
         projectile = Projectile(
-            self.start_x + 10, self.start_y - 10,
+            self.x + 10, self.y - 10,
             Direction.UP, 'projectile.png'
         )
         return projectile
