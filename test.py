@@ -7,13 +7,11 @@ from src.main.classes.abilities import Ability
 
 class GameObjectTest(unittest.TestCase):
     def setUp(self):
-        self.game_object = GameObject(100, 120, 30, 20, '/image/filepath', 10)
+        self.game_object = GameObject(100, 120, '/image/filepath', 10)
 
     def test_initial_values(self):
         self.assertEqual(100, self.game_object.x)
         self.assertEqual(120, self.game_object.y)
-        self.assertEqual(30, self.game_object.image_width)
-        self.assertEqual(20, self.game_object.image_height)
         self.assertEqual('/image/filepath', self.game_object.image_filepath)
         self.assertEqual(10, self.game_object.speed)
 
@@ -36,13 +34,11 @@ class GameObjectTest(unittest.TestCase):
 
 class PlayerTest(unittest.TestCase):
     def setUp(self):
-        self.player = Player(100, 120, 30, 20, '/image/filepath', 10)
+        self.player = Player(100, 120, '/image/filepath', 10)
 
     def test_initial_values(self):
         self.assertEqual(100, self.player.x)
         self.assertEqual(120, self.player.y)
-        self.assertEqual(30, self.player.image_width)
-        self.assertEqual(20, self.player.image_height)
         self.assertEqual('/image/filepath', self.player.image_filepath)
         self.assertEqual(10, self.player.speed)
         self.assertEqual(100, self.player.hp)
@@ -50,7 +46,7 @@ class PlayerTest(unittest.TestCase):
         
 class AbilitiesTests(unittest.TestCase):
     def setUp(self):
-        self.player = Player(100, 120, 30, 20, '/image/filepath', 10)
+        self.player = Player(100, 120, '/image/filepath', 10)
 
     def test_heal(self):
         ability = Ability('Heal', 'stats_based', 3)
