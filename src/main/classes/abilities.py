@@ -10,3 +10,5 @@ class Ability:
     def hp_change(self,pl, amount):
         pl.hp = amount
 
+    def dmg_change(self, proj, dmg):
+        proj.dmg = dmg
