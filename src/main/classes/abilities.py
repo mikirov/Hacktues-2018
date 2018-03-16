@@ -1,6 +1,5 @@
-from ..helpers.image_getter import get_image
 from .game_object import GameObject
-
+from .direction import Direction
 
 class Ability:
     def __init__(self, name, ab_type, cooldown):
@@ -42,13 +41,13 @@ class Build(Ability):
         x = args[0].x
         y = args[0].y
         stone = GameObject(x, y, self.image_filepath)
-        if facing == 0: #UP
+        if facing == Direction.UP: 
             stone.y -= 5
-        if facing == 1: #DOWN
+        if facing == Direction.DOWN:
             stone.y += 5
-        if facing == 2: #LEFT
+        if facing == Direction.LEFT: 
             stone.x -= 5
-        if facing == 3: #RIGHT
+        if facing == Direction.RIGHT: 
             stone.x += 5
-        #screen.blit(get_image(self.image_filepath), (stone.x, stone.y))
+
         return stone

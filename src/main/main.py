@@ -10,7 +10,7 @@ from classes.direction import Direction
 
 
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event2')
+gamepad1 = InputDevice('/dev/input/event3')
 # gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
@@ -25,7 +25,7 @@ class App:
         self.size = self.width, self.height = 640, 400
         self.clock = None
         self.projectiles = []
-
+        self.objects = []
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
@@ -55,7 +55,7 @@ class App:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
         elif event.code == c1_r2:
-            objects.append(player1.build(player1))
+            self.objects.append(player1.build(player1))
 
         # player 2 buttons :
 
@@ -86,9 +86,10 @@ class App:
 
         for prj in self.projectiles:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
-        for obj in objects:
-            self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
-
+        #for obj in objects:
+         #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
+        # print hp of players
+        
         pygame.display.flip()
 
     def cleanup(self):
@@ -114,9 +115,6 @@ class App:
                 prj.move(time_delta)
                 if not 0 <= prj.x <= self.width or not 0 <= prj.y <= self.height:
                     to_remove.add(i)
-
-            print(len(to_remove))
-            self.projectiles = list(filter(lambda prj: not prj in to_remove, self.projectiles))
 
             self.projectiles = list(filter(lambda prj: self.projectiles.index(prj) not in to_remove, self.projectiles))
 
