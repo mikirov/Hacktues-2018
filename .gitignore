@@ -106,3 +106,4 @@ venv.bak/
 .idea
 hacktues.iml
 
+*.swp
