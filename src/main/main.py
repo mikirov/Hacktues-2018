@@ -25,9 +25,6 @@ class App:
         self.clock = None
         self.projectiles = []
         self.objects = []
-        self.font = pygame.font.SysFont("comicsansms", 72)
-        self.hp1 = self.font.render(str(player1.hp),True, (0,128,0))
-        self.hp2 = self.font.render(str(player2.hp),True,(0,128,0))
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
@@ -89,13 +86,11 @@ class App:
 
         for prj in self.projectiles:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
-        for obj in objects:
-            self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
+        #for obj in objects:
+         #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
         # print hp of players
-        self.screen.blit(self.hp1, (700 - self.hp1.get_width() // 2, 480-text.get_height) // 2)
         
-        self.screen.blit(self.hp2, (700 - self.hp2.get_width() // 2, 480-text.get_height) // 2)
-    pygame.display.flip()
+        pygame.display.flip()
 
     def cleanup(self):
         pygame.quit()
