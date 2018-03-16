@@ -10,7 +10,7 @@ class Ability:
         return self.name
 
     def __call__(self, *args, **kwargs):
-        return self.func
+        self.func()
 
     def hp_change(self,pl, amount):
         pl.hp = amount

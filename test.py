@@ -2,7 +2,8 @@ import unittest
 
 from src.main.classes.game_object import GameObject
 from src.main.classes.player import Player
-from src.main.classes.abilities import Ability 
+from src.main.classes.abilities import Ability
+from src.main.classes.direction import Direction
 
 
 class GameObjectTest(unittest.TestCase):
@@ -51,8 +52,8 @@ class AbilitiesTests(unittest.TestCase):
     def test_heal(self):
         ability = Ability('Heal', 'stats_based', 3)
         ability.heal_amount = 20
-        ability.hp_change(self.player, self.player.hp + ability.heal_amount)
-        self.assertEqual(ability(), 156)
+        ability.func = ability.hp_change(self.player, self.player.hp + ability.heal_amount)
+        ability()
         self.assertEqual(self.player.hp, 120)
 
 class DirectionTests(unittest.TestCase):
@@ -62,7 +63,7 @@ class DirectionTests(unittest.TestCase):
 
     def test_direction(self):
         self.player.move(Direction.RIGHT);
-        assertEqual(self.player.x == self.starting_x + self.player.speed)
+        self.assertEqual(self.player.x == self.starting_x + self.player.speed)
 
 if __name__ == '__main__':
     unittest.main()
