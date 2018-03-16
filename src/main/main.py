@@ -1,9 +1,10 @@
-
 import pygame
+
 from evdev import InputDevice, categorize, ecodes
-from src.main.controller_config import *
-from src.main.classes import player
-from src.main.helpers.image_getter import *
+from classes import player
+from helpers.image_getter import get_image
+from controller_config import *
+
 
 #setting up gamepad
 gamepad = InputDevice('/dev/input/event3')
