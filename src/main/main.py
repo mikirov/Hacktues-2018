@@ -8,8 +8,8 @@ from classes.direction import Direction
 
 
 # set up gamepad
-gamepad = InputDevice('/dev/input/event2')
-gamepad2 = InputDevice('/dev/input/event4')
+gamepad1 = InputDevice('/dev/input/event2')
+# gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
 player1 = player.Player(50, 50, 'player.png')  
@@ -84,28 +84,36 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-            """
-            for event1, event2 in zip(gamepad.read_loop(), gamepad2.read_loop()):
-                print(event1, event2)
-                if event1.type == ecodes.EV_KEY:
-                    if event1.value == 1:
-                        self.on_event(event1)
-                if event2.type == ecodes.EV_KEY:
-                    if event2.value == 1:
-                        self.on_event(event2)
-            """
-
+        self.screen.fill((255, 255, 255))
         self.render()
-        for event in gamepad2.read_loop():
-            print(player1.x, player1.y)
+        for event1 in gamepad1.read_loop():
             if not self._running:
                 break
 
-            if event.type == ecodes.EV_KEY:
-                self.on_event(event)
+            if event1.type == ecodes.EV_KEY:
+                self.on_event(event1)
             self.loop()
             self.render()
+            self.screen.fill((255, 255, 255))
         self.cleanup()
+
+        """
+        self.screen.fill((255, 255, 255))
+        self.render()
+        for event1, event2 in zip(gamepad1.read_loop(), gamepad2.read_loop()):
+            if not self._running:
+                break
+
+            if event1.type == ecodes.EV_KEY:
+                self.on_event(event1)
+            if event2.type == ecodes.EV_KEY:
+                print(event2)
+                self.on_event(event2)
+            self.loop()
+            self.render()
+            self.screen.fill((255, 255, 255))
+        self.cleanup()
+        """
 
 
 if __name__ == "__main__" :
