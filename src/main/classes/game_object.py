@@ -3,7 +3,7 @@ import pygame
 
 
 class GameObject:
-    def __init__(self, start_x, start_y, image_filepath=None, speed=10):
+    def __init__(self, start_x, start_y, image_filepath=None, speed=10, hitbox=None):
         self.x = start_x
         self.y = start_y
         self.image_filepath = image_filepath
@@ -20,7 +20,7 @@ class GameObject:
             self.x += self.speed
 
     def collides_with(self, obj2):
-        if "hitbox" in dir(self):
+        if self.hitbox is not None:
             return self.hitbox.colliderect(obj2.hitbox)
 
     def __str__(self):
