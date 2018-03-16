@@ -1,4 +1,6 @@
 from .direction import Direction
+import pygame
+
 
 class GameObject:
     def __init__(self, start_x, start_y, image_filepath=None, speed=10):
