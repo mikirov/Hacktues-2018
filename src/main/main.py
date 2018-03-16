@@ -10,7 +10,7 @@ from classes.direction import Direction
 
 
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event2')
+gamepad1 = InputDevice('/dev/input/event3')
 # gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
@@ -80,7 +80,6 @@ class App:
         self.clock.tick(60)
 
     def render(self):
-        print(get_image(player1.image_filepath))
         self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
@@ -103,6 +102,7 @@ class App:
         self.screen.fill((255, 255, 255))
         self.render()
         for event1 in gamepad1.read_loop():
+            print(event1)
             if not self._running:
                 break
             previous_time = current_time
