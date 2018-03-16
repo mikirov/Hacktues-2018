@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
 
 class AbilitiesTests(unittest.TestCase):
     def test_heal(self):
-        pl = player.Player(3,4,"", 5)
+        pl = player.Player(3, 4, 20, 20, '', 5)
         ab = abilities.Ability("Heal", "stats_based", 3)
         ab.heal_amount = 20
         ab.hp_change(pl, pl.hp+ab.heal_amount)
