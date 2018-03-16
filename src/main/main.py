@@ -16,7 +16,6 @@ gamepad1 = InputDevice('/dev/input/event2')
 # set up players
 player1 = player.Player(50, 50, 'player.png')  
 player2 = player.Player(150, 50, 'player.png')
-objects = []
 # main class
 class App:
     def __init__(self):
@@ -25,7 +24,10 @@ class App:
         self.size = self.width, self.height = 640, 400
         self.clock = None
         self.projectiles = []
-
+        self.objects = []
+        self.font = pygame.font.SysFont("comicsansms", 72)
+        self.hp1 = self.font.render(str(player1.hp),True, (0,128,0))
+        self.hp2 = self.font.render(str(player2.hp),,True,(0,128,0))
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
@@ -55,7 +57,7 @@ class App:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
         elif event.code == c1_r2:
-            objects.append(player1.build(player1))
+            self.objects.append(player1.build(player1))
 
         # player 2 buttons :
 
@@ -81,6 +83,7 @@ class App:
         self.clock.tick(60)
 
     def render(self):
+        print(get_image(player1.image_filepath))
         self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
@@ -88,8 +91,11 @@ class App:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
         for obj in objects:
             self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
-
-        pygame.display.flip()
+        # print hp of players
+        self.screen.blit(self.hp1, (700 - self.hp1.get_width() // 2, 480-text.get_height) // 2)
+        
+        self.screen.blit(self.hp2, (700 - self.hp2.get_width() // 2, 480-text.get_height) // 2)
+    pygame.display.flip()
 
     def cleanup(self):
         pygame.quit()
@@ -102,8 +108,6 @@ class App:
         self.screen.fill((255, 255, 255))
         self.render()
         for event1 in gamepad1.read_loop():
-            print("Projectiles:", len(self.projectiles))
-
             if not self._running:
                 break
             previous_time = current_time
@@ -116,9 +120,6 @@ class App:
                 prj.move(time_delta)
                 if not 0 <= prj.x <= self.width or not 0 <= prj.y <= self.height:
                     to_remove.add(i)
-
-            print(len(to_remove))
-            self.projectiles = list(filter(lambda prj: not prj in to_remove, self.projectiles))
 
             self.projectiles = list(filter(lambda prj: self.projectiles.index(prj) not in to_remove, self.projectiles))
 
