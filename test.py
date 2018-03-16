@@ -33,6 +33,22 @@ class GameObjectTest(unittest.TestCase):
         self.game_object.move_left()
         self.assertEqual(90, self.game_object.x)
 
+
+class PlayerTest(unittest.TestCase):
+    def setUp(self):
+        self.player = Player(100, 120, 30, 20, '/image/filepath', 10)
+
+    def test_initial_values(self):
+        self.assertEqual(100, self.game_object.x)
+        self.assertEqual(120, self.game_object.y)
+        self.assertEqual(30, self.game_object.image_width)
+        self.assertEqual(20, self.game_object.image_height)
+        self.assertEqual('/image/filepath', self.game_object.image_filepath)
+        self.assertEqual(10, self.game_object.speed)
+        self.assertEqual(100, self.game_object.hp)
+
+
+        
 """
 class AbilitiesTests(unittest.TestCase):
     def test_heal(self):
