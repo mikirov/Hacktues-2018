@@ -15,7 +15,7 @@ class Projectile(GameObject):
         elif self.direction == Direction.DOWN:
             self.y += self.speed * time_delta
         elif self.direction == Direction.LEFT:
-            self.x += self.speed * time_delta
-        elif self.direction == Direction.RIGHT:
             self.x -= self.speed * time_delta
+        elif self.direction == Direction.RIGHT:
+            self.x += self.speed * time_delta
 

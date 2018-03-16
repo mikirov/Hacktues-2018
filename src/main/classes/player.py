@@ -37,6 +37,7 @@ class Player(GameObject):
             self.heal_ab.current_cooldown = self.heal_ab.cool
 
     def shoot(self):
+        print(self.current_facing)
         # TODO: fix these arbitrary values
         projectile = Projectile(
             self.x + self.image_width // 2, self.y - self.image_height // 2,

@@ -37,7 +37,7 @@ class App:
         player1.image_width, player1.image_height = image1.get_width(), image1.get_height()
         image2 = get_image(player2.image_filepath)
         player2.image_width, player2.image_height = image2.get_width(), image2.get_height()
-        self.background = Background('bg_image.png', [0, 0])
+        #self.background = Background('bg_image.png', [0, 0])
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -88,7 +88,7 @@ class App:
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(self.background.image, self.background.rect)
+        #self.screen.blit(self.background.image, self.background.rect)
 
         self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
