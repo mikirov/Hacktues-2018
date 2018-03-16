@@ -4,10 +4,11 @@ from evdev import InputDevice, categorize, ecodes
 from classes import player
 from helpers.image_getter import get_image
 from controller_config import *
+from classes.direction import Direction
 
 
 # set up gamepad
-gamepad = InputDevice('/dev/input/event3')
+gamepad = InputDevice('/dev/input/event2')
 gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
@@ -32,30 +33,30 @@ class App:
         if event.type == pygame.QUIT:
             self._running = False
         if event.code == c1_down_btn:
-            player1.move(1)
+            player1.move(Direction.DOWN)
         if event.code == c1_up_btn:
-            player1.move(0)
+            player1.move(Direction.UP)
         if event.code == c1_left_btn:
-            player1.move(2)
+            player1.move(Direction.LEFT)
         if event.code == c1_right_btn:
-            player1.move(3)
+            player1.move(Direction.RIGHT)
         # player 2 buttons :
 
         if event.code == c2_down_btn:
-            player2.move(1)
+            player2.move(Direction.DOWN)
         if event.code == c2_up_btn:
-            player2.move(0)
+            player2.move(Direction.UP)
         if event.code == c2_left_btn:
-            player2.move(2)
+            player2.move(Direction.LEFT)
         if event.code == c2_right_btn:
-            player2.move(3)
+            player2.move(Direction.RIGHT)
 
     def loop(self):
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(get_image(player1.filepath), (player1.x, player1.y))
-        self.screen.blit(get_image(player2.filepath), (player2.x, player2.y))
+        self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
+        self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
         pygame.display.flip()
 
@@ -66,15 +67,25 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-        while self._running:
-            print(self._running)
+            """
             for event1, event2 in zip(gamepad.read_loop(), gamepad2.read_loop()):
+                print(event1, event2)
                 if event1.type == ecodes.EV_KEY:
                     if event1.value == 1:
                         self.on_event(event1)
                 if event2.type == ecodes.EV_KEY:
                     if event2.value == 1:
                         self.on_event(event2)
+            """
+
+        self.render()
+        for event in gamepad2.read_loop():
+            print(player1.x, player1.y)
+            if not self._running:
+                break
+
+            if event.type == ecodes.EV_KEY:
+                self.on_event(event)
             self.loop()
             self.render()
         self.cleanup()
