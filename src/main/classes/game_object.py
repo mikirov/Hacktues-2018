@@ -5,15 +5,15 @@ class GameObject:
         self.image_filepath = image_filepath
         self.speed = speed
 
-    def move_up(self, step):
+    def move_up(self, step=1):
         self.y -= step * self.speed
 
-    def move_down(self, step):
+    def move_down(self, step=1):
         self.y += step * self.speed
 
-    def move_right(self, step):
+    def move_right(self, step=1):
         self.x += step * self.speed
 
-    def move_left(self, step):
+    def move_left(self, step=1):
         self.x -= step * self.speed
 
