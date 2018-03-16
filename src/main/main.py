@@ -7,7 +7,7 @@ from controller_config import *
 
 
 # set up gamepad
-gamepad = InputDevice('/dev/input/event3')
+gamepad = InputDevice('/dev/input/event2')
 gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
