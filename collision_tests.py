@@ -7,7 +7,7 @@ from src.main.collision import make_hitbox
 
 class CollisionTests(unittest.TestCase):
     def setUp(self):
-        self.game_object1 = GameObject(100, 120, 'src/main/resources/frontpl.png', 10)
+        self.game_object1 = GameObject(100, 120, 'frontpl.png', 10)
         self.game_object2 = GameObject(80, 120, 'src/main/resources/player2.png', 10)
         make_hitbox(self.game_object1)
         make_hitbox(self.game_object2)
