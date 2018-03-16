@@ -1,7 +1,10 @@
 class GameObject:
-    def __init__(self, start_x, start_y, image_filepath, speed=1):
+    def __init__(self, start_x, start_y, image_width, image_height,
+            image_filepath, speed=1):
         self.x = start_x
         self.y = start_y
+        self.image_width = image_width
+        self.image_height = image_height
         self.image_filepath = image_filepath
         self.speed = speed
 
