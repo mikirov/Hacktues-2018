@@ -11,8 +11,8 @@ gamepad = InputDevice('/dev/input/event3')
 gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
-player1 = player.Player(50, 500, 'player.png')  # TODO: add later
-player2 = player.Player(450, 500, 'player.png')  # TODO: add later
+player1 = player.Player(50, 50, 'player.png')  
+player2 = player.Player(45, 50, 'player.png')
 
 # main class
 class App:
@@ -67,7 +67,8 @@ class App:
             self._running = False
 
         while self._running:
-            for event1, event2 in gamepad.read_loop(), gamepad2.read_loop():
+            print(self._running)
+            for event1, event2 in zip(gamepad.read_loop(), gamepad2.read_loop()):
                 if event1.type == ecodes.EV_KEY:
                     if event1.value == 1:
                         self.on_event(event1)
