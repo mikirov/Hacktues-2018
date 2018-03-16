@@ -13,7 +13,7 @@ gamepad1 = InputDevice('/dev/input/event2')
 
 # set up players
 player1 = player.Player(50, 50, 'player.png')  
-player2 = player.Player(45, 50, 'player.png')
+player2 = player.Player(150, 50, 'player.png')
 
 # main class
 class App:
@@ -32,25 +32,42 @@ class App:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
-        if event.code == c1_down_btn:
+        elif event.code == c1_down_btn:
             player1.move(Direction.DOWN)
-        if event.code == c1_up_btn:
+        elif event.code == c1_up_btn:
             player1.move(Direction.UP)
-        if event.code == c1_left_btn:
+        elif event.code == c1_left_btn:
             player1.move(Direction.LEFT)
-        if event.code == c1_right_btn:
+        elif event.code == c1_right_btn:
             player1.move(Direction.RIGHT)
+        elif event.code == c1_l1:
+            player1.heal() 
+        elif event.code == c1_l2:
+            player1.hit()
+        elif event.code == c1_r1:
+            player1.shoot()
+        elif event.code == c1_r2:
+            player1.build()
+
         # player 2 buttons :
 
-        if event.code == c2_down_btn:
+        elif event.code == c2_down_btn:
             player2.move(Direction.DOWN)
-        if event.code == c2_up_btn:
+        elif event.code == c2_up_btn:
             player2.move(Direction.UP)
-        if event.code == c2_left_btn:
+        elif event.code == c2_left_btn:
             player2.move(Direction.LEFT)
-        if event.code == c2_right_btn:
+        elif event.code == c2_right_btn:
             player2.move(Direction.RIGHT)
-
+        
+        elif event.code == c2_l1:
+            pass        
+        elif event.code == c2_l2:
+            pass
+        elif event.code == c2_r1:
+            pass
+        elif event.code == c2_r2:
+            pass
     def loop(self):
         self.clock.tick(60)
 
