@@ -1,4 +1,3 @@
-
 class Ability:
     def __init__(self, name, ab_type, cooldown, image=None):
         self.name = name
@@ -25,3 +24,18 @@ class Heal(Ability):
 
     def __call__(self, *args, **kwargs):
         args[0].hp += self.amount
+
+class Build(Ability): # set file path
+    def __init__(self, cooldown):
+        super().__init__("Build", "active",cooldown)
+
+    def __call__(self, *args, **kwargs):
+        facing = args[0].current_facing
+        if facing == 0:
+            pass
+        if facing == 1:
+            pass
+        if facing == 2:
+            pass
+        if facing == 3:
+            pass
