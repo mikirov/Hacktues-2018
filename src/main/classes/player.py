@@ -6,6 +6,7 @@ class Player(GameObject):
     def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.hp = hp
+        self.current_facing = None
     
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
@@ -16,6 +17,7 @@ class Player(GameObject):
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x < 800:
             self.x += self.speed
+        self.current_facing = direction
 
     def shoot(self):
         pass 
