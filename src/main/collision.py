@@ -1,8 +1,8 @@
 import pygame
-from helpers import image_getter
+from .helpers.image_getter import *
 
 def make_hitbox(obj):
-    surface = image_getter.get_image(obj.image_filepath)
+    surface = get_image(obj.image_filepath)
     width, height = surface.get_width(), surface.get_height()
     hitbox = pygame.Rect(obj.x, obj.y, width, height)
     obj.hitbox = hitbox
