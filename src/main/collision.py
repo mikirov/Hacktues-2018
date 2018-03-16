@@ -1,5 +1,5 @@
 import pygame
-from helpers.image_getter import get_image
+from .helpers.image_getter import get_image
 
 def make_hitbox(obj):
     surface = get_image(obj.image_filepath)
