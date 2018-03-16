@@ -11,6 +11,7 @@ class Player(GameObject):
         self.hp = hp
         self.current_facing = None
         self.heal_ab = Heal(5, random.randint(1,10))
+        self.build_ab = Build(6)
 
     
     def move(self, direction):
@@ -36,4 +37,9 @@ class Player(GameObject):
             Direction.UP, 'projectile.png'
         )
         return projectile
+
+    def build(self):
+        if self.build_ab.current_cooldown == 0:
+            self.build_ab(self)
+            self.build_ab.current_cooldown = self.build_ab.cool
 
