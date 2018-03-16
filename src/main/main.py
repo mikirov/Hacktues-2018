@@ -98,7 +98,7 @@ class App:
 
         self.screen.fill((255, 255, 255))
         self.render()
-        current = time()
+        current_time = time()
         for event1 in gamepad1.read_loop():
             if not self._running:
                 break
