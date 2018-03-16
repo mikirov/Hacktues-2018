@@ -49,7 +49,5 @@ class Build(Ability):
             stone.x -= 5
         if facing == Direction.RIGHT: 
             stone.x += 5
-        
-       # screen.blit(get_image(self.image_filepath), (stone.x, stone.y))
 
         return stone
