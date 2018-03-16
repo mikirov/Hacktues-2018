@@ -11,8 +11,8 @@ gamepad = InputDevice('/dev/input/event3')
 gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
-player1 = player.Player(50, 500, 'player.png')  # TODO: add later
-player2 = player.Player(450, 500, 'player.png')  # TODO: add later
+player1 = player.Player(50, 50, 'player.png')  
+player2 = player.Player(45, 50, 'player.png')
 
 # main class
 class App:
@@ -32,23 +32,23 @@ class App:
         if event.type == pygame.QUIT:
             self._running = False
         if event.code == c1_down_btn:
-            player1.move_down()
+            player1.move(1)
         if event.code == c1_up_btn:
-            player1.move_up()
+            player1.move(0)
         if event.code == c1_left_btn:
-            player1.move_left()
+            player1.move(2)
         if event.code == c1_right_btn:
-            player1.move_right()
+            player1.move(3)
         # player 2 buttons :
 
         if event.code == c2_down_btn:
-            player2.move_down()
+            player2.move(1)
         if event.code == c2_up_btn:
-            player2.move_up()
+            player2.move(0)
         if event.code == c2_left_btn:
-            player2.move_left()
+            player2.move(2)
         if event.code == c2_right_btn:
-            player2.move_right()
+            player2.move(3)
 
     def loop(self):
         self.clock.tick(60)
@@ -67,7 +67,8 @@ class App:
             self._running = False
 
         while self._running:
-            for event1, event2 in gamepad.read_loop(), gamepad2.read_loop():
+            print(self._running)
+            for event1, event2 in zip(gamepad.read_loop(), gamepad2.read_loop()):
                 if event1.type == ecodes.EV_KEY:
                     if event1.value == 1:
                         self.on_event(event1)
