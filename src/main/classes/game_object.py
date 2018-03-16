@@ -19,7 +19,7 @@ class GameObject:
         elif direction == Direction.RIGHT:
             self.x += self.speed
 
-    def collides(self, obj2):
+    def collides_with(self, obj2):
         if "hitbox" in dir(self):
             return self.hitbox.colliderect(obj2.hitbox)
 

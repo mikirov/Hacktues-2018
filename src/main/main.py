@@ -27,7 +27,7 @@ class App:
         self.objects = []
         self.font = pygame.font.SysFont("comicsansms", 72)
         self.hp1 = self.font.render(str(player1.hp),True, (0,128,0))
-        self.hp2 = self.font.render(str(player2.hp),,True,(0,128,0))
+        self.hp2 = self.font.render(str(player2.hp),True,(0,128,0))
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
