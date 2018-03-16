@@ -1,3 +1,4 @@
+from .direction import Direction
 from .game_object import GameObject
 
 
