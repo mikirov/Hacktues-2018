@@ -10,5 +10,36 @@
 (R1)BTN_PINKIE 293 val:589830
 (R2)BTN_BASE2 295 val:589832
 (L1)BTN_TOP2 292
+(L2)294 91 99
+(RAB)299 01 00
+(LAB)298 01 00
+(start)297 01 00
+(select)296 01 00
+(RA){
+    (up)288
+    (down)290
+    (right)289
+    (left)291
+}
+}
+
+}
+#CONTROLLER2#
+{
+[code, type, value]
+(tri)307 1 00
+(circl)306 01 01
+(x)305 01 00
+(square)304 01 00
+(R1)309 01 00
+(R2)311 01 00
+(L1)308 01 00
+(L2)310 01 00
+(RAB)315 01 00
+(LAB)314 01 00
+(PS_BUTT)316 01 00
+(option)313 01 00
+(share)312 01 00
+(touch)317 01 00
 }
 
