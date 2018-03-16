@@ -8,6 +8,7 @@ class Projectile(GameObject):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.direction = direction
         self.damage = damage
+<<<<<<< HEAD
 
     def move(self, time_delta):
         if self.direction == Direction.UP:
@@ -19,3 +20,5 @@ class Projectile(GameObject):
         elif self.direction == Direction.RIGHT:
             self.x -= self.speed * time_delta
 
+=======
+>>>>>>> 3bf52f35ef0bef23e1554ad0997398e29d576c11
