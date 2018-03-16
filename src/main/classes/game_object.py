@@ -1,4 +1,6 @@
 from .direction import Direction
+import pygame
+
 
 class GameObject:
     def __init__(self, start_x, start_y, image_filepath=None, speed=10):
@@ -16,6 +18,10 @@ class GameObject:
             self.x -= self.speed
         elif direction == Direction.RIGHT:
             self.x += self.speed
+
+    def collides_with(self, obj2):
+        if "hitbox" in dir(self):
+            return self.hitbox.colliderect(obj2.hitbox)
 
     def __str__(self):
         return '{} at (x: {}, y: {})'.format(

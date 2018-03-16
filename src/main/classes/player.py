@@ -26,6 +26,9 @@ class Player(GameObject):
         elif direction == Direction.RIGHT and self.x < 800:
             self.x += self.speed
         self.current_facing = direction
+        if "hitbox" in dir(self):
+            self.hitbox.x = self.x
+            self.hitbox.y = self.y
 
     def heal(self):
         if self.heal_ab.current_cooldown == 0:
