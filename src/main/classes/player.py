@@ -2,7 +2,7 @@ from game_object import GameObject
 
 
 class Player(GameObject):
-    def __init__(self, start_x, start_y, speed=1):
+    def __init__(self, start_x, start_y, hp=100):
         super().__init__(start_x, start_y)
-        self.speed = 1
+        self.hp = hp 
 
