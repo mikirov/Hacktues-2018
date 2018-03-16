@@ -4,6 +4,7 @@ from time import time
 from evdev import InputDevice, categorize, ecodes
 from classes import player
 from classes import projectile
+from classes import background
 from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
@@ -16,7 +17,6 @@ gamepad1 = InputDevice('/dev/input/event3')
 # set up players
 player1 = player.Player(50, 50, 'frontpl.png')  
 player2 = player.Player(150, 50, 'frontpl.png')
-objects = []
 # main class
 class App:
     def __init__(self):
@@ -31,7 +31,7 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
-
+        self.background = Background('bg_image.png',[0, 0])
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -81,7 +81,8 @@ class App:
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
+        self.screen.blit(self.background.image,self.background.rect) 
+       self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
         for prj in self.projectiles:
