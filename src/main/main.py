@@ -53,7 +53,7 @@ class App:
 
     def render(self):
         screen.blit(get_image('player.png'), (player1.x,player1.y))
-	screen.blit(get_image('player.png'), (player2.x,palyer2.y))
+	    screen.blit(get_image('player.png'), (player2.x,player2.y))
         pygame.display.flip()
 
     def cleanup(self):
