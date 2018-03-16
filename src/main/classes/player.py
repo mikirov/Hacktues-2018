@@ -1,4 +1,5 @@
 import random
+import math
 
 from .direction import Direction
 from .game_object import GameObject
@@ -9,6 +10,7 @@ class Player(GameObject):
     def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.hp = hp
+        self.mele_dmg = 6
         self.current_facing = None
         self.heal_ab = Heal(5, random.randint(1,10))
         self.build_ab = Build(6)
@@ -40,6 +42,10 @@ class Player(GameObject):
 
     def build(self, screen):
         if self.build_ab.current_cooldown == 0:
-            self.build_ab(self, screen)
+            self.build_ab(self)
             self.build_ab.current_cooldown = self.build_ab.cool
 
+    def hit(self, player2):
+        dist = math.sqrt(abs(self.x-self.x)**2 + abs(self.y-self.x)**2)
+        if dist < 5:
+            player2.hp -= self.mele_dmg
