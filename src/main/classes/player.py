@@ -24,7 +24,9 @@ class Player(GameObject):
         self.current_facing = direction
 
     def heal(self):
-        self.heal_ab()
+        if self.heal_ab.current_cooldown == 0:
+            self.heal_ab()
+            self.heal_ab.current_cooldown = self.heal_ab.cool
 
     def shoot(self):
         pass 
