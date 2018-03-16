@@ -10,7 +10,7 @@ class Player(GameObject):
         self.current_facing = None
         self.heal_ab = Ability("Heal", "passive", 5)
         self.heal_ab.amount = random.randint(1,10)
-        self.heal_ab.func = ab.hp_change(self, self.hp+ab.amount)
+        self.heal_ab.func = self.heal_ab.hp_change(self, self.hp+self.heal_ab.amount)
     
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
@@ -24,7 +24,7 @@ class Player(GameObject):
         self.current_facing = direction
 
     def heal(self):
-        heal_ab()
+        self.heal_ab()
 
     def shoot(self):
         pass 

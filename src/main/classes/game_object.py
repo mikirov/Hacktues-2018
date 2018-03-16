@@ -7,7 +7,7 @@ class GameObject:
         self.image_filepath = image_filepath
         self.speed = speed
 
-   def move(self, direction):
+    def move(self, direction):
         if direction == Direction.UP:
             self.y -= self.speed
         elif direction == Direction.DOWN:
