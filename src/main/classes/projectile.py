@@ -1,8 +1,8 @@
-from src.main.classes import game_object
+from .game_object import GameObject
 
 
-class Projectile(game_object):
-    def __init__(self, start_x, start_y, damage=20):
-        super().__init__(start_x, start_y)
+class Projectile(GameObject):
+    def __init__(self, start_x, start_y, image_filepath, speed=10, damage=20):
+        super().__init__(start_x, start_y, image_filepath, speed)
         self.damage = damage
 
