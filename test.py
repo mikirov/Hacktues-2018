@@ -54,15 +54,6 @@ class AbilitiesTests(unittest.TestCase):
         self.assertEqual(self.player.hp, 100+self.player.heal_ab.amount)
         self.assertEqual(self.player.heal_ab.current_cooldown, 5)
 
-class DirectionTests(unittest.TestCase):
-    def setUp(self):
-        self.starting_x = 100
-        self.player = Player(self.starting_x, 120, '/image/filepath', 10)
-
-    def test_direction(self):
-        self.player.move(Direction.RIGHT);
-        self.assertEqual(self.player.x == self.starting_x + self.player.speed)
-
 if __name__ == '__main__':
     unittest.main()
 
