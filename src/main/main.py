@@ -7,7 +7,7 @@ from controller_config import *
 
 
 # set up gamepad
-gamepad = InputDevice('/dev/input/event3')
+gamepad = InputDevice('/dev/input/event2')
 gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
@@ -54,8 +54,8 @@ class App:
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(get_image(player1.filepath), (player1.x, player1.y))
-        self.screen.blit(get_image(player2.filepath), (player2.x, player2.y))
+        self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
+        self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
         pygame.display.flip()
 
@@ -66,15 +66,25 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-        while self._running:
-            print(self._running)
+            """
             for event1, event2 in zip(gamepad.read_loop(), gamepad2.read_loop()):
+                print(event1, event2)
                 if event1.type == ecodes.EV_KEY:
                     if event1.value == 1:
                         self.on_event(event1)
                 if event2.type == ecodes.EV_KEY:
                     if event2.value == 1:
                         self.on_event(event2)
+            """
+
+        self.render()
+        for event in gamepad2.read_loop():
+            print(player1.x, player1.y)
+            if not self._running:
+                break
+
+            if event.type == ecodes.EV_KEY:
+                self.on_event(event)
             self.loop()
             self.render()
         self.cleanup()
