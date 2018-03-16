@@ -32,23 +32,23 @@ class App:
         if event.type == pygame.QUIT:
             self._running = False
         if event.code == c1_down_btn:
-            player1.move_down()
+            player1.move(1)
         if event.code == c1_up_btn:
-            player1.move_up()
+            player1.move(0)
         if event.code == c1_left_btn:
-            player1.move_left()
+            player1.move(2)
         if event.code == c1_right_btn:
-            player1.move_right()
+            player1.move(3)
         # player 2 buttons :
 
         if event.code == c2_down_btn:
-            player2.move_down()
+            player2.move(1)
         if event.code == c2_up_btn:
-            player2.move_up()
+            player2.move(0)
         if event.code == c2_left_btn:
-            player2.move_left()
+            player2.move(2)
         if event.code == c2_right_btn:
-            player2.move_right()
+            player2.move(3)
 
     def loop(self):
         self.clock.tick(60)
