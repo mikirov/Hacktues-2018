@@ -65,7 +65,7 @@ class App:
             elif event.code == C1_RIGHT1:
                 current_time = time()
                 if current_time -  player1.last_projectile_fired_at >= COOLDOWN:
-                    projectile = player1.shoot(get_image('projectile.png'))
+                    projectile = player1.shoot(get_image('fireball.png'))
                     self.projectiles.append(projectile)
                     player1.last_projectile_fired_at = current_time
             elif event.code == C1_RIGHT2:
