@@ -62,7 +62,7 @@ class App:
                 if player1.special_ability is Heal:
                     player1.special_ability()
             elif event.code == C1_LEFT2:
-                player1.hit()  # incomplete
+                player1.hit(player2)  # incomplete
             elif event.code == C1_RIGHT1:
                 projectile = player1.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
@@ -85,7 +85,7 @@ class App:
             elif event.code == C2_LEFT1:
                 player2.special_ability()
             elif event.code == C2_LEFT2:
-                player2.hit()
+                player2.hit(player1)
             elif event.code == C2_RIGHT1:
                 projectile = player2.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
