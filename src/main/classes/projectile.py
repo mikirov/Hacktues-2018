@@ -8,3 +8,4 @@ class Projectile(GameObject):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.direction = direction
         self.damage = damage
+

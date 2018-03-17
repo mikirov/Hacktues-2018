@@ -1,4 +1,3 @@
-from src.main.helpers.image_getter import get_image
 from .direction import Direction
 
 SCREEN_HEIGHT = 480

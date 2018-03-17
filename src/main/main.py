@@ -2,13 +2,12 @@ import pygame
 from time import time
 
 from evdev import InputDevice, categorize, ecodes
-from .classes import player
-from .classes import projectile
-from .classes.abilities import *
-from .helpers.image_getter import get_image
-from .controller_config import *
-from .classes.direction import Direction
-from .controller_config import *
+from classes import player
+from classes import projectile
+from classes.abilities import *
+from helpers.image_getter import get_image
+from controller_config import *
+from classes.direction import Direction
 
 # TODO SAY YOU HAVE KINDA FIXED THE IMPORTS
 
@@ -41,8 +40,9 @@ class App:
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
-        self.hp1 = font.render("HP:" + player1.hp, True, (0, 0, 0))
-        self.hp2 = font.render("HP:" + player2.hp, True, (0, 0, 0))
+        self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
+        self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
+
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -65,7 +65,8 @@ class App:
             player1.hit()  # incomplete
         elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
-            self.objects.append(projectile)        elif event.code == C1_RIGHT2:
+            self.objects.append(projectile)
+        elif event.code == C1_RIGHT2:
             if player1.special_ability is Build:
                 self.objects.append(player1.build(player1)) # todo what da Fu
 
@@ -105,9 +106,7 @@ class App:
         pygame.quit()
 
     def execute(self):
-        if not self.on_init():
-            self._running = False
-
+        self.on_init()
         current_time = time()
         self.screen.fill((255, 255, 255))
         self.render()
