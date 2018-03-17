@@ -8,13 +8,13 @@ class Ability:
         self.ab_type = ab_type
         self.cool = cooldown
         self.current_cooldown = 0
-        self.func = None
+        self.invoke = None
 
     def __str__(self):
         return self.name
 
     def __call__(self, *args, **kwargs):
-        self.func()
+        self.invoke()
 
 
 class Heal(Ability):
@@ -35,7 +35,6 @@ class Build(Ability):
 
         facing = args[0].current_facing
         player = args[0]
-        screen = args[1]
         x = args[0].x
         y = args[0].y
         stone = GameObject(x, y, self.image_filepath)

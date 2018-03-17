@@ -1,8 +1,8 @@
 from .direction import Direction
-import pygame
 
 SCREEN_HEIGHT = 480
 SCREEN_WIDTH = 800
+
 
 class GameObject:
     def __init__(self, start_x, start_y, image_filepath=None, speed=10):
@@ -23,7 +23,7 @@ class GameObject:
 
     def collides_with(self, obj2):
         if "hitbox" in dir(self):
-            return self.hitbox.colliderect(obj2.hitbox) # todo
+            return self.hitbox.colliderect(obj2.hitbox)  # todo
 
     def __str__(self):
         return '{} at (x: {}, y: {})'.format(

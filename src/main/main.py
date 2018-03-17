@@ -4,10 +4,12 @@ from time import time
 from evdev import InputDevice, categorize, ecodes
 from src.main.classes import player
 from src.main.classes import projectile
+from src.main.classes.abilities import *
 from src.main.helpers.image_getter import get_image
 from src.main.controller_config import *
 from src.main.classes.direction import Direction
 from src.main.controller_config import *
+
 # TODO SAY YOU HAVE KINDA FIXED THE IMPORTS
 
 # set up gamepad
@@ -17,7 +19,9 @@ gamepad1 = InputDevice('/dev/input/event3')
 # set up players
 player1 = player.Player(50, 50, 'frontpl.png')
 player2 = player.Player(150, 50, 'frontpl.png')
-objects = []
+
+player1.special_ability = Build(5)
+player2.special_ability = Heal(5, 20)
 
 
 # main class
@@ -52,14 +56,16 @@ class App:
             player1.move(Direction.RIGHT)
             player1.image_filepath = 'rightpl.png'
         elif event.code == C1_LEFT1:
-            player1.heal()
+            if player1.special_ability is Heal:
+                player1.special_ability()
         elif event.code == C1_LEFT2:
-            player1.hit()
+            player1.hit()  # incomplete
         elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
         elif event.code == C1_RIGHT2:
-            self.objects.append(player1.build(player1))
+            if player1.special_ability is Build:
+                self.objects.append(player1.build(player1)) # todo what da Fu
 
         # player 2 buttons :
 
@@ -119,7 +125,8 @@ class App:
                 if not 0 <= current_projectile.x <= self.width or not 0 <= current_projectile.y <= self.height:
                     to_remove.add(i)
 
-            self.projectiles = list(filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
+            self.projectiles = list(
+                filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
 
             event1 = gamepad1.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:

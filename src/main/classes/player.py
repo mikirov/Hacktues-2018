@@ -8,13 +8,15 @@ from .abilities import *
 
 
 class Player(GameObject):
-    def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100):
+    def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100, special_ability=None):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.hp = hp
         self.melee_dmg = 6
         self.current_facing = None
         self.heal_ability = Heal(5, random.randint(1, 10))
         self.build_ability = Build(6)
+
+        self.special_ability = special_ability
 
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
@@ -43,7 +45,7 @@ class Player(GameObject):
         )
         return projectile
 
-    def build(self, screen):
+    def build(self, screen):  # todo not complete!!
         if self.build_ability.current_cooldown == 0:
             self.build_ability(self)
             self.build_ability.current_cooldown = self.build_ability.cool
