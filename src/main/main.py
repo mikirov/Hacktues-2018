@@ -15,18 +15,17 @@ gamepad1 = InputDevice('/dev/input/event4')
 gamepad2 = InputDevice('/dev/input/event3')
 
 # set up players
-player1 = player.Player(50, 150, get_image('mage-only.png'))
+player1 = player.Player(50, 150, get_image('mage_one.png'))
 player1.make_hitbox()
 player2 = player.Player(300, 500, get_image('mage_two.png'))
 player2.make_hitbox()
 
 
-rect_player1 = pygame.Rect(player1.frame * 32, 32 * player1.current_facing.value, 32, 32)
-rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value, 32, 32)
+rect_player1 = pygame.Rect(int(player1.frame) * 64, 64 * player1.current_facing.value, 64, 64)
+rect_player2 = pygame.Rect(int(player2.frame) * 64, 64 * player2.current_facing.value, 64, 64)
 
-#player2.make_hitbox()
 FONT_SIZE = 60
-COOLDOWN = 1 # in seconds
+COOLDOWN = 0.5 # in seconds
 
 
 # main class
@@ -149,14 +148,14 @@ class App:
         self.screen.blit(self.hp1, (50, 300))
         self.screen.blit(self.hp2, (500, 300))
 
-        rect_player1 = pygame.Rect(player1.frame * 32, 32 * player1.current_facing.value, 32, 32)
-        rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value, 32, 32)
+        rect_player1 = pygame.Rect(int(player1.frame) * 64, 64 * player1.current_facing.value, 64, 64)
+        rect_player2 = pygame.Rect(int(player2.frame) * 64, 64 * player2.current_facing.value, 64, 64)
         player1.hitbox = rect_player1
         player2.hitbox = rect_player2
         self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
         self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
-        player1.frame += 1
-        player2.frame += 1
+        player1.frame += 0.25
+        player2.frame += 0.25
         if player1.frame >= 9:
             player1.frame = 0
         if player2.frame >= 9:
@@ -185,6 +184,7 @@ class App:
     def reset(self):
         self.projectiles = []
         self.objects = [player1, player2]
+        player1.hp, player2.hp = 100, 100
         player1.x, player1.y = 50, 150
         player2.x, player2.y = 500, 300
 
