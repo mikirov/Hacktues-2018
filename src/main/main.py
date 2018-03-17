@@ -58,7 +58,7 @@ class App:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
         elif event.code == C1_RIGHT2:
-            self.objects.append(player1.build(player1))
+            self.objects.append(player1.build())
 
         # player 2 buttons :
 

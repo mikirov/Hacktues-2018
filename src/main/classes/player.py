@@ -43,7 +43,7 @@ class Player(GameObject):
         )
         return projectile
 
-    def build(self, screen):
+    def build(self):
         if self.build_ability.current_cooldown == 0:
             self.build_ability(self)
             self.build_ability.current_cooldown = self.build_ability.cool
