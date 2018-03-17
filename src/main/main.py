@@ -48,16 +48,12 @@ class App:
         elif player == 1:
             if event.code == C1_BUTTON_DOWN:
                 player1.move(Direction.DOWN)
-                player1.image = get_image('frontpl.png')
             elif event.code == C1_BUTTON_UP:
                 player1.move(Direction.UP)
-                player1.image = get_image('backpl.png')
             elif event.code == C1_BUTTON_LEFT:
                 player1.move(Direction.LEFT)
-                player1.image = get_image('leftpl.png')
             elif event.code == C1_BUTTON_RIGHT:
                 player1.move(Direction.RIGHT)
-                player1.image = get_image('rightpl.png')
             elif event.code == C1_LEFT1:
                 if player1.special_ability is Heal:
                     player1.special_ability()
@@ -68,7 +64,7 @@ class App:
                 self.projectiles.append(projectile)
             elif event.code == C1_RIGHT2:
                 if player1.special_ability is Build:
-                    self.objects.append(player1.build(player1)) # todo what da Fu
+                    self.objects.append(player1.build()) # todo what da Fu
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
@@ -119,8 +115,20 @@ class App:
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
+        self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
+        self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
         self.screen.blit(self.hp1, (50,300))
         self.screen.blit(self.hp2,(500,300))
+
+
+        rect_player1 = pygame.Rect(player1.frame*32, 32*player1.current_state, 32, 32)
+        rect_player2 = pygame.Rect(player2.frame*32, 32*player2.current_state, 32, 32)
+        self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
+        self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
+        if player1.frame >= 9:
+            player1.frame = 0
+        if player2.frame >= 9:
+            player2.frame = 0
         pygame.display.flip()
 
 
@@ -141,6 +149,7 @@ class App:
             if event2 is not None and event2.type == ecodes.EV_KEY:
                 self.on_event(event2, 2)
             self.loop(to_remove)
+            player1.frame += 0.4
             self.render()
         self.cleanup()
 
