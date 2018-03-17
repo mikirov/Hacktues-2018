@@ -11,6 +11,7 @@ class GameObject:
         self.image_filepath = image_filepath
         self.speed = speed
         self.hitbox = None
+        self.current_facing = None
 
 
     def move(self, direction):
@@ -22,6 +23,8 @@ class GameObject:
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x < SCREEN_WIDTH:
             self.x += self.speed
+        print("Moving Object " + self.image_filepath)
+        self.current_facing = direction
         if self.hitbox is not None:
             print("Moving hitbox")
             self.hitbox.x = self.x

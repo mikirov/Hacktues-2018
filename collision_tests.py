@@ -33,7 +33,7 @@ class CollisionTests(unittest.TestCase):
         self.game_object1.move(0)
         #self.game_object1.hitbox.x = 4
         print(self.game_object1.x, self.game_object1.y, self.game_object1.speed)
-        print(self.game_object1.hitbox.x, self.game_object1.hitbox.y)
+        print(self.game_object1.hitbox)
 
 
 
