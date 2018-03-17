@@ -26,20 +26,6 @@
 }
 #CONTROLLER2#
 {
-[code, type, value]
-(tri)307 1 00
-(circl)306 01 01
-(x)305 01 00
-(square)304 01 00
-(R1)309 01 00
-(R2)311 01 00
-(L1)308 01 00
-(L2)310 01 00
-(RAB)315 01 00
-(LAB)314 01 00
-(PS_BUTT)316 01 00
-(option)313 01 00
-(share)312 01 00
-(touch)317 01 00
-}
+[name, code]
 
+}

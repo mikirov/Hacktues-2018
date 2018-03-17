@@ -15,7 +15,7 @@ class GameObject:
 
 
     def move(self, direction=None):
-        direction = direction or self.direction
+        direction = direction or self.current_facing
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
         elif direction == Direction.DOWN and self.y < SCREEN_HEIGHT:
@@ -24,7 +24,7 @@ class GameObject:
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x < SCREEN_WIDTH:
             self.x += self.speed
-        print("Moving Object " + self.image_filepath)
+        print("Moving Object " + self.image)
         self.current_facing = direction
         if self.hitbox is not None:
             print("Moving hitbox")
