@@ -14,9 +14,9 @@ gamepad1 = InputDevice('/dev/input/event4')
 gamepad2 = InputDevice('/dev/input/event3')
 
 # set up players
-player1 = player.Player(50, 50, get_image('frontpl.png'))
+player1 = player.Player(50, 50, get_image('mage-only.png'))
 player1.make_hitbox()
-player2 = player.Player(150, 50, get_image('frontpl.png'))
+player2 = player.Player(150, 50, get_image('mage-only.png'))
 player2.make_hitbox()
 
 player1.special_ability = Build(5)
@@ -121,10 +121,12 @@ class App:
         self.screen.blit(self.hp2,(500,300))
 
 
-        rect_player1 = pygame.Rect(player1.frame*32, 32*player1.current_state, 32, 32)
-        rect_player2 = pygame.Rect(player2.frame*32, 32*player2.current_state, 32, 32)
+        rect_player1 = pygame.Rect(player1.frame*32, 32*player1.current_facing.value, 32, 32)
+        rect_player2 = pygame.Rect(player2.frame*32, 32*player2.current_facing.value, 32, 32)
         self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
         self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
+        player1.frame += 1
+        player2.frame += 1
         if player1.frame >= 9:
             player1.frame = 0
         if player2.frame >= 9:
@@ -149,7 +151,6 @@ class App:
             if event2 is not None and event2.type == ecodes.EV_KEY:
                 self.on_event(event2, 2)
             self.loop(to_remove)
-            player1.frame += 0.4
             self.render()
         self.cleanup()
 
