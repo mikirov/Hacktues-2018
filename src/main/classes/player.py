@@ -11,7 +11,7 @@ class Player(GameObject):
     def __init__(self, start_x, start_y, image=None, speed=10, hp=100, special_abilities=None):
         super().__init__(start_x, start_y, image, speed)
         self.hp = hp
-        self.melee_dmg = 6
+        self.melee_dmg = 5
         self.current_facing = None
         self.heal_ability = Heal(5, random.randint(1, 10))
         self.build_ability = Build(6)
@@ -38,6 +38,6 @@ class Player(GameObject):
             self.build_ability.current_cooldown = self.build_ability.cool
 
     def hit(self, another_player):
-        distance = math.sqrt(abs(self.x - self.x) ** 2 + abs(self.y - self.x) ** 2)
+        distance = math.sqrt(abs(self.x - self.x) ** 2 + abs(self.y - self.y) ** 2)
         if distance < 5:
             another_player.hp -= self.melee_dmg
