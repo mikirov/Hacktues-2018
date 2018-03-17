@@ -23,6 +23,7 @@ player1.special_ability = Build(5)
 player2.special_ability = Heal(5, 20)
 
 FONT_SIZE = 20
+COOLDOWN = 2 # in seconds
 
 
 # main class
@@ -60,8 +61,11 @@ class App:
             elif event.code == C1_LEFT2:
                 player1.hit(player2)  # incomplete
             elif event.code == C1_RIGHT1:
-                projectile = player1.shoot(get_image('projectile.png'))
-                self.projectiles.append(projectile)
+                current_time = time()
+                if current_time -  player1.last_projectile_fired_at >= COOLDOWN:
+                    projectile = player1.shoot(get_image('projectile.png'))
+                    self.projectiles.append(projectile)
+                    player1.last_projectile_fired_at = current_time
             elif event.code == C1_RIGHT2:
                 stone = player1.build()
                 stone.image = get_image(stone.image)
