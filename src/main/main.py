@@ -24,6 +24,7 @@ player2.special_ability = Heal(5, 20)
 
 FONT_SIZE = 20
 
+
 # main class
 class App:
     def __init__(self):
@@ -64,7 +65,7 @@ class App:
                 self.projectiles.append(projectile)
             elif event.code == C1_RIGHT2:
                 if player1.special_ability is Build:
-                    self.objects.append(player1.build()) # todo what da Fu
+                    self.objects.append(player1.build())  # todo what da Fu
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
@@ -86,7 +87,7 @@ class App:
                 projectile = player2.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
             elif event.code == C2_RIGHT2:
-                self.objects.append(player2.build()) # todo what da Fu
+                self.objects.append(player2.build())  # todo what da Fu
 
     def loop(self, to_remove):
         to_remove.clear()
@@ -117,12 +118,11 @@ class App:
             projectile.render(self.screen)
         self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
         self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
-        self.screen.blit(self.hp1, (50,300))
-        self.screen.blit(self.hp2,(500,300))
+        self.screen.blit(self.hp1, (50, 300))
+        self.screen.blit(self.hp2, (500, 300))
 
-
-        rect_player1 = pygame.Rect(player1.frame*32, 32*player1.current_facing.value, 32, 32)
-        rect_player2 = pygame.Rect(player2.frame*32, 32*player2.current_facing.value, 32, 32)
+        rect_player1 = pygame.Rect(player1.frame * 32, 32 * player1.current_facing.value, 32, 32)
+        rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value, 32, 32)
         self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
         self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
         player1.frame += 1
@@ -132,7 +132,6 @@ class App:
         if player2.frame >= 9:
             player2.frame = 0
         pygame.display.flip()
-
 
     @staticmethod
     def cleanup():
