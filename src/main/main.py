@@ -11,7 +11,7 @@ from classes.direction import Direction
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event1')
-# gamepad2 = InputDevice('/dev/input/event4')
+gamepad2 = InputDevice('/dev/input/event2')
 
 # set up players
 player1 = player.Player(50, 50, get_image('frontpl.png'))
@@ -34,7 +34,8 @@ class App:
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
+        # self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
@@ -46,16 +47,16 @@ class App:
             self._running = False
         elif event.code == C1_BUTTON_DOWN:
             player1.move(Direction.DOWN)
-            player1.image_filepath = 'frontpl.png'
+            player1.image = get_image('frontpl.png')
         elif event.code == C1_BUTTON_UP:
             player1.move(Direction.UP)
-            player1.image_filepath = 'backpl.png'
+            player1.image = get_image('backpl.png')
         elif event.code == C1_BUTTON_LEFT:
             player1.move(Direction.LEFT)
-            player1.image_filepath = 'leftpl.png'
+            player1.image = get_image('leftpl.png')
         elif event.code == C1_BUTTON_RIGHT:
             player1.move(Direction.RIGHT)
-            player1.image_filepath = 'rightpl.png'
+            player1.image = get_image('rightpl.png')
         elif event.code == C1_LEFT1:
             if player1.special_ability is Heal:
                 player1.special_ability()
@@ -121,8 +122,11 @@ class App:
         self.render()
         while self._running:
             event1 = gamepad1.read_one()
+            event2 = gamepad2.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
+            if event2 is not None and event2.type == ecodes.EV_KEY:
+                self.on_event(event2)
             self.loop(to_remove)
             self.render()
         self.cleanup()

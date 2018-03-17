@@ -24,10 +24,8 @@ class GameObject:
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x < SCREEN_WIDTH:
             self.x += self.speed
-        print("Moving Object " + self.image)
         self.current_facing = direction
         if self.hitbox is not None:
-            print("Moving hitbox")
             self.hitbox.x = self.x
             self.hitbox.y = self.y  # todo wtf??
 
