@@ -33,7 +33,7 @@ class GameObject:
 
     def make_hitbox(self):
         # path = os.path.abspath("../resources/" + obj.image_filepath)
-        path = os.path.join('src', 'resources', self.image, )
+        path = os.path.join('src', 'resources', self.image )
         # print(path)
         surface = pygame.image.load(path)
         width, height = surface.get_width(), surface.get_height()
