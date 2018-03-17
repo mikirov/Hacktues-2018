@@ -1,4 +1,6 @@
 from .direction import Direction
+import os
+import pygame
 
 SCREEN_HEIGHT = 480
 SCREEN_WIDTH = 800
@@ -15,7 +17,7 @@ class GameObject:
 
 
     def move(self, direction=None):
-        direction = direction or self.current_facing
+        direction = direction or self.direction  # TODO: ne pipai STEFO
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
         elif direction == Direction.DOWN and self.y < SCREEN_HEIGHT:
@@ -24,12 +26,19 @@ class GameObject:
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x < SCREEN_WIDTH:
             self.x += self.speed
-        print("Moving Object " + self.image)
         self.current_facing = direction
         if self.hitbox is not None:
-            print("Moving hitbox")
             self.hitbox.x = self.x
             self.hitbox.y = self.y  # todo wtf??
+
+    def make_hitbox(self):
+        # path = os.path.abspath("../resources/" + obj.image_filepath)
+        path = os.path.join('src', 'resources', self.image )
+        # print(path)
+        surface = pygame.image.load(path)
+        width, height = surface.get_width(), surface.get_height()
+        self.hitbox = pygame.Rect(self.x, self.y, width, height)
+        # return hitbox
 
     def collides_with(self, obj2):
         if self.hitbox is not None:

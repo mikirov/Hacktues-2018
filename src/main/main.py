@@ -34,7 +34,8 @@ class App:
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
+        # self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
@@ -46,16 +47,16 @@ class App:
             self._running = False
         elif event.code == C1_BUTTON_DOWN:
             player1.move(Direction.DOWN)
-            player1.image_filepath = 'frontpl.png'
+            player1.image = get_image('frontpl.png')
         elif event.code == C1_BUTTON_UP:
             player1.move(Direction.UP)
-            player1.image_filepath = 'backpl.png'
+            player1.image = get_image('backpl.png')
         elif event.code == C1_BUTTON_LEFT:
             player1.move(Direction.LEFT)
-            player1.image_filepath = 'leftpl.png'
+            player1.image = get_image('leftpl.png')
         elif event.code == C1_BUTTON_RIGHT:
             player1.move(Direction.RIGHT)
-            player1.image_filepath = 'rightpl.png'
+            player1.image = get_image('rightpl.png')
         elif event.code == C1_LEFT1:
             if player1.special_ability is Heal:
                 player1.special_ability()
@@ -93,7 +94,8 @@ class App:
 
     def loop(self, to_remove):
         to_remove.clear()
-        for i in range(0, len(self.projectiles)):
+        print(len(self.projectiles))
+        for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
             current_projectile.move()
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
@@ -106,16 +108,13 @@ class App:
 
     def render(self):
         self.screen.fill((255, 255, 255))
-        self.screen.blit('bg_image.png', (0, 0))
+        self.screen.blit(get_image('bg_image.png'), (0, 0))
         for current_object in self.objects:
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
         pygame.display.flip()
 
-#Rect(0,0,tex_w,tex_h)
-#Rect(frame*32,0,32,32)
-#Rect(0,direction*32,32,32)
 
     @staticmethod
     def cleanup():
@@ -128,9 +127,9 @@ class App:
         self.render()
         while self._running:
             event1 = gamepad1.read_one()
+            event2 = gamepad2.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
-            event2 = gamepad2.read_one()
             if event2 is not None and event2.type == ecodes.EV_KEY:
                 self.on_event(event2)
             self.loop(to_remove)
