@@ -38,7 +38,7 @@ class GameObject:
 
     def collides_with(self, obj2):
         if self.hitbox is not None:
-            return self.hitbox.colliderect(obj2.hitbox)  # todo
+            return self.hitbox.colliderect(obj2.hitbox)
 
     def __str__(self):
         return '{} at (x: {}, y: {})'.format(
