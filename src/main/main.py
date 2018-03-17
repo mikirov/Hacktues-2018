@@ -81,7 +81,9 @@ class App:
                 projectile = player2.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
             elif event.code == C2_RIGHT2:
-                self.objects.append(player2.build())  # todo what da Fu
+                stone = player2.build()
+                stone.image = get_image(stone.image)
+                self.objects.append(stone)  # todo what da Fu
 
     def loop(self, to_remove):
         to_remove.clear()
