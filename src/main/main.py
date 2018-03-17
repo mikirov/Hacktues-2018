@@ -8,6 +8,7 @@ from classes.abilities import *
 from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
+from classes.Stone import Stone
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event4')
@@ -102,6 +103,13 @@ class App:
                 if player is not current_projectile.player and player.collides_with(current_projectile):
                     player.hp -= current_projectile.damage
                     to_remove.add(i)
+
+            for object in self.objects:
+                if object is Stone:
+                    object.hp -= current_projectile.damage
+                    if object.hp <= 0:
+                        to_remove.add(i)
+
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
