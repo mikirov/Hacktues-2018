@@ -24,6 +24,7 @@ rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value
 
 #player2.make_hitbox()
 FONT_SIZE = 20
+COOLDOWN = 2 # in seconds
 
 
 # main class
@@ -61,8 +62,11 @@ class App:
             elif event.code == C1_LEFT2:
                 player1.hit(player2)  # incomplete
             elif event.code == C1_RIGHT1:
-                projectile = player1.shoot(get_image('fireball.png'))
-                self.projectiles.append(projectile)
+                current_time = time()
+                if current_time -  player1.last_projectile_fired_at >= COOLDOWN:
+                    projectile = player1.shoot(get_image('projectile.png'))
+                    self.projectiles.append(projectile)
+                    player1.last_projectile_fired_at = current_time
             elif event.code == C1_RIGHT2:
                 stone = player1.build()
                 stone.image = get_image(stone.image)
@@ -103,14 +107,11 @@ class App:
                 if player is not current_projectile.player and player.collides_with(current_projectile):
                     player.hp -= current_projectile.damage
                     to_remove.add(i)
-
-            for object in self.objects:
-                if object is Stone:
-                    print("Decreasing hp:")
-                    object.hp -= current_projectile.damage
-                    if object.hp <= 0:
+            for obj in self.objects:
+                if obj is Stone:
+                    obj.hp -= current_projectile.damage
+                    if obj.hp <= 0:
                         to_remove.add(i)
-
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
@@ -178,3 +179,4 @@ class App:
 if __name__ == "__main__":
     theApp = App()
     theApp.execute()
+
