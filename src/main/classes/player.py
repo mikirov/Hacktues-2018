@@ -18,7 +18,6 @@ class Player(GameObject):
         self.special_abilities = special_abilities
         self.frame = frame
         self.last_projectile_fired_at = 0  # time since the epoch
-
     def heal(self):
         #if self.heal_ability.current_cooldown == 0:
         self.heal_ability(self)
