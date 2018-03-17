@@ -16,15 +16,17 @@ gamepad2 = InputDevice('/dev/input/event3')
 
 # set up players
 player1 = player.Player(50, 150, get_image('mage-only.png'))
-#player1.make_hitbox()
-player2 = player.Player(300, 500, get_image('mage-only.png'))
+player1.make_hitbox()
+player2 = player.Player(300, 500, get_image('mage-2.png'))
+player2.make_hitbox()
+
 
 rect_player1 = pygame.Rect(player1.frame * 32, 32 * player1.current_facing.value, 32, 32)
 rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value, 32, 32)
 
 #player2.make_hitbox()
-FONT_SIZE = 20
-COOLDOWN = 2 # in seconds
+FONT_SIZE = 60
+COOLDOWN = 1 # in seconds
 
 
 # main class
@@ -172,7 +174,7 @@ class App:
         self.cleanup()
     def reset(self):
         self.projectiles = []
-        self.objects = []
+        self.objects = [player1, player2]
         player1.x, player1.y = 50, 150
         player2.x, player2.y = 500, 300
 
