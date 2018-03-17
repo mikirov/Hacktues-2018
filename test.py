@@ -1,4 +1,5 @@
 import unittest
+import pygame
 
 from src.main.classes.game_object import GameObject
 from src.main.classes.player import Player
@@ -58,6 +59,7 @@ class AbilitiesTests(unittest.TestCase):
         #building = Build(6)
         #print(building(self.player))
         self.assertEquals(isinstance(self.player.build(), GameObject), True)
+
 
 if __name__ == '__main__':
     unittest.main()

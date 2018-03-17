@@ -19,9 +19,9 @@ class Player(GameObject):
         self.frame = frame
 
     def heal(self):
-        if self.heal_ability.current_cooldown == 0:
-            self.heal_ability(self)
-            self.heal_ability.current_cooldown = self.heal_ability.cool
+        #if self.heal_ability.current_cooldown == 0:
+        self.heal_ability(self)
+            #self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self, projectile_image):
         projectile = Projectile(
@@ -33,9 +33,9 @@ class Player(GameObject):
         return projectile
 
     def build(self):  # todo not complete!!
-        if self.build_ability.current_cooldown == 0:
-            self.build_ability.current_cooldown = self.build_ability.cool
-            return self.build_ability(self)
+        #if self.build_ability.current_cooldown == 0:
+            #self.build_ability.current_cooldown = self.build_ability.cool
+        return self.build_ability(self)
 
     def hit(self, another_player):
         distance = math.sqrt(abs(self.x - another_player.x) ** 2 + abs(self.y - another_player.y) ** 2)
