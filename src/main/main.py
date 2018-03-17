@@ -8,20 +8,21 @@ from classes.abilities import *
 from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
+from classes.Stone import Stone
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event4')
 gamepad2 = InputDevice('/dev/input/event3')
 
 # set up players
-player1 = player.Player(50, 50, get_image('mage-only.png'))
-player1.make_hitbox()
-player2 = player.Player(150, 50, get_image('mage-only.png'))
-player2.make_hitbox()
+player1 = player.Player(50, 150, get_image('mage-only.png'))
+#player1.make_hitbox()
+player2 = player.Player(300, 500, get_image('mage-only.png'))
 
-player1.special_ability = Build(5)
-player2.special_ability = Heal(5, 20)
+rect_player1 = pygame.Rect(player1.frame * 32, 32 * player1.current_facing.value, 32, 32)
+rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value, 32, 32)
 
+#player2.make_hitbox()
 FONT_SIZE = 20
 COOLDOWN = 2 # in seconds
 
@@ -86,7 +87,7 @@ class App:
             elif event.code == C2_LEFT2:
                 player2.hit(player1)
             elif event.code == C2_RIGHT1:
-                projectile = player2.shoot(get_image('projectile.png'))
+                projectile = player2.shoot(get_image('iceball.png'))
                 self.projectiles.append(projectile)
             elif event.code == C2_RIGHT2:
                 stone = player2.build()
@@ -107,9 +108,18 @@ class App:
                     player.hp -= current_projectile.damage
                     to_remove.add(i)
 
+            for obj in self.objects:
+                if obj is Stone:
+                    obj.hp -= current_projectile.damage
+                    if obj.hp <= 0:
+                        to_remove.add(i)
+
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
         )
+        if player1.hp <= 0 or player2.hp <=0:
+            self.reset()
+
         self.clock.tick(60)
 
     def render(self):
@@ -161,8 +171,13 @@ class App:
             self.loop(to_remove)
             self.render()
         self.cleanup()
-
+    def reset(self):
+        self.projectiles = []
+        self.objects = []
+        player1.x, player1.y = 50, 150
+        player2.x, player2.y = 500, 300
 
 if __name__ == "__main__":
     theApp = App()
     theApp.execute()
+
