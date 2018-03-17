@@ -32,11 +32,7 @@ class GameObject:
             self.hitbox.y = self.y  # todo wtf??
 
     def make_hitbox(self):
-        # path = os.path.abspath("../resources/" + obj.image_filepath)
-        path = os.path.join('src', 'resources', self.image )
-        # print(path)
-        surface = pygame.image.load(path)
-        width, height = surface.get_width(), surface.get_height()
+        width, height = self.image.get_width(), self.image.get_height()
         self.hitbox = pygame.Rect(self.x, self.y, width, height)
         # return hitbox
 

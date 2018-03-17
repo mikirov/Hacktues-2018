@@ -10,12 +10,14 @@ from controller_config import *
 from classes.direction import Direction
 
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event1')
-gamepad2 = InputDevice('/dev/input/event2')
+gamepad1 = InputDevice('/dev/input/event4')
+gamepad2 = InputDevice('/dev/input/event3')
 
 # set up players
 player1 = player.Player(50, 50, get_image('frontpl.png'))
+player1.make_hitbox()
 player2 = player.Player(150, 50, get_image('frontpl.png'))
+player2.make_hitbox()
 
 player1.special_ability = Build(5)
 player2.special_ability = Heal(5, 20)
@@ -39,8 +41,6 @@ class App:
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
-        self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
-        self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
 
     def on_event(self, event, player):
         if event.type == pygame.QUIT:
@@ -100,12 +100,19 @@ class App:
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
                 to_remove.add(i)
 
+            for player in (player1, player2):
+                if player is not current_projectile.player and player.collides_with(current_projectile):
+                    player.hp -= current_projectile.damage
+                    to_remove.add(i)
+
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
         )
         self.clock.tick(60)
 
     def render(self):
+        self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
+        self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
         self.screen.fill((255, 255, 255))
         self.screen.blit(get_image('bg_image.png'), (0, 0))
         for current_object in self.objects:

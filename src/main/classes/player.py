@@ -24,12 +24,12 @@ class Player(GameObject):
             self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self, projectile_image):
-        # TODO: fix these arbitrary values
         projectile = Projectile(
             self.x + self.image.get_width() // 2,
             self.y + self.image.get_height() // 2,
-            self.current_facing, projectile_image
+            self, self.current_facing, projectile_image
         )
+        projectile.make_hitbox()
         return projectile
 
     def build(self, screen):  # todo not complete!!
