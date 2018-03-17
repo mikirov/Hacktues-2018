@@ -12,7 +12,7 @@ class GameObject:
         self.y = start_y
         self.image = image
         self.speed = speed
-        self.hitbox = None
+        self.hitbox = hitbox
         self.current_facing = None
 
 
@@ -29,7 +29,7 @@ class GameObject:
         self.current_facing = direction
         if self.hitbox is not None:
             self.hitbox.x = self.x
-            self.hitbox.y = self.y  # todo wtf??
+            self.hitbox.y = self.y
 
     def make_hitbox(self):
         width, height = self.image.get_width(), self.image.get_height()
