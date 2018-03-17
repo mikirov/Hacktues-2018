@@ -1,4 +1,4 @@
-from .Stone import Stone
+from .stone import Stone
 from .direction import Direction
 
 
