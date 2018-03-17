@@ -29,7 +29,7 @@ class Heal(Ability):
 class Build(Ability):
     def __init__(self, cooldown, hp):
         super().__init__("Build", "active", cooldown)
-        self.image = "stone.png"  # set file path
+        self.image = "wall.png"  # set file path
         self.hp = hp
 
     def __call__(self, *args, **kwargs):

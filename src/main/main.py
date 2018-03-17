@@ -67,7 +67,7 @@ class App:
                 stone.image = get_image(stone.image)
                 stone.make_hitbox()
                 self.objects.append(stone)  # todo what da Fu
-                
+
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
