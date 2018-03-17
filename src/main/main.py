@@ -17,7 +17,7 @@ gamepad2 = InputDevice('/dev/input/event3')
 # set up players
 player1 = player.Player(50, 150, get_image('mage-only.png'))
 player1.make_hitbox()
-player2 = player.Player(300, 500, get_image('mage-2.png'))
+player2 = player.Player(300, 500, get_image('mage_two.png'))
 player2.make_hitbox()
 
 
@@ -99,6 +99,7 @@ class App:
 
     def loop(self, to_remove):
         to_remove.clear()
+        to_remove_objs = set()
         for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
             current_projectile.move()
@@ -109,17 +110,24 @@ class App:
                 if player is not current_projectile.player and player.collides_with(current_projectile):
                     player.hp -= current_projectile.damage
                     to_remove.add(i)
-
-            for object in self.objects:
-                if isinstance(object, Stone) and object.collides_with(current_projectile):
-                    object.hp -= current_projectile.damage
-                    if object.hp <= 0:
+            j = 0
+            for obj in self.objects:
+                if isinstance(obj, Stone) and obj.collides_with(current_projectile):
+                    obj.hp -= current_projectile.damage
+                    print(obj.hp)
+                    if obj.hp <= 0:
                         to_remove.add(i)
-
+                        to_remove_objs.add(j)
+                j+=1
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
         )
+
+        self.objects = list(
+            filter(lambda obj: self.objects.index(obj) not in to_remove_objs, self.objects)
+        )
+
         if player1.hp <= 0 or player2.hp <=0:
             self.reset()
 

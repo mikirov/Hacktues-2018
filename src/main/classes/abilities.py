@@ -38,7 +38,7 @@ class Build(Ability):
         player = args[0]
         x = player.x
         y = player.y
-        stone = Stone(x, y, self.image, 60)
+        stone = Stone(x, y, self.image, 100)
         if facing == Direction.UP:
             stone.y -= 32
         if facing == Direction.DOWN:
