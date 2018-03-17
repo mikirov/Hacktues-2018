@@ -12,7 +12,7 @@ class Player(GameObject):
         super().__init__(start_x, start_y, image, speed)
         self.hp = hp
         self.melee_dmg = 5
-        self.current_facing = None
+        self.current_facing = Direction.DOWN
         self.heal_ability = Heal(5, random.randint(1, 10))
         self.build_ability = Build(6)
         self.special_abilities = special_abilities

@@ -63,8 +63,7 @@ class App:
                 projectile = player1.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
             elif event.code == C1_RIGHT2:
-                if player1.special_ability is Build:
-                    self.objects.append(player1.build())  # todo what da Fu
+                self.objects.append(player1.build())  # todo what da Fu
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
