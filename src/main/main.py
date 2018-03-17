@@ -114,6 +114,11 @@ class App:
             projectile.render(self.screen)
         self.screen.blit(self.hp1, (50,300))
         self.screen.blit(self.hp2,(500,300))
+
+        rectpl =pygame.Rect(player1.frame*32, 32*player1.current_state, 32, 32)
+        pygame.blit(player1.image, self.screen, rectpl)
+
+
         pygame.display.flip()
 
 
@@ -134,6 +139,7 @@ class App:
             if event2 is not None and event2.type == ecodes.EV_KEY:
                 self.on_event(event2, 2)
             self.loop(to_remove)
+            player1.frame += 0.4
             self.render()
         self.cleanup()
 
