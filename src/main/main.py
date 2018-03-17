@@ -8,7 +8,7 @@ from classes.abilities import *
 from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
-from classes.Stone import Stone
+from classes.stone import Stone
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event4')
@@ -17,7 +17,7 @@ gamepad2 = InputDevice('/dev/input/event3')
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
 player1.make_hitbox()
-player2 = player.Player(300, 500, get_image('mage_two.png'))
+player2 = player.Player(300, 150, get_image('mage_two.png'))
 player2.make_hitbox()
 
 
@@ -181,12 +181,15 @@ class App:
             self.loop(to_remove)
             self.render()
         self.cleanup()
+
     def reset(self):
         self.projectiles = []
         self.objects = [player1, player2]
         player1.hp, player2.hp = 100, 100
         player1.x, player1.y = 50, 150
         player2.x, player2.y = 500, 300
+        rect_player1 = pygame.Rect(int(player1.frame) * 64, 64 * player1.current_facing.value, 64, 64)
+        rect_player2 = pygame.Rect(int(player2.frame) * 64, 64 * player2.current_facing.value, 64, 64)
         player1.hitbox = rect_player1
         player2.hitbox = rect_player2
 
