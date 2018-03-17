@@ -12,7 +12,7 @@ class GameObject:
         self.y = start_y
         self.image = image
         self.speed = speed
-        self.hitbox = None
+        self.hitbox = hitbox
         self.current_facing = None
 
 
@@ -29,20 +29,16 @@ class GameObject:
         self.current_facing = direction
         if self.hitbox is not None:
             self.hitbox.x = self.x
-            self.hitbox.y = self.y  # todo wtf??
+            self.hitbox.y = self.y
 
     def make_hitbox(self):
-        # path = os.path.abspath("../resources/" + obj.image_filepath)
-        path = os.path.join('src', 'resources', self.image )
-        # print(path)
-        surface = pygame.image.load(path)
-        width, height = surface.get_width(), surface.get_height()
+        width, height = self.image.get_width(), self.image.get_height()
         self.hitbox = pygame.Rect(self.x, self.y, width, height)
         # return hitbox
 
     def collides_with(self, obj2):
         if self.hitbox is not None:
-            return self.hitbox.colliderect(obj2.hitbox)  # todo
+            return self.hitbox.colliderect(obj2.hitbox)
 
     def __str__(self):
         return '{} at (x: {}, y: {})'.format(
