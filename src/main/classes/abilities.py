@@ -27,9 +27,10 @@ class Heal(Ability):
 
 
 class Build(Ability):
-    def __init__(self, cooldown):
+    def __init__(self, cooldown, hp):
         super().__init__("Build", "active", cooldown)
         self.image = "stone.png"  # set file path
+        self.hp = hp
 
     def __call__(self, *args, **kwargs):
 
@@ -39,12 +40,11 @@ class Build(Ability):
         y = player.y
         stone = GameObject(x, y, self.image)
         if facing == Direction.UP:
-            stone.y -= 5
+            stone.y -= 32
         if facing == Direction.DOWN:
-            stone.y += 5
+            stone.y += 32
         if facing == Direction.LEFT:
-            stone.x -= 5
+            stone.x -= 32
         if facing == Direction.RIGHT:
-            stone.x += 5
-        stone.make_hitbox()
+            stone.x += 32
         return stone

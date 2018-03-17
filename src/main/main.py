@@ -63,7 +63,11 @@ class App:
                 projectile = player1.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
             elif event.code == C1_RIGHT2:
-                self.objects.append(player1.build())  # todo what da Fu
+                stone = player1.build()
+                stone.image = get_image(stone.image)
+                stone.make_hitbox()
+                self.objects.append(stone)  # todo what da Fu
+                
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
@@ -83,6 +87,7 @@ class App:
             elif event.code == C2_RIGHT2:
                 stone = player2.build()
                 stone.image = get_image(stone.image)
+                stone.make_hitbox()
                 self.objects.append(stone)  # todo what da Fu
 
     def loop(self, to_remove):
