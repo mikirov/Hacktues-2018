@@ -56,16 +56,14 @@ class App:
             elif event.code == C1_BUTTON_RIGHT:
                 player1.move(Direction.RIGHT)
             elif event.code == C1_LEFT1:
-                if player1.special_ability is Heal:
-                    player1.special_ability()
+                player1.special_ability()
             elif event.code == C1_LEFT2:
                 player1.hit(player2)  # incomplete
             elif event.code == C1_RIGHT1:
                 projectile = player1.shoot(get_image('projectile.png'))
                 self.projectiles.append(projectile)
             elif event.code == C1_RIGHT2:
-                if player1.special_ability is Build:
-                    self.objects.append(player1.build())  # todo what da Fu
+                self.objects.append(player1.build())  # todo what da Fu
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
