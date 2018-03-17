@@ -90,6 +90,12 @@ class App:
          #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
         # print hp of players
         
+        
+        rectpl = pygame.Rect(player1.frame*32, 32*player1.current_state, 32, 32)
+        pygame.blit(player1.image, self.screen, rectpl)
+
+
+        
         pygame.display.flip()
 
     def cleanup(self):
@@ -120,6 +126,7 @@ class App:
             if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
             self.loop()
+            frame += 0.4
             self.render()
             self.screen.fill((255, 255, 255))
         self.cleanup()
