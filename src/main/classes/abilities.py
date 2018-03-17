@@ -46,5 +46,4 @@ class Build(Ability):
             stone.x -= 5
         if facing == Direction.RIGHT:
             stone.x += 5
-
         return stone
