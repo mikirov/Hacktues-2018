@@ -38,7 +38,7 @@ class Build(Ability):
         screen = args[1]
         x = args[0].x
         y = args[0].y
-        stone = GameObject(x, y, self.image_filepath)
+        stone = GameObject(x, y, self.image_filepath, 0)
         if facing == Direction.UP:
             stone.y -= 5
         if facing == Direction.DOWN:
