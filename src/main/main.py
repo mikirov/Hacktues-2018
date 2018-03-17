@@ -121,8 +121,8 @@ class App:
         self.screen.blit(self.hp2,(500,300))
 
 
-        rect_player1 = pygame.Rect(player1.frame*32, 32*player1.current_state, 32, 32)
-        rect_player2 = pygame.Rect(player2.frame*32, 32*player2.current_state, 32, 32)
+        rect_player1 = pygame.Rect(player1.frame*32, 32*player1.current_facing, 32, 32)
+        rect_player2 = pygame.Rect(player2.frame*32, 32*player2.current_facing, 32, 32)
         self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
         self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
         if player1.frame >= 9:
