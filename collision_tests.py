@@ -19,6 +19,8 @@ class CollisionTests(unittest.TestCase):
         self.game_object2.move(Direction.RIGHT);
         self.assertTrue(self.game_object2.collides_with(self.game_object1))
 
+    def test_surface_size(self):
+
 
 if __name__ == '__main__':
     unittest.main()
