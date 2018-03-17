@@ -96,8 +96,8 @@ class App:
 
         for prj in self.projectiles:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
-        # for obj in objects:
-        #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
+        for obj in objects:
+            self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
         # print hp of players
 
         pygame.display.flip()
