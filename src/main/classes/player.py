@@ -6,16 +6,16 @@ from .game_object import GameObject
 from .projectile import Projectile
 from .abilities import *
 
+
 class Player(GameObject):
     def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100):
         super().__init__(start_x, start_y, image_filepath, speed)
         self.hp = hp
-        self.mele_dmg = 6
+        self.melee_dmg = 6
         self.current_facing = None
-        self.heal_ab = Heal(5, random.randint(1,10))
-        self.build_ab = Build(6)
+        self.heal_ability = Heal(5, random.randint(1, 10))
+        self.build_ability = Build(6)
 
-    
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
@@ -28,12 +28,12 @@ class Player(GameObject):
         self.current_facing = direction
         if "hitbox" in dir(self):
             self.hitbox.x = self.x
-            self.hitbox.y = self.y
+            self.hitbox.y = self.y  # todo wtf??
 
     def heal(self):
-        if self.heal_ab.current_cooldown == 0:
-            self.heal_ab(self)
-            self.heal_ab.current_cooldown = self.heal_ab.cool
+        if self.heal_ability.current_cooldown == 0:
+            self.heal_ability(self)
+            self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self):
         # TODO: fix these arbitrary values
@@ -44,11 +44,11 @@ class Player(GameObject):
         return projectile
 
     def build(self, screen):
-        if self.build_ab.current_cooldown == 0:
-            self.build_ab(self)
-            self.build_ab.current_cooldown = self.build_ab.cool
+        if self.build_ability.current_cooldown == 0:
+            self.build_ability(self)
+            self.build_ability.current_cooldown = self.build_ability.cool
 
-    def hit(self, player2):
-        dist = math.sqrt(abs(self.x-self.x)**2 + abs(self.y-self.x)**2)
-        if dist < 5:
-            player2.hp -= self.mele_dmg
+    def hit(self, another_player):
+        distance = math.sqrt(abs(self.x - self.x) ** 2 + abs(self.y - self.x) ** 2)
+        if distance < 5:
+            another_player.hp -= self.melee_dmg

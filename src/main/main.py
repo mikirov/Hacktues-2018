@@ -2,21 +2,24 @@ import pygame
 from time import time
 
 from evdev import InputDevice, categorize, ecodes
-from classes import player
-from classes import projectile
-from helpers.image_getter import get_image
-from controller_config import *
-from classes.direction import Direction
-
+from src.main.classes import player
+from src.main.classes import projectile
+from src.main.helpers.image_getter import get_image
+from src.main.controller_config import *
+from src.main.classes.direction import Direction
+from src.main.controller_config import *
+# TODO SAY YOU HAVE KINDA FIXED THE IMPORTS
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event3')
 # gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
-player1 = player.Player(50, 50, 'frontpl.png')  
+player1 = player.Player(50, 50, 'frontpl.png')
 player2 = player.Player(150, 50, 'frontpl.png')
 objects = []
+
+
 # main class
 class App:
     def __init__(self):
@@ -26,6 +29,7 @@ class App:
         self.clock = None
         self.projectiles = []
         self.objects = []
+
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
@@ -35,46 +39,46 @@ class App:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
-        elif event.code == c1_down_btn:
+        elif event.code == C1_BUTTON_DOWN:
             player1.move(Direction.DOWN)
             player1.image_filepath = 'frontpl.png'
-        elif event.code == c1_up_btn:
+        elif event.code == C1_BUTTON_UP:
             player1.move(Direction.UP)
             player1.image_filepath = 'backpl.png'
-        elif event.code == c1_left_btn:
+        elif event.code == C1_BUTTON_LEFT:
             player1.move(Direction.LEFT)
             player1.image_filepath = 'leftpl.png'
-        elif event.code == c1_right_btn:
+        elif event.code == C1_BUTTON_RIGHT:
             player1.move(Direction.RIGHT)
             player1.image_filepath = 'rightpl.png'
-        elif event.code == c1_l1:
-            player1.heal() 
-        elif event.code == c1_l2:
+        elif event.code == C1_LEFT1:
+            player1.heal()
+        elif event.code == C1_LEFT2:
             player1.hit()
-        elif event.code == c1_r1:
+        elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
-        elif event.code == c1_r2:
+        elif event.code == C1_RIGHT2:
             self.objects.append(player1.build(player1))
 
         # player 2 buttons :
 
-        elif event.code == c2_down_btn:
+        elif event.code == C2_BUTTON_DOWN:
             player2.move(Direction.DOWN)
-        elif event.code == c2_up_btn:
+        elif event.code == C2_BUTTON_UP:
             player2.move(Direction.UP)
-        elif event.code == c2_left_btn:
+        elif event.code == C2_BUTTON_LEFT:
             player2.move(Direction.LEFT)
-        elif event.code == c2_right_btn:
+        elif event.code == C2_BUTTON_RIGHT:
             player2.move(Direction.RIGHT)
-        
-        elif event.code == c2_l1:
-            pass        
-        elif event.code == c2_l2:
+
+        elif event.code == C2_LEFT1:
             pass
-        elif event.code == c2_r1:
+        elif event.code == C2_LEFT2:
             pass
-        elif event.code == c2_r2:
+        elif event.code == C2_RIGHT1:
+            pass
+        elif event.code == C2_RIGHT2:
             pass
 
     def loop(self):
@@ -86,17 +90,18 @@ class App:
 
         for prj in self.projectiles:
             self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
-        #for obj in objects:
-         #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
+        # for obj in objects:
+        #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
         # print hp of players
-        
+
         pygame.display.flip()
 
-    def cleanup(self):
+    @staticmethod
+    def cleanup():
         pygame.quit()
 
     def execute(self):
-        if self.on_init() == False:
+        if not self.on_init():
             self._running = False
 
         current_time = time()
@@ -105,16 +110,16 @@ class App:
         while self._running:
             previous_time = current_time
             current_time = time()
-            time_delta = current_time - previous_time 
+            time_delta = current_time - previous_time
 
             to_remove = set()
             for i in range(0, len(self.projectiles)):
-                prj = self.projectiles[i]
-                prj.move(time_delta)
-                if not 0 <= prj.x <= self.width or not 0 <= prj.y <= self.height:
+                current_projectile = self.projectiles[i]
+                current_projectile.move(time_delta)
+                if not 0 <= current_projectile.x <= self.width or not 0 <= current_projectile.y <= self.height:
                     to_remove.add(i)
 
-            self.projectiles = list(filter(lambda prj: self.projectiles.index(prj) not in to_remove, self.projectiles))
+            self.projectiles = list(filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
 
             event1 = gamepad1.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
@@ -143,7 +148,6 @@ class App:
         """
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     theApp = App()
     theApp.execute()
-
