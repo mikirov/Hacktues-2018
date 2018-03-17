@@ -16,8 +16,7 @@ gamepad1 = InputDevice('/dev/input/event3')
 
 # set up players
 player1 = player.Player(50, 50, 'frontpl.png')
-player2 = player.Player(150, 50, 'frontpl.png')
-objects = []
+player2 = player.Player(500, 350, 'frontpl.png')
 
 
 # main class
@@ -82,6 +81,18 @@ class App:
             pass
 
     def loop(self):
+        previous_time = current_time
+        current_time = time()
+        time_delta = current_time - previous_time
+
+        to_remove = set()
+        for i in range(0, len(self.projectiles)):
+            current_projectile = self.projectiles[i]
+            current_projectile.move(time_delta)
+            if not 0 <= current_projectile.x <= self.width or not 0 <= current_projectile.y <= self.height:
+                to_remove.add(i)
+
+        self.projectiles = list(filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
         self.clock.tick(60)
 
     def render(self):
@@ -108,25 +119,15 @@ class App:
         self.screen.fill((255, 255, 255))
         self.render()
         while self._running:
-            previous_time = current_time
-            current_time = time()
-            time_delta = current_time - previous_time
-
-            to_remove = set()
-            for i in range(0, len(self.projectiles)):
-                current_projectile = self.projectiles[i]
-                current_projectile.move(time_delta)
-                if not 0 <= current_projectile.x <= self.width or not 0 <= current_projectile.y <= self.height:
-                    to_remove.add(i)
-
-            self.projectiles = list(filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
-
+            self.screen.fill((255, 255, 255))
             event1 = gamepad1.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
+            #event2 = gamepad2.read_one()
+            #if event2 is not None and event2.type == ecodes.EV_KEY:
+              #  self.on_event(event2)
             self.loop()
             self.render()
-            self.screen.fill((255, 255, 255))
         self.cleanup()
 
         """
