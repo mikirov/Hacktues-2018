@@ -23,6 +23,7 @@ player2 = player.Player(150, 50, get_image('frontpl.png'))
 player1.special_ability = Build(5)
 player2.special_ability = Heal(5, 20)
 
+FONT_SIZE = 20
 
 # main class
 class App:
@@ -39,7 +40,9 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
-
+        self.font = pygame.font.Font(None, FONT_SIZE)
+        self.hp1 = font.render("HP:" + player1.hp, True, (0, 0, 0))
+        self.hp2 = font.render("HP:" + player2.hp, True, (0, 0, 0))
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -62,8 +65,7 @@ class App:
             player1.hit()  # incomplete
         elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
-            self.objects.append(projectile)
-        elif event.code == C1_RIGHT2:
+            self.objects.append(projectile)        elif event.code == C1_RIGHT2:
             if player1.special_ability is Build:
                 self.objects.append(player1.build(player1)) # todo what da Fu
 
@@ -94,6 +96,7 @@ class App:
 
         for current_object in self.objects:
             current_object.render(self.screen)
+
 
         pygame.display.flip()
 
