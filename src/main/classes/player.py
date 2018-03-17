@@ -34,8 +34,8 @@ class Player(GameObject):
 
     def build(self):  # todo not complete!!
         if self.build_ability.current_cooldown == 0:
-            self.build_ability(self)
             self.build_ability.current_cooldown = self.build_ability.cool
+            return self.build_ability(self)
 
     def hit(self, another_player):
         distance = math.sqrt(abs(self.x - another_player.x) ** 2 + abs(self.y - another_player.y) ** 2)

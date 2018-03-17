@@ -2,7 +2,7 @@ import unittest
 
 from src.main.classes.game_object import GameObject
 from src.main.classes.player import Player
-from src.main.classes.abilities import Ability
+from src.main.classes.abilities import *
 from src.main.classes.direction import Direction
 
 
@@ -13,7 +13,7 @@ class GameObjectTest(unittest.TestCase):
     def test_initial_values(self):
         self.assertEqual(100, self.game_object.x)
         self.assertEqual(120, self.game_object.y)
-        self.assertEqual('/image/filepath', self.game_object.image_filepath)
+        #self.assertEqual('/image/filepath', self.game_object.image_filepath)
         self.assertEqual(10, self.game_object.speed)
 
     def test_move_up(self):
@@ -40,7 +40,7 @@ class PlayerTest(unittest.TestCase):
     def test_initial_values(self):
         self.assertEqual(100, self.player.x)
         self.assertEqual(120, self.player.y)
-        self.assertEqual('/image/filepath', self.player.image_filepath)
+        #self.assertEqual('/image/filepath', self.player.image_filepath)
         self.assertEqual(10, self.player.speed)
         self.assertEqual(100, self.player.hp)
 
@@ -55,7 +55,9 @@ class AbilitiesTests(unittest.TestCase):
         self.assertEqual(self.player.heal_ability.current_cooldown, 5)
 
     def test_build(self):
-        print(self.player.build())
+        #building = Build(6)
+        #print(building(self.player))
+        self.assertEquals(isinstance(self.player.build(), GameObject), True)
 
 if __name__ == '__main__':
     unittest.main()
