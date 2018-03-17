@@ -105,7 +105,7 @@ class App:
                     to_remove.add(i)
 
             for object in self.objects:
-                if object is Stone:
+                if isinstance(object, Stone):
                     object.hp -= current_projectile.damage
                     if object.hp <= 0:
                         to_remove.add(i)
