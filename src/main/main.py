@@ -104,12 +104,13 @@ class App:
 
     def render(self):
         self.screen.fill((255, 255, 255))
-
+        self.screen.blit('bg_image.png', (0, 0))
         for current_object in self.objects:
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
         pygame.display.flip()
+
 
     @staticmethod
     def cleanup():
