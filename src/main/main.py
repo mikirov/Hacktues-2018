@@ -74,7 +74,7 @@ class App:
             elif event.code == C2_BUTTON_RIGHT:
                 player2.move(Direction.RIGHT)
             elif event.code == C2_LEFT1:
-                player2.heal_ability()
+                player2.heal()
             elif event.code == C2_LEFT2:
                 player2.hit(player1)
             elif event.code == C2_RIGHT1:
