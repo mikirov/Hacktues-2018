@@ -65,6 +65,7 @@ class App:
             player1.hit()  # incomplete
         elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
+            self.projectiles.append(projectile)
             self.objects.append(projectile)
         elif event.code == C1_RIGHT2:
             if player1.special_ability is Build:
@@ -94,10 +95,8 @@ class App:
         self.clock.tick(60)
 
     def render(self):
-
         for current_object in self.objects:
             current_object.render(self.screen)
-
 
         pygame.display.flip()
 
@@ -123,7 +122,8 @@ class App:
                     to_remove.add(i)
 
             self.projectiles = list(
-                filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
+                filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
+            )
 
             event1 = gamepad1.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
