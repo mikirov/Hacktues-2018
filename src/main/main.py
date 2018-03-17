@@ -47,16 +47,12 @@ class App:
         elif player == 1:
             if event.code == C1_BUTTON_DOWN:
                 player1.move(Direction.DOWN)
-                player1.image = get_image('frontpl.png')
             elif event.code == C1_BUTTON_UP:
                 player1.move(Direction.UP)
-                player1.image = get_image('backpl.png')
             elif event.code == C1_BUTTON_LEFT:
                 player1.move(Direction.LEFT)
-                player1.image = get_image('leftpl.png')
             elif event.code == C1_BUTTON_RIGHT:
                 player1.move(Direction.RIGHT)
-                player1.image = get_image('rightpl.png')
             elif event.code == C1_LEFT1:
                 if player1.special_ability is Heal:
                     player1.special_ability()
