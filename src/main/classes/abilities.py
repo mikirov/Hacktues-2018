@@ -35,8 +35,8 @@ class Build(Ability):
 
         facing = args[0].current_facing
         player = args[0]
-        x = args[0].x
-        y = args[0].y
+        x = player.x
+        y = player.y
         stone = GameObject(x, y, self.image_filepath, 0)
         if facing == Direction.UP:
             stone.y -= 5
