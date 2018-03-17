@@ -2,12 +2,13 @@ import pygame
 from time import time
 
 from evdev import InputDevice, categorize, ecodes
-from classes import player
-from classes import projectile
-from classes import background
-from helpers.image_getter import get_image
-from controller_config import *
-from classes.direction import Direction
+from src.main.classes import player
+from src.main.classes import projectile
+from src.main.helpers.image_getter import get_image
+from src.main.controller_config import *
+from src.main.classes.direction import Direction
+from src.main.controller_config import *
+# TODO SAY YOU HAVE KINDA FIXED THE IMPORTS
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event3')
@@ -15,7 +16,7 @@ gamepad1 = InputDevice('/dev/input/event3')
 
 # set up players
 player1 = player.Player(50, 50, 'frontpl.png')
-player2 = player.Player(150, 50, 'frontpl.png')
+player2 = player.Player(500, 350, 'frontpl.png')
 
 
 # main class
@@ -33,63 +34,68 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
-        image1 = get_image(player1.image_filepath)
-        player1.image_width, player1.image_height = image1.get_width(), image1.get_height()
-        image2 = get_image(player2.image_filepath)
-        player2.image_width, player2.image_height = image2.get_width(), image2.get_height()
-        #self.background = Background('bg_image.png', [0, 0])
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
-        elif event.code == c1_down_btn:
+        elif event.code == C1_BUTTON_DOWN:
             player1.move(Direction.DOWN)
             player1.image_filepath = 'frontpl.png'
-        elif event.code == c1_up_btn:
+        elif event.code == C1_BUTTON_UP:
             player1.move(Direction.UP)
             player1.image_filepath = 'backpl.png'
-        elif event.code == c1_left_btn:
+        elif event.code == C1_BUTTON_LEFT:
             player1.move(Direction.LEFT)
             player1.image_filepath = 'leftpl.png'
-        elif event.code == c1_right_btn:
+        elif event.code == C1_BUTTON_RIGHT:
             player1.move(Direction.RIGHT)
             player1.image_filepath = 'rightpl.png'
-        elif event.code == c1_l1:
+        elif event.code == C1_LEFT1:
             player1.heal()
-        elif event.code == c1_l2:
+        elif event.code == C1_LEFT2:
             player1.hit()
-        elif event.code == c1_r1:
+        elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
             self.projectiles.append(projectile)
-        elif event.code == c1_r2:
+        elif event.code == C1_RIGHT2:
             self.objects.append(player1.build(player1))
 
         # player 2 buttons :
 
-        elif event.code == c2_down_btn:
+        elif event.code == C2_BUTTON_DOWN:
             player2.move(Direction.DOWN)
-        elif event.code == c2_up_btn:
+        elif event.code == C2_BUTTON_UP:
             player2.move(Direction.UP)
-        elif event.code == c2_left_btn:
+        elif event.code == C2_BUTTON_LEFT:
             player2.move(Direction.LEFT)
-        elif event.code == c2_right_btn:
+        elif event.code == C2_BUTTON_RIGHT:
             player2.move(Direction.RIGHT)
 
-        elif event.code == c2_l1:
+        elif event.code == C2_LEFT1:
             pass
-        elif event.code == c2_l2:
+        elif event.code == C2_LEFT2:
             pass
-        elif event.code == c2_r1:
+        elif event.code == C2_RIGHT1:
             pass
-        elif event.code == c2_r2:
+        elif event.code == C2_RIGHT2:
             pass
 
     def loop(self):
+        previous_time = current_time
+        current_time = time()
+        time_delta = current_time - previous_time
+
+        to_remove = set()
+        for i in range(0, len(self.projectiles)):
+            current_projectile = self.projectiles[i]
+            current_projectile.move(time_delta)
+            if not 0 <= current_projectile.x <= self.width or not 0 <= current_projectile.y <= self.height:
+                to_remove.add(i)
+
+        self.projectiles = list(filter(lambda projectile: self.projectiles.index(projectile) not in to_remove, self.projectiles))
         self.clock.tick(60)
 
     def render(self):
-        #self.screen.blit(self.background.image, self.background.rect)
-
         self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
         self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
@@ -101,36 +107,27 @@ class App:
 
         pygame.display.flip()
 
-    def cleanup(self):
+    @staticmethod
+    def cleanup():
         pygame.quit()
 
     def execute(self):
-        if self.on_init() == False:
+        if not self.on_init():
             self._running = False
 
         current_time = time()
         self.screen.fill((255, 255, 255))
         self.render()
         while self._running:
-            previous_time = current_time
-            current_time = time()
-            time_delta = current_time - previous_time
-
-            to_remove = set()
-            for i in range(0, len(self.projectiles)):
-                prj = self.projectiles[i]
-                prj.move(time_delta)
-                if not 0 <= prj.x <= self.width or not 0 <= prj.y <= self.height:
-                    to_remove.add(i)
-
-            self.projectiles = list(filter(lambda prj: self.projectiles.index(prj) not in to_remove, self.projectiles))
-
+            self.screen.fill((255, 255, 255))
             event1 = gamepad1.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
+            #event2 = gamepad2.read_one()
+            #if event2 is not None and event2.type == ecodes.EV_KEY:
+              #  self.on_event(event2)
             self.loop()
             self.render()
-            self.screen.fill((255, 255, 255))
         self.cleanup()
 
         """

@@ -51,8 +51,8 @@ class AbilitiesTests(unittest.TestCase):
 
     def test_heal(self):
         self.player.heal()
-        self.assertEqual(self.player.hp, 100+self.player.heal_ab.amount)
-        self.assertEqual(self.player.heal_ab.current_cooldown, 5)
+        self.assertEqual(self.player.hp, 100 + self.player.heal_ability.amount)
+        self.assertEqual(self.player.heal_ability.current_cooldown, 5)
 
 if __name__ == '__main__':
     unittest.main()

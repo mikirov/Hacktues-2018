@@ -1,20 +1,19 @@
+C2_BUTTON_UP = 307
+C2_BUTTON_RIGHT = 306
+C2_BUTTON_DOWN = 305
+C2_BUTTON_LEFT = 304
 
-c2_up_btn = 307
-c2_right_btn = 306
-c2_down_btn = 305
-c2_left_btn = 304
+C2_LEFT1 = None
+C2_LEFT2 = None
+C2_RIGHT1 = None
+C2_RIGHT2 = None
 
-c2_l1 = None
-c2_l2 = None
-c2_r1 = None
-c2_r2 = None
+C1_LEFT1 = 292
+C1_LEFT2 = 294
+C1_RIGHT1 = 293
+C1_RIGHT2 = 295
 
-c1_l1 = 292
-c1_l2 = 294
-c1_r1 = 293
-c1_r2 = 295
-
-c1_up_btn= 288
-c1_left_btn= 291
-c1_down_btn =290
-c1_right_btn = 289
+C1_BUTTON_UP = 288
+C1_BUTTON_LEFT = 291
+C1_BUTTON_DOWN = 290
+C1_BUTTON_RIGHT = 289
