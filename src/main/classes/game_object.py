@@ -17,7 +17,7 @@ class GameObject:
 
 
     def move(self, direction=None):
-        direction = direction or self.current_facing
+        direction = direction or self.direction  # TODO: ne pipai STEFO
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
         elif direction == Direction.DOWN and self.y < SCREEN_HEIGHT:

@@ -91,7 +91,8 @@ class App:
 
     def loop(self, to_remove):
         to_remove.clear()
-        for i in range(0, len(self.projectiles)):
+        print(len(self.projectiles))
+        for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
             current_projectile.move()
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
@@ -104,7 +105,7 @@ class App:
 
     def render(self):
         self.screen.fill((255, 255, 255))
-        self.screen.blit('bg_image.png', (0, 0))
+        self.screen.blit(get_image('bg_image.png'), (0, 0))
         for current_object in self.objects:
             current_object.render(self.screen)
         for projectile in self.projectiles:
