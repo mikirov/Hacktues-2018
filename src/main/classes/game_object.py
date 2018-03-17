@@ -1,4 +1,6 @@
 from .direction import Direction
+import os
+import pygame
 
 SCREEN_HEIGHT = 480
 SCREEN_WIDTH = 800
@@ -30,6 +32,15 @@ class GameObject:
             print("Moving hitbox")
             self.hitbox.x = self.x
             self.hitbox.y = self.y  # todo wtf??
+
+    def make_hitbox(self):
+        # path = os.path.abspath("../resources/" + obj.image_filepath)
+        path = os.path.join('src', 'resources', self.image, )
+        # print(path)
+        surface = pygame.image.load(path)
+        width, height = surface.get_width(), surface.get_height()
+        self.hitbox = pygame.Rect(self.x, self.y, width, height)
+        # return hitbox
 
     def collides_with(self, obj2):
         if self.hitbox is not None:

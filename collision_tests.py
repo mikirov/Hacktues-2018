@@ -5,7 +5,7 @@ import os
 from src.main.classes.game_object import GameObject
 from src.main.classes.player import Player
 from src.main.classes.direction import Direction
-from src.main.collision import make_hitbox
+
 
 
 
@@ -15,8 +15,8 @@ class CollisionTests(unittest.TestCase):
                                        image='arrow.png', speed=10)
         self.game_object2 = GameObject(start_x=100, start_y=120,
                                        image='player.png', speed=10)
-        make_hitbox(self.game_object1)
-        make_hitbox(self.game_object2)
+        self.game_object1.make_hitbox()
+        self.game_object2.make_hitbox()
     def test_make_hitbox(self):
         #print(make_hitbox(self.game_object1))
         self.assertNotEqual(self.game_object1.hitbox, None)
