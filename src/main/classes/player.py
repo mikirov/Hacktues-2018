@@ -32,7 +32,7 @@ class Player(GameObject):
         projectile.make_hitbox()
         return projectile
 
-    def build(self, screen):  # todo not complete!!
+    def build(self):  # todo not complete!!
         if self.build_ability.current_cooldown == 0:
             self.build_ability(self)
             self.build_ability.current_cooldown = self.build_ability.cool
