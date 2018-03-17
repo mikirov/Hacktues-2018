@@ -2,13 +2,13 @@ import pygame
 from time import time
 
 from evdev import InputDevice, categorize, ecodes
-from src.main.classes import player
-from src.main.classes import projectile
-from src.main.classes.abilities import *
-from src.main.helpers.image_getter import get_image
-from src.main.controller_config import *
-from src.main.classes.direction import Direction
-from src.main.controller_config import *
+from .classes import player
+from .classes import projectile
+from .classes.abilities import *
+from .helpers.image_getter import get_image
+from .controller_config import *
+from .classes.direction import Direction
+from .controller_config import *
 
 # TODO SAY YOU HAVE KINDA FIXED THE IMPORTS
 
@@ -17,8 +17,8 @@ gamepad1 = InputDevice('/dev/input/event3')
 # gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
-player1 = player.Player(50, 50, 'frontpl.png')
-player2 = player.Player(150, 50, 'frontpl.png')
+player1 = player.Player(50, 50, get_image('frontpl.png'))
+player2 = player.Player(150, 50, get_image('frontpl.png'))
 
 player1.special_ability = Build(5)
 player2.special_ability = Heal(5, 20)
@@ -41,8 +41,8 @@ class App:
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
-        self.hp1 = font.render("HP:"+ player1.hp, True, (0,0,0))
-        self.hp2 = font.render("HP:"+ player2.hp, True, (0,0,0))
+        self.hp1 = font.render("HP:" + player1.hp, True, (0, 0, 0))
+        self.hp2 = font.render("HP:" + player2.hp, True, (0, 0, 0))
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -65,10 +65,9 @@ class App:
             player1.hit()  # incomplete
         elif event.code == C1_RIGHT1:
             projectile = player1.shoot()
-            self.projectiles.append(projectile)
-        elif event.code == C1_RIGHT2:
+            self.objects.append(projectile)        elif event.code == C1_RIGHT2:
             if player1.special_ability is Build:
-                self.objects.append(player1.build()) # todo what da Fu
+                self.objects.append(player1.build(player1)) # todo what da Fu
 
         # player 2 buttons :
 
@@ -94,16 +93,10 @@ class App:
         self.clock.tick(60)
 
     def render(self):
-        self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
-        self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
 
-        for prj in self.projectiles:
-            self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
-        for obj in objects:
-            self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
-        # print hp of players
-        self.screen.blit(self.hp1, (400,50)) #TODO: fix the values
-        self.screen.blit(self.hp1, (400,600))
+        for current_object in self.objects:
+            current_object.render(self.screen)
+
 
         pygame.display.flip()
 
