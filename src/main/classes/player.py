@@ -12,7 +12,7 @@ class Player(GameObject):
         super().__init__(start_x, start_y, image, speed)
         self.hp = hp
         self.melee_dmg = 5
-        self.current_facing = None
+        self.current_facing = Direction.DOWN
         self.heal_ability = Heal(5, random.randint(1, 10))
         self.build_ability = Build(6)
         self.special_abilities = special_abilities
@@ -32,7 +32,7 @@ class Player(GameObject):
         projectile.make_hitbox()
         return projectile
 
-    def build(self, screen):  # todo not complete!!
+    def build(self):  # todo not complete!!
         if self.build_ability.current_cooldown == 0:
             self.build_ability(self)
             self.build_ability.current_cooldown = self.build_ability.cool
