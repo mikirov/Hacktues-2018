@@ -39,5 +39,5 @@ class Player(GameObject):
 
     def hit(self, another_player):
         distance = math.sqrt(abs(self.x - another_player.x) ** 2 + abs(self.y - another_player.y) ** 2)
-        if distance < 2.5:
+        if distance < 3:
             another_player.hp -= self.melee_dmg
