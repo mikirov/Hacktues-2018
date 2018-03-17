@@ -19,7 +19,7 @@ player1.make_hitbox()
 player2 = player.Player(150, 50, get_image('mage-only.png'))
 player2.make_hitbox()
 
-player1.special_ability = Build(5)
+player1.special_ability = Build(5, 50)
 player2.special_ability = Heal(5, 20)
 
 FONT_SIZE = 20
