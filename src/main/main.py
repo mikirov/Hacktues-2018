@@ -23,6 +23,7 @@ player2 = player.Player(150, 50, 'frontpl.png')
 player1.special_ability = Build(5)
 player2.special_ability = Heal(5, 20)
 
+FONT_SIZE = 20
 
 # main class
 class App:
@@ -39,7 +40,9 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
         self._running = True
         self.clock = pygame.time.Clock()
-
+        self.font = pygame.font.Font(None, FONT_SIZE)
+        self.hp1 = font.render("HP:"+ player1.hp, True, (0,0,0))
+        self.hp2 = font.render("HP:"+ player2.hp, True, (0,0,0))
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -99,6 +102,8 @@ class App:
         for obj in objects:
             self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
         # print hp of players
+        self.screen.blit(self.hp1, (400,50)) #TODO: fix the values
+        self.screen.blit(self.hp1, (400,600))
 
         pygame.display.flip()
 
