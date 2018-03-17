@@ -5,16 +5,16 @@ import os
 from src.main.classes.game_object import GameObject
 from src.main.classes.player import Player
 from src.main.classes.direction import Direction
-
+from src.main.helpers.image_getter import get_image
 
 
 
 class CollisionTests(unittest.TestCase):
     def setUp(self):
         self.game_object1 = GameObject(start_x=100, start_y=120,
-                                       image='arrow.png', speed=10)
+                                       image=get_image('arrow.png'), speed=10)
         self.game_object2 = GameObject(start_x=100, start_y=120,
-                                       image='player.png', speed=10)
+                                       image=get_image('player.png'), speed=10)
         self.game_object1.make_hitbox()
         self.game_object2.make_hitbox()
     def test_make_hitbox(self):
