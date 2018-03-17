@@ -30,11 +30,11 @@ class App:
         self.size = self.width, self.height = 640, 400
         self.clock = None
         self.projectiles = []
-        self.objects = [player1]
+        self.objects = [player1, player2]
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
+        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
@@ -64,7 +64,6 @@ class App:
         elif event.code == C1_RIGHT1:
             projectile = player1.shoot(get_image('projectile.png'))
             self.projectiles.append(projectile)
-            self.objects.append(projectile)
         elif event.code == C1_RIGHT2:
             if player1.special_ability is Build:
                 self.objects.append(player1.build(player1)) # todo what da Fu
@@ -89,12 +88,26 @@ class App:
         elif event.code == C2_RIGHT2:
             pass
 
-    def loop(self):
+    def loop(self, to_remove):
+        to_remove.clear()
+        for i in range(0, len(self.projectiles)):
+            current_projectile = self.projectiles[i]
+            current_projectile.move()
+            if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
+                to_remove.add(i)
+
+        self.projectiles = list(
+            filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
+        )
         self.clock.tick(60)
 
     def render(self):
+        self.screen.fill((255, 255, 255))
+
         for current_object in self.objects:
             current_object.render(self.screen)
+        for projectile in self.projectiles:
+            projectile.render(self.screen)
         pygame.display.flip()
 
     @staticmethod
@@ -107,23 +120,11 @@ class App:
         self.screen.fill((255, 255, 255))
         self.render()
         while self._running:
-            to_remove.clear()
-            for i in range(0, len(self.projectiles)):
-                current_projectile = self.projectiles[i]
-                current_projectile.move()
-                if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
-                    to_remove.add(i)
-
-            self.projectiles = list(
-                filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
-            )
-
             event1 = gamepad1.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
                 self.on_event(event1)
-            self.loop()
+            self.loop(to_remove)
             self.render()
-            self.screen.fill((255, 255, 255))
         self.cleanup()
 
 
