@@ -68,7 +68,7 @@ class App:
             self.projectiles.append(projectile)
         elif event.code == C1_RIGHT2:
             if player1.special_ability is Build:
-                self.objects.append(player1.build(player1)) # todo what da Fu
+                self.objects.append(player1.build()) # todo what da Fu
 
         # player 2 buttons :
 
