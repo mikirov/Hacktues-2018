@@ -69,16 +69,12 @@ class App:
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN)
-                player2.image = get_image('frontpl.png')
             elif event.code == C2_BUTTON_UP:
                 player2.move(Direction.UP)
-                player2.image = get_image('backpl.png')
             elif event.code == C2_BUTTON_LEFT:
                 player2.move(Direction.LEFT)
-                player2.image = get_image('leftpl.png')
             elif event.code == C2_BUTTON_RIGHT:
                 player2.move(Direction.RIGHT)
-                player2.image = get_image('rightpl.png')
             elif event.code == C2_LEFT1:
                 player2.special_ability()
             elif event.code == C2_LEFT2:
