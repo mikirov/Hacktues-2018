@@ -38,6 +38,6 @@ class Player(GameObject):
             self.build_ability.current_cooldown = self.build_ability.cool
 
     def hit(self, another_player):
-        distance = math.sqrt(abs(self.x - self.x) ** 2 + abs(self.y - self.y) ** 2)
+        distance = math.sqrt(abs(self.x - another_player.x) ** 2 + abs(self.y - another_player.y) ** 2)
         if distance < 5:
             another_player.hp -= self.melee_dmg
