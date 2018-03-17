@@ -8,14 +8,13 @@ from .abilities import *
 
 
 class Player(GameObject):
-    def __init__(self, start_x, start_y, image_filepath=None, speed=10, hp=100, special_abilities=None):
-        super().__init__(start_x, start_y, image_filepath, speed)
+    def __init__(self, start_x, start_y, image=None, speed=10, hp=100, special_abilities=None):
+        super().__init__(start_x, start_y, image, speed)
         self.hp = hp
         self.melee_dmg = 6
         self.current_facing = None
         self.heal_ability = Heal(5, random.randint(1, 10))
         self.build_ability = Build(6)
-
         self.special_abilities = special_abilities
 
 
@@ -24,11 +23,11 @@ class Player(GameObject):
             self.heal_ability(self)
             self.heal_ability.current_cooldown = self.heal_ability.cool
 
-    def shoot(self):
+    def shoot(self, projectile_image):
         # TODO: fix these arbitrary values
         projectile = Projectile(
             self.x + 10, self.y - 10,
-            Direction.UP, 'projectile.png'
+            self.current_facing, projectile_image
         )
         return projectile
 

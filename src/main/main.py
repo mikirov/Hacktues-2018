@@ -9,10 +9,8 @@ from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
 
-# TODO SAY YOU HAVE KINDA FIXED THE IMPORTS
-
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event3')
+gamepad1 = InputDevice('/dev/input/event1')
 # gamepad2 = InputDevice('/dev/input/event4')
 
 # set up players
@@ -32,7 +30,7 @@ class App:
         self.size = self.width, self.height = 640, 400
         self.clock = None
         self.projectiles = []
-        self.objects = []
+        self.objects = [player1]
 
     def on_init(self):
         pygame.init()
@@ -64,7 +62,7 @@ class App:
         elif event.code == C1_LEFT2:
             player1.hit()  # incomplete
         elif event.code == C1_RIGHT1:
-            projectile = player1.shoot()
+            projectile = player1.shoot(get_image('projectile.png'))
             self.projectiles.append(projectile)
             self.objects.append(projectile)
         elif event.code == C1_RIGHT2:
@@ -97,7 +95,6 @@ class App:
     def render(self):
         for current_object in self.objects:
             current_object.render(self.screen)
-
         pygame.display.flip()
 
     @staticmethod
@@ -106,19 +103,15 @@ class App:
 
     def execute(self):
         self.on_init()
-        current_time = time()
+        to_remove = set()
         self.screen.fill((255, 255, 255))
         self.render()
         while self._running:
-            previous_time = current_time
-            current_time = time()
-            time_delta = current_time - previous_time
-
-            to_remove = set()
+            to_remove.clear()
             for i in range(0, len(self.projectiles)):
                 current_projectile = self.projectiles[i]
-                current_projectile.move(time_delta)
-                if not 0 <= current_projectile.x <= self.width or not 0 <= current_projectile.y <= self.height:
+                current_projectile.move()
+                if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
                     to_remove.add(i)
 
             self.projectiles = list(
@@ -132,24 +125,6 @@ class App:
             self.render()
             self.screen.fill((255, 255, 255))
         self.cleanup()
-
-        """
-        self.screen.fill((255, 255, 255))
-        self.render()
-        for event1, event2 in zip(gamepad1.read_loop(), gamepad2.read_loop()):
-            if not self._running:
-                break
-
-            if event1.type == ecodes.EV_KEY:
-                self.on_event(event1)
-            if event2.type == ecodes.EV_KEY:
-                print(event2)
-                self.on_event(event2)
-            self.loop()
-            self.render()
-            self.screen.fill((255, 255, 255))
-        self.cleanup()
-        """
 
 
 if __name__ == "__main__":

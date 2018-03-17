@@ -5,16 +5,17 @@ SCREEN_WIDTH = 800
 
 
 class GameObject:
-    def __init__(self, start_x, start_y, image_filepath=None, speed=10, hitbox=None):
+    def __init__(self, start_x, start_y, image=None, speed=10, hitbox=None):
         self.x = start_x
         self.y = start_y
-        self.image_filepath = image_filepath
+        self.image = image
         self.speed = speed
         self.hitbox = None
         self.current_facing = None
 
 
-    def move(self, direction):
+    def move(self, direction=None):
+        direction = direction or self.direction
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
         elif direction == Direction.DOWN and self.y < SCREEN_HEIGHT:
@@ -40,4 +41,4 @@ class GameObject:
         )
 
     def render(self, screen):
-        screen.blit(get_image(self.image_filepath), (self.x, self.y))
+        screen.blit(self.image, (self.x, self.y))
