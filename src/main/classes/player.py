@@ -8,7 +8,7 @@ from .abilities import *
 
 
 class Player(GameObject):
-    def __init__(self, start_x, start_y, image=None, speed=10, hp=100, special_abilities=None):
+    def __init__(self, start_x, start_y, image=None, speed=10, hp=100, special_abilities=None, frame = 0):
         super().__init__(start_x, start_y, image, speed)
         self.hp = hp
         self.melee_dmg = 5
@@ -16,7 +16,7 @@ class Player(GameObject):
         self.heal_ability = Heal(5, random.randint(1, 10))
         self.build_ability = Build(6)
         self.special_abilities = special_abilities
-
+        self.frame = frame
 
     def heal(self):
         if self.heal_ability.current_cooldown == 0:
