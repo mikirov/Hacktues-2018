@@ -39,8 +39,7 @@ class App:
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
-        self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
-        self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
+
 
     def on_event(self, event, player):
         if event.type == pygame.QUIT:
@@ -112,6 +111,8 @@ class App:
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
+        self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
+        self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
         self.screen.blit(self.hp1, (50,300))
         self.screen.blit(self.hp2,(500,300))
 
