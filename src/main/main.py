@@ -79,7 +79,7 @@ class App:
         elif event.code == C2_BUTTON_RIGHT and event.value== 589826:
             player2.move(Direction.RIGHT)
 
-            
+
         elif event.code == C2_LEFT1 and event.value== 589831:
             player2.special_ability()
         elif event.code == C2_LEFT2 and event.value== 589829:
