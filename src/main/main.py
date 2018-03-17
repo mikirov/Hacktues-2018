@@ -106,6 +106,7 @@ class App:
 
             for object in self.objects:
                 if object is Stone:
+                    print("Decreasing hp:")
                     object.hp -= current_projectile.damage
                     if object.hp <= 0:
                         to_remove.add(i)
