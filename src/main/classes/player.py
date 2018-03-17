@@ -26,7 +26,7 @@ class Player(GameObject):
         elif direction == Direction.RIGHT and self.x < 800:
             self.x += self.speed
         self.current_facing = direction
-        if "hitbox" in dir(self):
+        if self.hitbox is not None:
             self.hitbox.x = self.x
             self.hitbox.y = self.y  # todo wtf??
 
