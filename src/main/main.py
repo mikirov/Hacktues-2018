@@ -19,6 +19,9 @@ player1 = player.Player(50, 150, get_image('mage-only.png'))
 #player1.make_hitbox()
 player2 = player.Player(300, 500, get_image('mage-only.png'))
 
+rect_player1 = pygame.Rect(player1.frame * 32, 32 * player1.current_facing.value, 32, 32)
+rect_player2 = pygame.Rect(player2.frame * 32, 32 * player2.current_facing.value, 32, 32)
+
 #player2.make_hitbox()
 FONT_SIZE = 20
 
