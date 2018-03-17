@@ -179,8 +179,7 @@ class App:
         player1.hp, player2.hp = 100, 100
         player1.x, player1.y = 50, 150
         player2.x, player2.y = 500, 300
-        player1.hitbox = rect_player1
-        player2.hitbox = rect_player2
+        
 
 if __name__ == "__main__":
     theApp = App()
