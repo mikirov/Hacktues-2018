@@ -16,7 +16,7 @@ class CollisionTests(unittest.TestCase):
         self.game_object2 = GameObject(start_x=100, start_y=120,
                                        image_filepath='player.png', speed=10)
         make_hitbox(self.game_object1)
-        #make_hitbox(self.game_object2)
+        make_hitbox(self.game_object2)
     def test_make_hitbox(self):
         #print(make_hitbox(self.game_object1))
         self.game_object2.hitbox = make_hitbox(self.game_object2)
