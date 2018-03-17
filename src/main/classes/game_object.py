@@ -5,11 +5,13 @@ SCREEN_WIDTH = 800
 
 
 class GameObject:
-    def __init__(self, start_x, start_y, image_filepath=None, speed=10):
+    def __init__(self, start_x, start_y, image_filepath=None, speed=10, hitbox=None):
         self.x = start_x
         self.y = start_y
         self.image_filepath = image_filepath
         self.speed = speed
+        self.hitbox = None
+
 
     def move(self, direction):
         if direction == Direction.UP and self.y > 0:
@@ -20,9 +22,13 @@ class GameObject:
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x < SCREEN_WIDTH:
             self.x += self.speed
+        if self.hitbox is not None:
+            print("Moving hitbox")
+            self.hitbox.x = self.x
+            self.hitbox.y = self.y  # todo wtf??
 
     def collides_with(self, obj2):
-        if "hitbox" in dir(self):
+        if self.hitbox is not None:
             return self.hitbox.colliderect(obj2.hitbox)  # todo
 
     def __str__(self):
