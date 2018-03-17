@@ -1,3 +1,4 @@
+from src.main.helpers.image_getter import get_image
 from .direction import Direction
 
 SCREEN_HEIGHT = 480
@@ -29,3 +30,6 @@ class GameObject:
         return '{} at (x: {}, y: {})'.format(
             self.__class__.__name__, self.x, self.y
         )
+
+    def render(self, screen):
+        screen.blit(get_image(self.image_filepath), (self.x, self.y))
