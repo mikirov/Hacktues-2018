@@ -112,6 +112,8 @@ class App:
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
+        self.screen.blit(self.hp1, (50,300))
+        self.screen.blit(self.hp2,(500,300))
         pygame.display.flip()
 
 
