@@ -107,6 +107,8 @@ class App:
         self.screen.fill((255, 255, 255))
         self.screen.blit(get_image('bg_image.png'), (0, 0))
         for current_object in self.objects:
+            if current_object == None or current_object == player1 or current_object == player2:
+                continue
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
