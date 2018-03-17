@@ -106,12 +106,30 @@ class App:
         self.clock.tick(60)
 
     def render(self):
+<<<<<<< .merge_file_qAgCHk
         self.screen.fill((255, 255, 255))
         self.screen.blit(get_image('bg_image.png'), (0, 0))
         for current_object in self.objects:
             current_object.render(self.screen)
         for projectile in self.projectiles:
             projectile.render(self.screen)
+=======
+        self.screen.blit(get_image(player1.image_filepath), (player1.x, player1.y))
+        self.screen.blit(get_image(player2.image_filepath), (player2.x, player2.y))
+
+        for prj in self.projectiles:
+            self.screen.blit(get_image(prj.image_filepath), (prj.x, prj.y))
+        #for obj in objects:
+         #   self.screen.blit(get_image(obj.image_filepath), (obj.x, obj.y))
+        # print hp of players
+        
+        
+        rectpl = pygame.Rect(player1.frame*32, 32*player1.current_state, 32, 32)
+        pygame.blit(player1.image, self.screen, rectpl)
+
+
+        
+>>>>>>> .merge_file_ct2ZFb
         pygame.display.flip()
 
 
@@ -128,10 +146,16 @@ class App:
             event1 = gamepad1.read_one()
             event2 = gamepad2.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
+<<<<<<< .merge_file_qAgCHk
                 self.on_event(event1, 1)
             if event2 is not None and event2.type == ecodes.EV_KEY:
                 self.on_event(event2, 2)
             self.loop(to_remove)
+=======
+                self.on_event(event1)
+            self.loop()
+            frame += 0.4
+>>>>>>> .merge_file_ct2ZFb
             self.render()
         self.cleanup()
 
