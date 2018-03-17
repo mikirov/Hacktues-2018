@@ -8,7 +8,7 @@ from classes.abilities import *
 from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
-from classes.Stone import Stone
+from classes.stone import Stone
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event4')
@@ -16,15 +16,15 @@ gamepad2 = InputDevice('/dev/input/event3')
 
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
-player1.make_hitbox()
-player2 = player.Player(300, 500, get_image('mage_two.png'))
-player2.make_hitbox()
+player2 = player.Player(300, 150, get_image('mage_two.png'))
 
 
-rect_player1 = pygame.Rect(int(player1.frame) * 64, 64 * player1.current_facing.value, 64, 64)
-rect_player2 = pygame.Rect(int(player2.frame) * 64, 64 * player2.current_facing.value, 64, 64)
-
+rect_player1 = pygame.Rect(player1.frame * 64, 64 * player1.current_facing.value, 64, 64)
+rect_player2 = pygame.Rect(player2.frame * 64, 64 * player2.current_facing.value, 64, 64)
+player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
 FONT_SIZE = 60
+player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
+
 COOLDOWN = 0.5 # in seconds
 
 
@@ -98,6 +98,7 @@ class App:
 
     def loop(self, to_remove):
         to_remove.clear()
+        to_remove_objs = set()
         for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
             current_projectile.move()
@@ -108,20 +109,26 @@ class App:
                 if player is not current_projectile.player and player.collides_with(current_projectile):
                     player.hp -= current_projectile.damage
                     to_remove.add(i)
-
-            for object in self.objects:
-                if isinstance(object, Stone) and object.collides_with(current_projectile):
-                    object.hp -= current_projectile.damage
-                    if object.hp <= 0:
+            j = 0
+            for obj in self.objects:
+                if isinstance(obj, Stone) and obj.collides_with(current_projectile):
+                    obj.hp -= current_projectile.damage
+                    print(obj.hp)
+                    if obj.hp <= 0:
                         to_remove.add(i)
-
+                        to_remove_objs.add(j)
+                j+=1
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
         )
+
+        self.objects = list(
+            filter(lambda obj: self.objects.index(obj) not in to_remove_objs, self.objects)
+        )
+
         if player1.hp <= 0 or player2.hp <=0:
             self.reset()
-
         self.clock.tick(60)
 
     def render(self):
@@ -140,14 +147,14 @@ class App:
         self.screen.blit(self.hp1, (50, 300))
         self.screen.blit(self.hp2, (500, 300))
 
-        rect_player1 = pygame.Rect(int(player1.frame) * 64, 64 * player1.current_facing.value, 64, 64)
-        rect_player2 = pygame.Rect(int(player2.frame) * 64, 64 * player2.current_facing.value, 64, 64)
-        player1.hitbox = rect_player1
-        player2.hitbox = rect_player2
+        rect_player1 = pygame.Rect(player1.frame * 64, 64 * player1.current_facing.value, 64, 64)
+        rect_player2 = pygame.Rect(player2.frame * 64, 64 * player2.current_facing.value, 64, 64)
+        
+
         self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
         self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
-        player1.frame += 0.25
-        player2.frame += 0.25
+        player1.frame += 1
+        player2.frame += 1
         if player1.frame >= 9:
             player1.frame = 0
         if player2.frame >= 9:
@@ -173,14 +180,15 @@ class App:
             self.loop(to_remove)
             self.render()
         self.cleanup()
+
     def reset(self):
         self.projectiles = []
         self.objects = [player1, player2]
         player1.hp, player2.hp = 100, 100
         player1.x, player1.y = 50, 150
         player2.x, player2.y = 500, 300
-        player1.hitbox = rect_player1
-        player2.hitbox = rect_player2
+        player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
+        player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
 
 if __name__ == "__main__":
     theApp = App()
