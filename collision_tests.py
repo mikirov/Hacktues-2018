@@ -12,9 +12,9 @@ from src.main.collision import make_hitbox
 class CollisionTests(unittest.TestCase):
     def setUp(self):
         self.game_object1 = GameObject(start_x=100, start_y=120,
-                                       image_filepath='arrow.png', speed=10)
+                                       image='arrow.png', speed=10)
         self.game_object2 = GameObject(start_x=100, start_y=120,
-                                       image_filepath='player.png', speed=10)
+                                       image='player.png', speed=10)
         make_hitbox(self.game_object1)
         make_hitbox(self.game_object2)
     def test_make_hitbox(self):
