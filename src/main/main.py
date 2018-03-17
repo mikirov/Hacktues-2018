@@ -109,11 +109,13 @@ class App:
                 if player is not current_projectile.player and player.collides_with(current_projectile):
                     player.hp -= current_projectile.damage
                     to_remove.add(i)
-            for obj in self.objects:
-                if obj is Stone:
-                    obj.hp -= current_projectile.damage
-                    if obj.hp <= 0:
+
+            for object in self.objects:
+                if isinstance(object, Stone) and object.collides_with(current_projectile):
+                    object.hp -= current_projectile.damage
+                    if object.hp <= 0:
                         to_remove.add(i)
+
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
@@ -181,4 +183,3 @@ class App:
 if __name__ == "__main__":
     theApp = App()
     theApp.execute()
-
