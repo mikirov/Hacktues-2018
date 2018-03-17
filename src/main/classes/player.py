@@ -26,7 +26,8 @@ class Player(GameObject):
     def shoot(self, projectile_image):
         # TODO: fix these arbitrary values
         projectile = Projectile(
-            self.x + 10, self.y - 10,
+            self.x + self.image.get_width() // 2,
+            self.y + self.image.get_height() // 2,
             self.current_facing, projectile_image
         )
         return projectile

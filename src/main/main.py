@@ -11,7 +11,7 @@ from classes.direction import Direction
 
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event1')
-gamepad2 = InputDevice('/dev/input/event4')
+gamepad2 = InputDevice('/dev/input/event2')
 
 # set up players
 player1 = player.Player(50, 50, get_image('frontpl.png'))
@@ -42,59 +42,58 @@ class App:
         self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
         self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
 
-    def on_event(self, event):
+    def on_event(self, event, player):
         if event.type == pygame.QUIT:
             self._running = False
-        elif event.code == C1_BUTTON_DOWN:
-            player1.move(Direction.DOWN)
-            player1.image = get_image('frontpl.png')
-        elif event.code == C1_BUTTON_UP:
-            player1.move(Direction.UP)
-            player1.image = get_image('backpl.png')
-        elif event.code == C1_BUTTON_LEFT:
-            player1.move(Direction.LEFT)
-            player1.image = get_image('leftpl.png')
-        elif event.code == C1_BUTTON_RIGHT:
-            player1.move(Direction.RIGHT)
-            player1.image = get_image('rightpl.png')
-        elif event.code == C1_LEFT1:
-            if player1.special_ability is Heal:
-                player1.special_ability()
-        elif event.code == C1_LEFT2:
-            player1.hit()  # incomplete
-        elif event.code == C1_RIGHT1:
-            projectile = player1.shoot(get_image('projectile.png'))
-            self.projectiles.append(projectile)
-        elif event.code == C1_RIGHT2:
-            if player1.special_ability is Build:
-                self.objects.append(player1.build(player1)) # todo what da Fu
-
-        # player 2 buttons :
-
-        elif event.code == C2_BUTTON_DOWN and event.value== 589827:
-            player2.move(Direction.DOWN)
-        elif event.code == C2_BUTTON_UP and event.value== 589825:
-            player2.move(Direction.UP)
-        elif event.code == C2_BUTTON_LEFT and event.value== 589828:
-            player2.move(Direction.LEFT)
-        elif event.code == C2_BUTTON_RIGHT and event.value== 589826:
-            player2.move(Direction.RIGHT)
-
-
-        elif event.code == C2_LEFT1 and event.value== 589831:
-            player2.special_ability()
-        elif event.code == C2_LEFT2 and event.value== 589829:
-            player2.hit()
-        elif event.code == C2_RIGHT1 and event.value== 589832:
-            projectile = player1.shoot(get_image('projectile.png'))
-            self.projectiles.append(projectile)
-        elif event.code == C2_RIGHT2 and event.value== 589830:
-            self.objects.append(player2.build()) # todo what da Fu
-
+        elif player == 1:
+            if event.code == C1_BUTTON_DOWN:
+                player1.move(Direction.DOWN)
+                player1.image = get_image('frontpl.png')
+            elif event.code == C1_BUTTON_UP:
+                player1.move(Direction.UP)
+                player1.image = get_image('backpl.png')
+            elif event.code == C1_BUTTON_LEFT:
+                player1.move(Direction.LEFT)
+                player1.image = get_image('leftpl.png')
+            elif event.code == C1_BUTTON_RIGHT:
+                player1.move(Direction.RIGHT)
+                player1.image = get_image('rightpl.png')
+            elif event.code == C1_LEFT1:
+                if player1.special_ability is Heal:
+                    player1.special_ability()
+            elif event.code == C1_LEFT2:
+                player1.hit()  # incomplete
+            elif event.code == C1_RIGHT1:
+                projectile = player1.shoot(get_image('projectile.png'))
+                self.projectiles.append(projectile)
+            elif event.code == C1_RIGHT2:
+                if player1.special_ability is Build:
+                    self.objects.append(player1.build(player1)) # todo what da Fu
+        elif player == 2:
+            if event.code == C2_BUTTON_DOWN:
+                player2.move(Direction.DOWN)
+                player2.image = get_image('frontpl.png')
+            elif event.code == C2_BUTTON_UP:
+                player2.move(Direction.UP)
+                player2.image = get_image('backpl.png')
+            elif event.code == C2_BUTTON_LEFT:
+                player2.move(Direction.LEFT)
+                player2.image = get_image('leftpl.png')
+            elif event.code == C2_BUTTON_RIGHT:
+                player2.move(Direction.RIGHT)
+                player2.image = get_image('rightpl.png')
+            elif event.code == C2_LEFT1:
+                player2.special_ability()
+            elif event.code == C2_LEFT2:
+                player2.hit()
+            elif event.code == C2_RIGHT1:
+                projectile = player2.shoot(get_image('projectile.png'))
+                self.projectiles.append(projectile)
+            elif event.code == C2_RIGHT2:
+                self.objects.append(player2.build()) # todo what da Fu
 
     def loop(self, to_remove):
         to_remove.clear()
-        print(len(self.projectiles))
         for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
             current_projectile.move()
@@ -129,9 +128,9 @@ class App:
             event1 = gamepad1.read_one()
             event2 = gamepad2.read_one()
             if event1 is not None and event1.type == ecodes.EV_KEY:
-                self.on_event(event1)
+                self.on_event(event1, 1)
             if event2 is not None and event2.type == ecodes.EV_KEY:
-                self.on_event(event2)
+                self.on_event(event2, 2)
             self.loop(to_remove)
             self.render()
         self.cleanup()
