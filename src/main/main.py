@@ -11,8 +11,8 @@ from classes.direction import Direction
 from classes.stone import Stone
 
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event4')
-gamepad2 = InputDevice('/dev/input/event3')
+gamepad1 = InputDevice('/dev/input/event2')
+gamepad2 = InputDevice('/dev/input/event1')
 
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
@@ -46,7 +46,7 @@ class App:
         self.font = pygame.font.Font(None, FONT_SIZE)
 
     def on_event(self, event, player):
-        if event.type == pygame.QUIT:
+        if event.code == EXIT_BUTTON:
             self._running = False
         elif player == 1:
             if event.code == C1_BUTTON_DOWN:
