@@ -9,10 +9,10 @@ from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
 from classes.stone import Stone
-
+import select
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event4')
-gamepad2 = InputDevice('/dev/input/event3')
+gamepad1 = InputDevice('/dev/input/event2')
+gamepad2 = InputDevice('/dev/input/event1')
 
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
@@ -40,14 +40,13 @@ class App:
 
     def on_init(self):
         pygame.init()
-        # self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
-        self.screen = pygame.display.set_mode(self.size, pygame.SRCALPHA)
+        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
 
     def on_event(self, event, player):
-        if event.type == pygame.QUIT:
+        if event.code == EXIT_BUTTON:
             self._running = False
         elif player == 1:
             if event.code == C1_BUTTON_DOWN:
@@ -113,7 +112,6 @@ class App:
             for obj in self.objects:
                 if isinstance(obj, Stone) and obj.collides_with(current_projectile):
                     obj.hp -= current_projectile.damage
-                    print(obj.hp)
                     if obj.hp <= 0:
                         to_remove.add(i)
                         to_remove_objs.add(j)
@@ -170,13 +168,20 @@ class App:
         to_remove = set()
         self.screen.fill((255, 255, 255))
         self.render()
+        devices = [gamepad1, gamepad2]
+        devs = {dev.fd: dev for dev in devices}
+
         while self._running:
-            event1 = gamepad1.read_one()
-            event2 = gamepad2.read_one()
-            if event1 is not None and event1.type == ecodes.EV_KEY:
-                self.on_event(event1, 1)
-            if event2 is not None and event2.type == ecodes.EV_KEY:
-                self.on_event(event2, 2)
+            r,w,x = select.select(devs, [], [])
+            for fd in r:
+                for event in devs[fd].read():
+                    if event.code in VALID_CODES and event.type == ecodes.EV_KEY:
+                        dev = devs[fd]
+                        if dev is devices[0]:
+                            p = 1
+                        else:
+                            p = 2
+                        self.on_event(event, p)
             self.loop(to_remove)
             self.render()
         self.cleanup()
@@ -189,6 +194,7 @@ class App:
         player2.x, player2.y = 50, 150
         player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
         player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
+
 
 if __name__ == "__main__":
     theApp = App()
