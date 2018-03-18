@@ -16,20 +16,28 @@ class GameObject:
         self.current_facing = None
 
 
-    def move(self, direction=None):
+    def move(self, direction=None, all_game_obj=None):
         direction = direction or self.direction  # TODO: ne pipai STEFO
+        x,y = self.x, self.y
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
-        elif direction == Direction.DOWN and self.y < SCREEN_HEIGHT:
+        elif direction == Direction.DOWN and self.y + self.hitbox.height < SCREEN_HEIGHT:
             self.y += self.speed
         elif direction == Direction.LEFT and self.x > 0:
             self.x -= self.speed
-        elif direction == Direction.RIGHT and self.x < SCREEN_WIDTH:
+        elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
             self.x += self.speed
         self.current_facing = direction
         if self.hitbox is not None:
             self.hitbox.x = self.x
             self.hitbox.y = self.y
+            all_hitboxes = [obj.hitbox for obj in all_game_obj]
+            ind = self.hitbox.collidelist(all_hitboxes)
+            if ind != -1:
+                self.x = x
+                self.y = y
+                self.hitbox.x = x
+                self.hitbox.y = y
 
     def make_hitbox(self):
         width, height = self.image.get_width(), self.image.get_height()

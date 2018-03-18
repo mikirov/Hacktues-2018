@@ -11,9 +11,12 @@ from classes.direction import Direction
 from classes.stone import Stone
 import select
 # set up gamepad
-gamepad1 = InputDevice('/dev/input/event2')
-gamepad2 = InputDevice('/dev/input/event1')
 
+#gamepad1 = InputDevice('/dev/input/event2')
+#gamepad2 = InputDevice('/dev/input/event1')
+ls = [evdev.InputDevice(dev) for dev in evdev.list_devices()]
+gamepad1 = ls.filter(lambda x: "Micro" in x.name)[0]
+gamepad2 = ls.filter(lambda x: "Dragon" in x.name)[0]
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
 player2 = player.Player(300, 150, get_image('mage_two.png'))
@@ -50,13 +53,13 @@ class App:
             self._running = False
         elif player == 1:
             if event.code == C1_BUTTON_DOWN:
-                player1.move(Direction.DOWN)
+                player1.move(Direction.DOWN, self.objects)
             elif event.code == C1_BUTTON_UP:
-                player1.move(Direction.UP)
+                player1.move(Direction.UP, self.objects)
             elif event.code == C1_BUTTON_LEFT:
-                player1.move(Direction.LEFT)
+                player1.move(Direction.LEFT, self.objects)
             elif event.code == C1_BUTTON_RIGHT:
-                player1.move(Direction.RIGHT)
+                player1.move(Direction.RIGHT, self.objects)
             elif event.code == C1_LEFT1:
                 player1.heal()
             elif event.code == C1_LEFT2:
@@ -75,20 +78,23 @@ class App:
 
         elif player == 2:
             if event.code == C2_BUTTON_DOWN:
-                player2.move(Direction.DOWN)
+                player2.move(Direction.DOWN, self.objects)
             elif event.code == C2_BUTTON_UP:
-                player2.move(Direction.UP)
+                player2.move(Direction.UP, self.objects)
             elif event.code == C2_BUTTON_LEFT:
-                player2.move(Direction.LEFT)
+                player2.move(Direction.LEFT, self.objects)
             elif event.code == C2_BUTTON_RIGHT:
-                player2.move(Direction.RIGHT)
+                player2.move(Direction.RIGHT, self.objects)
             elif event.code == C2_LEFT1:
                 player2.heal()
             elif event.code == C2_LEFT2:
                 player2.hit(player1)
             elif event.code == C2_RIGHT1:
-                projectile = player2.shoot(get_image('iceball.png'))
-                self.projectiles.append(projectile)
+                current_time = time()
+                if current_time - player2.last_projectile_fired_at >= COOLDOWN:
+                    projectile = player2.shoot(get_image('iceball.png'))
+                    self.projectiles.append(projectile)
+                    player2.last_projectile_fired_at = current_time
             elif event.code == C2_RIGHT2:
                 stone = player2.build()
                 stone.image = get_image(stone.image)
@@ -101,21 +107,22 @@ class App:
         for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
             current_projectile.move()
-            if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height:
+            if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height :
                 to_remove.add(i)
 
-            for player in (player1, player2):
-                if player is not current_projectile.player and player.collides_with(current_projectile):
-                    player.hp -= current_projectile.damage
+        for player in (player1, player2):
+            if player is not current_projectile.player and player.collides_with(current_projectile):
+                player.hp -= current_projectile.damage
+                to_remove.add(i)
+
+        j = 0
+        for obj in self.objects:
+            if isinstance(obj, Stone) and obj.collides_with(current_projectile):
+                obj.hp -= current_projectile.damage
+                if obj.hp <= 0:
                     to_remove.add(i)
-            j = 0
-            for obj in self.objects:
-                if isinstance(obj, Stone) and obj.collides_with(current_projectile):
-                    obj.hp -= current_projectile.damage
-                    if obj.hp <= 0:
-                        to_remove.add(i)
-                        to_remove_objs.add(j)
-                j+=1
+                    to_remove_objs.add(j)
+            j+=1
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
@@ -126,6 +133,13 @@ class App:
         )
 
         if player1.hp <= 0 or player2.hp <=0:
+            if player1.hp <= 0:
+                pl = player2
+            else:
+                pl = player1
+            self.winner = self.font.render("Player:" + str(pl), True, (0, 0, 0))
+            self.screen.blit(self.winner, (400, 400))
+            time.sleep(2)
             self.reset()
         self.clock.tick(60)
 
