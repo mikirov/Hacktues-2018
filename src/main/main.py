@@ -1,7 +1,7 @@
 import pygame
-from time import time
+from time import *
 
-from evdev import InputDevice, categorize, ecodes
+from evdev import *
 from classes import player
 from classes import projectile
 from classes.abilities import *
@@ -14,9 +14,9 @@ import select
 
 #gamepad1 = InputDevice('/dev/input/event2')
 #gamepad2 = InputDevice('/dev/input/event1')
-ls = [evdev.InputDevice(dev) for dev in evdev.list_devices()]
-gamepad1 = ls.filter(lambda x: "Micro" in x.name)[0]
-gamepad2 = ls.filter(lambda x: "Dragon" in x.name)[0]
+ls = [InputDevice(dev) for dev in list_devices()]
+gamepad1 = list(filter(lambda x: "Micro" in x.name,ls))[0]
+gamepad2 = list(filter(lambda x: "Dragon" in x.name, ls))[0]
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
 player2 = player.Player(300, 150, get_image('mage_two.png'))
@@ -36,7 +36,7 @@ class App:
     def __init__(self):
         self._running = True
         self.screen = None
-        self.size = self.width, self.height = 640, 400
+        self.size = self.width, self.height = 620, 350
         self.clock = None
         self.projectiles = []
         self.objects = [player1, player2]
@@ -110,19 +110,19 @@ class App:
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height :
                 to_remove.add(i)
 
-        for player in (player1, player2):
-            if player is not current_projectile.player and player.collides_with(current_projectile):
-                player.hp -= current_projectile.damage
-                to_remove.add(i)
-
-        j = 0
-        for obj in self.objects:
-            if isinstance(obj, Stone) and obj.collides_with(current_projectile):
-                obj.hp -= current_projectile.damage
-                if obj.hp <= 0:
+            for player in (player1, player2):
+                if player is not current_projectile.player and player.collides_with(current_projectile):
+                    player.hp -= current_projectile.damage
                     to_remove.add(i)
-                    to_remove_objs.add(j)
-            j+=1
+
+            j = 0
+            for obj in self.objects:
+                if isinstance(obj, Stone) and obj.collides_with(current_projectile):
+                    obj.hp -= current_projectile.damage
+                    if obj.hp <= 0:
+                        to_remove.add(i)
+                        to_remove_objs.add(j)
+                j+=1
 
         self.projectiles = list(
             filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
@@ -137,9 +137,9 @@ class App:
                 pl = player2
             else:
                 pl = player1
-            self.winner = self.font.render("Player:" + str(pl), True, (0, 0, 0))
-            self.screen.blit(self.winner, (400, 400))
-            time.sleep(2)
+           # self.winner = self.font.render("Player:" + str(pl), True, (0, 0, 0))
+            #self.screen.blit(self.winner, (400, 400))
+            #sleep(2)
             self.reset()
         self.clock.tick(60)
 
@@ -157,7 +157,7 @@ class App:
         self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
         self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
         self.screen.blit(self.hp1, (50, 300))
-        self.screen.blit(self.hp2, (500, 300))
+        self.screen.blit(self.hp2, (400, 300))
 
         rect_player1 = pygame.Rect(player1.frame * 64, 64 * player1.current_facing.value, 64, 64)
         rect_player2 = pygame.Rect(player2.frame * 64, 64 * player2.current_facing.value, 64, 64)
@@ -205,7 +205,7 @@ class App:
         self.objects = [player1, player2]
         player1.hp, player2.hp = 100, 100
         player1.x, player1.y = 50, 150
-        player2.x, player2.y = 50, 150
+        player2.x, player2.y = 400, 200
         player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
         player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
 

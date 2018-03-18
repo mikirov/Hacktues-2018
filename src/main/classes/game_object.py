@@ -2,8 +2,8 @@ from .direction import Direction
 import os
 import pygame
 
-SCREEN_HEIGHT = 480
-SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 380
+SCREEN_WIDTH = 650
 
 
 class GameObject:
@@ -21,7 +21,7 @@ class GameObject:
         x,y = self.x, self.y
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
-        elif direction == Direction.DOWN and self.y + self.hitbox.height < SCREEN_HEIGHT:
+        elif direction == Direction.DOWN and self.y  + self.hitbox.height < SCREEN_HEIGHT:
             self.y += self.speed
         elif direction == Direction.LEFT and self.x > 0:
             self.x -= self.speed
@@ -31,13 +31,14 @@ class GameObject:
         if self.hitbox is not None:
             self.hitbox.x = self.x
             self.hitbox.y = self.y
-            all_hitboxes = [obj.hitbox for obj in all_game_obj]
-            ind = self.hitbox.collidelist(all_hitboxes)
-            if ind != -1:
-                self.x = x
-                self.y = y
-                self.hitbox.x = x
-                self.hitbox.y = y
+            print(self.x, self.y)
+            #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+           # ind = self.hitbox.collidelist(all_hitboxes)
+            #if ind != -1:
+             #   self.x = x
+              #  self.y = y
+               # self.hitbox.x = x
+                #self.hitbox.y = y
 
     def make_hitbox(self):
         width, height = self.image.get_width(), self.image.get_height()
