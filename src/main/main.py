@@ -182,8 +182,8 @@ class App:
                         else:
                             p = 2
                         self.on_event(event, p)
-                        self.loop(to_remove)
-                        self.render()
+            self.loop(to_remove)
+            self.render()
         self.cleanup()
 
     def reset(self):
