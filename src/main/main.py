@@ -9,7 +9,7 @@ from helpers.image_getter import get_image
 from controller_config import *
 from classes.direction import Direction
 from classes.stone import Stone
-
+import select
 # set up gamepad
 gamepad1 = InputDevice('/dev/input/event2')
 gamepad2 = InputDevice('/dev/input/event1')
@@ -168,15 +168,22 @@ class App:
         to_remove = set()
         self.screen.fill((255, 255, 255))
         self.render()
+        devices = [gamepad1, gamepad2]
+        devs = {dev.fd: dev for dev in devices}
+
         while self._running:
-            event1 = gamepad1.read_one()
-            event2 = gamepad2.read_one()
-            if event1 is not None and event1.type == ecodes.EV_KEY:
-                self.on_event(event1, 1)
-            if event2 is not None and event2.type == ecodes.EV_KEY:
-                self.on_event(event2, 2)
-            self.loop(to_remove)
-            self.render()
+            r,w,x = select.select(devs, [], [])
+            for fd in r:
+                for event in devs[fd].read():
+                    if event.code in VALID_CODES and event.type == ecodes.EV_KEY:
+                        dev = devs[fd]
+                        if dev is devices[0]:
+                            p = 1
+                        else:
+                            p = 2
+                        self.on_event(event, p)
+                        self.loop(to_remove)
+                        self.render()
         self.cleanup()
 
     def reset(self):
