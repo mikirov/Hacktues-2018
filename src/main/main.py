@@ -6,17 +6,25 @@ from classes import player
 from classes import projectile
 from classes.abilities import *
 from helpers.image_getter import get_image
-from controller_config import *
+#from controller_config import *
+from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
 import select
 # set up gamepad
 
+def find_device(name):
+    ls = [InputDevice(dev) for dev in list_devices()]
+    filtered = list(filter(lambda x: name in x.name, ls))
+    return filtered[0] if len(filtered) == 1 else None
+
 #gamepad1 = InputDevice('/dev/input/event2')
 #gamepad2 = InputDevice('/dev/input/event1')
-ls = [InputDevice(dev) for dev in list_devices()]
-gamepad1 = list(filter(lambda x: "Micro" in x.name,ls))[0]
-gamepad2 = list(filter(lambda x: "Dragon" in x.name, ls))[0]
+#gamepad1 = list(filter(lambda x: "Micro" in x.name,ls))[0]
+#gamepad2 = list(filter(lambda x: "Dragon" in x.name, ls))[0]
+gamepad1 = find_device("Mircro")
+gamepad2 = find_device("Dragon")
+keyboard = find_device("keyboard") or find_device("Keyboard")
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
 player2 = player.Player(300, 150, get_image('mage_two.png'))
@@ -43,7 +51,7 @@ class App:
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode(self.size, pygame.RESIZABLE)
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
@@ -182,14 +190,18 @@ class App:
         to_remove = set()
         self.screen.fill((255, 255, 255))
         self.render()
-        devices = [gamepad1, gamepad2]
+        devices = [gamepad1, gamepad2, keyboard]
+        devices = list(filter(lambda dev: dev is not None,devices))
+        print(devices)
         devs = {dev.fd: dev for dev in devices}
 
         while self._running:
             r,w,x = select.select(devs, [], [])
             for fd in r:
                 for event in devs[fd].read():
+                    print("Event read.")
                     if event.code in VALID_CODES and event.type == ecodes.EV_KEY:
+                        print("Valid event.")
                         dev = devs[fd]
                         if dev is devices[0]:
                             p = 1
