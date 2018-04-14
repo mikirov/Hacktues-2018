@@ -1,7 +1,7 @@
 import pygame
 from time import *
 
-from evdev import *
+import evdev
 from classes import player
 from classes import projectile
 from classes.abilities import *
@@ -10,13 +10,13 @@ from helpers.image_getter import get_image
 from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
-import select
+from select import select
 # set up gamepad
 
 def find_device(name):
-    ls = [InputDevice(dev) for dev in list_devices()]
+    ls = [evdev.InputDevice(dev) for dev in evdev.list_devices()]
     filtered = list(filter(lambda x: name in x.name, ls))
-    return filtered[0] if len(filtered) == 1 else None
+    return filtered[0] if len(filtered) > 0 else None
 
 #gamepad1 = InputDevice('/dev/input/event2')
 #gamepad2 = InputDevice('/dev/input/event1')
@@ -57,6 +57,7 @@ class App:
         self.font = pygame.font.Font(None, FONT_SIZE)
 
     def on_event(self, event, player, keyboard):
+        print("Processing input\n")
         if event.code == EXIT_BUTTON:
             self._running = False
         if player == 1:
@@ -195,10 +196,13 @@ class App:
         devices = list(filter(lambda dev: dev is not None,devices))
         print(devices)
         devs = {dev.fd: dev for dev in devices}
-
+        print(devs)
         while self._running:
-            r,w,x = select.select(devs, [], [])
+            print("Running\n")
+            r,w,x = select(devs, [], [])
+            print("Still running")
             for fd in r:
+                print("In loop")
                 for event in devs[fd].read():
                     print("Event read.")
                     if event.type == ecodes.EV_KEY:
@@ -208,6 +212,7 @@ class App:
                             p = 1
                         else:
                             p = 2
+                        print(event.code)
                         self.on_event(event, p, keyboard)
             self.loop(to_remove)
             self.render()
