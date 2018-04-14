@@ -201,7 +201,7 @@ class App:
             for fd in r:
                 for event in devs[fd].read():
                     print("Event read.")
-                    if event.code in VALID_CODES and event.type == ecodes.EV_KEY:
+                    if event.type == ecodes.EV_KEY:
                         print("Valid event.")
                         dev = devs[fd]
                         if dev is devices[0]:
