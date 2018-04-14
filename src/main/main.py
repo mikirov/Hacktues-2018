@@ -56,10 +56,10 @@ class App:
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
 
-    def on_event(self, event, player):
+    def on_event(self, event, player, keyboard):
         if event.code == EXIT_BUTTON:
             self._running = False
-        elif player == 1:
+        if player == 1:
             if event.code == C1_BUTTON_DOWN:
                 player1.move(Direction.DOWN, self.objects)
             elif event.code == C1_BUTTON_UP:
@@ -83,8 +83,9 @@ class App:
                 stone.image = get_image(stone.image)
                 stone.make_hitbox()
                 self.objects.append(stone)  # todo what da Fu
-
-        elif player == 2:
+        if keyboard is not None:
+            player = 2
+        if player == 2:
             if event.code == C2_BUTTON_DOWN:
                 player2.move(Direction.DOWN, self.objects)
             elif event.code == C2_BUTTON_UP:
@@ -207,7 +208,7 @@ class App:
                             p = 1
                         else:
                             p = 2
-                        self.on_event(event, p)
+                        self.on_event(event, p, keyboard)
             self.loop(to_remove)
             self.render()
         self.cleanup()
