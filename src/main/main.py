@@ -24,7 +24,7 @@ def find_device(name):
 #gamepad2 = list(filter(lambda x: "Dragon" in x.name, ls))[0]
 gamepad1 = find_device("Mircro")
 gamepad2 = find_device("Dragon")
-keyboard = find_device("keyboard") or find_device("Keyboard")
+
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
 player2 = player.Player(300, 150, get_image('mage_two.png'))
@@ -199,13 +199,13 @@ class App:
         print(devs)
         while self._running:
             print("Running\n")
-            r,w,x = select(devs, [], [])
+            r,w,x = select(devs, [], [], 1/60)
             print("Still running")
             for fd in r:
                 print("In loop")
                 for event in devs[fd].read():
                     print("Event read.")
-                    if event.type == ecodes.EV_KEY:
+                    if event.type == evdev.ecodes.EV_KEY:
                         print("Valid event.")
                         dev = devs[fd]
                         if dev is devices[0]:

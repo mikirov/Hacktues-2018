@@ -1,6 +1,6 @@
 import evdev
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
-keyboard = list(filter(lambda x: "Keyboard" in x.name, devices))[0]
+keyboard = list(filter(lambda x: "Keyboard" in x.name or "keyboard" in x.name, devices))[0]
 capabilities = keyboard.capabilities(verbose=True)
 #print(capabilities)
 keyCodes = capabilities[('EV_KEY', 1)]
@@ -13,9 +13,9 @@ C1_BUTTON_RIGHT = getkey('KEY_D') #D
 C1_BUTTON_DOWN = getkey('KEY_S') #S
 C1_BUTTON_LEFT = getkey('KEY_A') #A
 
-C1_LEFT1 = getkey('KEY_LEFTSHIFT') # LSHIFT
-C1_LEFT2 = getkey('KEY_SPACE') #SPACE
-C1_RIGHT1 = getkey('KEY_F') #F
+C1_LEFT1 = getkey('KEY_F') # LSHIFT
+C1_LEFT2 =  getkey('KEY_LEFTSHIFT')#SPACE
+C1_RIGHT1 = getkey('KEY_SPACE') #F
 C1_RIGHT2 = getkey('KEY_G') #G
 
 C2_BUTTON_UP = getkey('KEY_I') #I
