@@ -25,9 +25,20 @@ class Player(GameObject):
             #self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self, projectile_image):
+        base_x = self.x + self.hitbox.width // 2
+        base_y = self.y + self.hitbox.height // 2
+        offset = 35
+        if self.current_facing == Direction.UP:
+            base_y -= self.hitbox.height
+        if self.current_facing == Direction.DOWN:
+            base_y += self.hitbox.height - offset
+        if self.current_facing == Direction.LEFT:
+            base_x -= self.hitbox.width
+        if self.current_facing == Direction.RIGHT:
+            base_x += self.hitbox.width - offset
         projectile = Projectile(
-            self.x + self.hitbox.width // 2,
-            self.y + self.hitbox.height // 2,
+            base_x,
+            base_y,
             self, self.current_facing, projectile_image
         )
         projectile.make_hitbox()

@@ -12,6 +12,9 @@ from classes.direction import Direction
 from classes.stone import Stone
 from select import select
 # set up gamepad
+#TODO fix projectile spawn point to stop insta-destrucion
+
+
 
 def find_device(name):
     ls = [evdev.InputDevice(dev) for dev in evdev.list_devices()]
@@ -114,8 +117,19 @@ class App:
     def loop(self, to_remove):
         to_remove.clear()
         to_remove_objs = set()
-        for i in range(len(self.projectiles)):
-            current_projectile = self.projectiles[i]
+        for current_proj in self.projectiles:
+            current_proj.move()
+            all = current_proj.collides_any(self.objects)
+            if len(all) == 0: continue
+            print("Removed projectile.")
+            to_remove.add(current_proj)
+            for obj in all:
+                if isinstance(obj, Stone) or isinstance(obj, player.Player):
+                    obj.hp -= current_proj.damage
+                    if obj.hp <= 0:
+                        to_remove_objs.add(obj)
+
+            '''current_projectile = self.projectiles[i]
             current_projectile.move()
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height :
                 to_remove.add(i)
@@ -126,20 +140,14 @@ class App:
                     to_remove.add(i)
 
             j = 0
-            for obj in self.objects:
-                if isinstance(obj, Stone) and obj.collides_with(current_projectile):
-                    obj.hp -= current_projectile.damage
-                    if obj.hp <= 0:
-                        to_remove.add(i)
-                        to_remove_objs.add(j)
-                j+=1
+            '''
 
         self.projectiles = list(
-            filter(lambda proj: self.projectiles.index(proj) not in to_remove, self.projectiles)
+            filter(lambda proj: proj not in to_remove, self.projectiles)
         )
 
         self.objects = list(
-            filter(lambda obj: self.objects.index(obj) not in to_remove_objs, self.objects)
+            filter(lambda obj: obj not in to_remove_objs, self.objects)
         )
 
         if player1.hp <= 0 or player2.hp <=0:
@@ -151,7 +159,7 @@ class App:
             #self.screen.blit(self.winner, (400, 400))
             #sleep(2)
             self.reset()
-        self.clock.tick(60)
+        self.clock.tick(20)
 
     def render(self):
         self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))

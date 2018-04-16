@@ -28,10 +28,8 @@ class GameObject:
         elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
             self.x += self.speed
         self.current_facing = direction
-        if self.hitbox is not None:
-            self.hitbox.x = self.x
-            self.hitbox.y = self.y
-            print(self.x, self.y)
+        self.update_hitbox()
+
             #all_hitboxes = [obj.hitbox for obj in all_game_obj]
            # ind = self.hitbox.collidelist(all_hitboxes)
             #if ind != -1:
@@ -39,6 +37,12 @@ class GameObject:
               #  self.y = y
                # self.hitbox.x = x
                 #self.hitbox.y = y
+
+    def update_hitbox(self):
+        if self.hitbox is not None:
+            self.hitbox.x = self.x
+            self.hitbox.y = self.y
+            #print(self.x, self.y)
 
     def make_hitbox(self):
         width, height = self.image.get_width(), self.image.get_height()
@@ -48,6 +52,13 @@ class GameObject:
     def collides_with(self, obj2):
         if self.hitbox is not None:
             return self.hitbox.colliderect(obj2.hitbox)
+
+    def collides_any(self, ls):
+        collides = []
+        for obj in ls:
+            if self.collides_with(obj):
+                collides.append(obj)
+        return collides
 
     def __str__(self):
         return '{} at (x: {}, y: {})'.format(
