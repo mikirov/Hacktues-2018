@@ -117,11 +117,6 @@ class App:
     def loop(self, to_remove):
         to_remove.clear()
         to_remove_objs = set()
-<<<<<<< HEAD
-        for i in range(len(self.projectiles)):
-            current_projectile = self.projectiles[i]
-            current_projectile.move(all_game_obj=self.objects)
-=======
         for current_proj in self.projectiles:
             current_proj.move()
             all = current_proj.collides_any(self.objects)
@@ -136,7 +131,6 @@ class App:
 
             '''current_projectile = self.projectiles[i]
             current_projectile.move()
->>>>>>> 012088e73baa729459a4dd16c8878b76299e34f1
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height :
                 to_remove.add(i)
 

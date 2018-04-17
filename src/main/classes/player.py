@@ -37,13 +37,8 @@ class Player(GameObject):
         if self.current_facing == Direction.RIGHT:
             base_x += self.hitbox.width - offset
         projectile = Projectile(
-<<<<<<< HEAD
-            self.x + self.hitbox.width // 2 ,
-            self.y + self.hitbox.height // 2,
-=======
             base_x,
             base_y,
->>>>>>> 012088e73baa729459a4dd16c8878b76299e34f1
             self, self.current_facing, projectile_image
         )
         projectile.make_hitbox()
