@@ -8,7 +8,7 @@ from .abilities import *
 
 
 class Player(GameObject):
-    def __init__(self, start_x, start_y, image=None, speed=10, hp=100, special_abilities=None, frame = 0):
+    def __init__(self, start_x, start_y, image=None, speed=5, hp=100, special_abilities=None, frame = 0):
         super().__init__(start_x, start_y, image, speed)
         self.hp = hp
         self.melee_dmg = 30
