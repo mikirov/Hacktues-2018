@@ -17,6 +17,11 @@ class GameObject:
 
 
     def move(self, direction=None, all_game_obj=None):
+        #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+        #hit = self.hitbox.collidelist(all_hitboxes)
+        #if hit != -1:
+        #    return
+
         direction = direction or self.direction  # TODO: ne pipai STEFO
         x,y = self.x, self.y
         if direction == Direction.UP and self.y > 0:

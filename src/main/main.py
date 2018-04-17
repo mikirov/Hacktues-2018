@@ -116,7 +116,7 @@ class App:
         to_remove_objs = set()
         for i in range(len(self.projectiles)):
             current_projectile = self.projectiles[i]
-            current_projectile.move()
+            current_projectile.move(all_game_obj=self.objects)
             if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height :
                 to_remove.add(i)
 
@@ -194,19 +194,19 @@ class App:
         self.render()
         devices = [gamepad1, gamepad2, keyboard]
         devices = list(filter(lambda dev: dev is not None,devices))
-        print(devices)
+
         devs = {dev.fd: dev for dev in devices}
-        print(devs)
+
         while self._running:
-            print("Running\n")
+
             r,w,x = select(devs, [], [], 1/60)
-            print("Still running")
+
             for fd in r:
-                print("In loop")
+
                 for event in devs[fd].read():
-                    print("Event read.")
+
                     if event.type == evdev.ecodes.EV_KEY:
-                        print("Valid event.")
+
                         dev = devs[fd]
                         if dev is devices[0]:
                             p = 1

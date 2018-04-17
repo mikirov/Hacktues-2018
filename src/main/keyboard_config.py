@@ -1,6 +1,7 @@
 import evdev
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
-keyboard = list(filter(lambda x: "Keyboard" in x.name or "keyboard" in x.name, devices))[0]
+#keyboard = list(filter(lambda x: "Keyboard" in x.name or "keyboard" in x.name, devices))[0]
+keyboard = evdev.InputDevice("/dev/input/event4")
 capabilities = keyboard.capabilities(verbose=True)
 #print(capabilities)
 keyCodes = capabilities[('EV_KEY', 1)]

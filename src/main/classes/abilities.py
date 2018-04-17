@@ -40,11 +40,11 @@ class Build(Ability):
         y = player.y
         stone = Stone(x, y, self.image, 100)
         if facing == Direction.UP:
-            stone.y -= 32
+            stone.y -= 64
         if facing == Direction.DOWN:
-            stone.y += 32
+            stone.y += 64
         if facing == Direction.LEFT:
-            stone.x -= 32
+            stone.x -= 64
         if facing == Direction.RIGHT:
-            stone.x += 32
+            stone.x += 64
         return stone

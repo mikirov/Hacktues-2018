@@ -26,7 +26,7 @@ class Player(GameObject):
 
     def shoot(self, projectile_image):
         projectile = Projectile(
-            self.x + self.hitbox.width // 2,
+            self.x + self.hitbox.width // 2 ,
             self.y + self.hitbox.height // 2,
             self, self.current_facing, projectile_image
         )
