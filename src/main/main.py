@@ -11,6 +11,7 @@ from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
 from select import select
+import random
 # set up gamepad
 #TODO fix projectile spawn point to stop insta-destrucion
 
@@ -165,7 +166,7 @@ class App:
         self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
         self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
         self.screen.fill((255, 255, 255))
-        self.screen.blit(get_image('bg_image.png'), (0, 0))
+        self.screen.blit(get_image('test.png'), (0, 0))
         for current_object in self.objects:
             if current_object == None or current_object == player1 or current_object == player2:
                 continue
@@ -230,8 +231,8 @@ class App:
         self.projectiles = []
         self.objects = [player1, player2]
         player1.hp, player2.hp = 100, 100
-        player1.x, player1.y = 50, 150
-        player2.x, player2.y = 400, 200
+        player1.x, player1.y = random.randint(10,250), random.randint(10, 250)
+        player2.x, player2.y = random.randint(300,550), random.randint(10, 250) 
         player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
         player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
 

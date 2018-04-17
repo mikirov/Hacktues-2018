@@ -23,7 +23,8 @@ class Heal(Ability):
         self.amount = amount
 
     def __call__(self, *args, **kwargs):
-        args[0].hp += self.amount
+        if args[0].hp + self.amount <= 100:
+            args[0].hp += self.amount
 
 
 class Build(Ability):

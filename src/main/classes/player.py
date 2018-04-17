@@ -6,6 +6,8 @@ from .game_object import GameObject
 from .projectile import Projectile
 from .abilities import *
 
+SCREEN_HEIGHT = 350
+SCREEN_WIDTH = 620
 
 class Player(GameObject):
     def __init__(self, start_x, start_y, image=None, speed=5, hp=100, special_abilities=None, frame = 0):
@@ -18,11 +20,11 @@ class Player(GameObject):
         self.special_abilities = special_abilities
         self.frame = frame
         self.last_projectile_fired_at = 0  # time since the epoch
-
+        
     def heal(self):
         #if self.heal_ability.current_cooldown == 0:
         self.heal_ability(self)
-            #self.heal_ability.current_cooldown = self.heal_ability.cool
+          #  self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self, projectile_image):
         base_x = self.x + self.hitbox.width // 2
@@ -54,3 +56,30 @@ class Player(GameObject):
         if distance < 26:
             another_player.hp -= self.melee_dmg
 
+
+    def move(self, direction=None, all_game_obj=None):
+        #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+        #hit = self.hitbox.collidelist(all_hitboxes)
+        #if hit != -1:
+        #    return
+
+        direction = direction or self.direction  # TODO: ne pipai STEFO
+        x,y = self.x, self.y
+        if direction == Direction.UP and self.y > 0:
+            self.y -= self.speed
+        elif direction == Direction.DOWN and self.y  + self.hitbox.height < SCREEN_HEIGHT:
+            self.y += self.speed
+        elif direction == Direction.LEFT and self.x > 0:
+            self.x -= self.speed
+        elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
+            self.x += self.speed
+        self.current_facing = direction
+        self.update_hitbox()
+
+            #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+           # ind = self.hitbox.collidelist(all_hitboxes)
+            #if ind != -1:
+             #   self.x = x
+              #  self.y = y
+               # self.hitbox.x = x
+                #self.hitbox.y = y
