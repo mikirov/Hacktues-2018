@@ -35,7 +35,7 @@ class Player(GameObject):
         if self.current_facing == Direction.DOWN:
             base_y += self.hitbox.height - offset
         if self.current_facing == Direction.LEFT:
-            base_x -= self.hitbox.width
+            base_x -= self.hitbox.width + offset
         if self.current_facing == Direction.RIGHT:
             base_x += self.hitbox.width - offset
         projectile = Projectile(
@@ -65,6 +65,7 @@ class Player(GameObject):
 
         direction = direction or self.direction  # TODO: ne pipai STEFO
         x,y = self.x, self.y
+        all = self.get_colliders(self.objects)
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
         elif direction == Direction.DOWN and self.y  + self.hitbox.height < SCREEN_HEIGHT:
@@ -73,6 +74,9 @@ class Player(GameObject):
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
             self.x += self.speed
+        for obj in all:
+            if isinstance(obj, Stone):
+                self.x, self.y = x, y
         self.current_facing = direction
         self.update_hitbox()
 

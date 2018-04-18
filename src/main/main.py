@@ -118,6 +118,8 @@ class App:
     def loop(self, to_remove):
         to_remove.clear()
         to_remove_objs = set()
+        for pl in (player1, player2):
+            pl.objects = self.objects
         for current_proj in self.projectiles:
             current_proj.move()
             all = current_proj.get_colliders(self.objects)
@@ -125,17 +127,10 @@ class App:
             print("Removed projectile.")
             to_remove.add(current_proj)
             for obj in all:
-                if isinstance(obj, Stone) or isinstance(obj, player.Player):
+                if isinstance(obj, Stone) or isinstance(obj, player1.__class__):
                     obj.hp -= current_proj.damage
                     if obj.hp <= 0:
                         to_remove_objs.add(obj)
-
-        for player in (player1, player2):
-            all = player.get_colliders(self.objects)
-            for obj in all:
-                if isinstance(obj, Stone):
-                    pass # player.stop() logic here
-
 
         self.projectiles = list(
             filter(lambda proj: proj not in to_remove, self.projectiles)
