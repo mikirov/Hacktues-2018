@@ -57,10 +57,10 @@ class GameObject:
         if self.hitbox is not None:
             return self.hitbox.colliderect(obj2.hitbox)
 
-    def collides_any(self, ls):
+    def get_colliders(self, ls):
         collides = []
         for obj in ls:
-            if self.collides_with(obj):
+            if obj is not self and self.collides_with(obj):
                 collides.append(obj)
         return collides
 

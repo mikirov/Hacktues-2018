@@ -13,7 +13,7 @@ from classes.stone import Stone
 from select import select
 import random
 # set up gamepad
-#TODO fix projectile spawn point to stop insta-destrucion
+#TODO make players stop on stone collision
 
 
 
@@ -120,7 +120,7 @@ class App:
         to_remove_objs = set()
         for current_proj in self.projectiles:
             current_proj.move()
-            all = current_proj.collides_any(self.objects)
+            all = current_proj.get_colliders(self.objects)
             if len(all) == 0: continue
             print("Removed projectile.")
             to_remove.add(current_proj)
@@ -130,18 +130,12 @@ class App:
                     if obj.hp <= 0:
                         to_remove_objs.add(obj)
 
-            '''current_projectile = self.projectiles[i]
-            current_projectile.move()
-            if not 0 < current_projectile.x < self.width or not 0 < current_projectile.y < self.height :
-                to_remove.add(i)
+        for player in (player1, player2):
+            all = player.get_colliders(self.objects)
+            for obj in all:
+                if isinstance(obj, Stone):
+                    pass # player.stop() logic here
 
-            for player in (player1, player2):
-                if player is not current_projectile.player and player.collides_with(current_projectile):
-                    player.hp -= current_projectile.damage
-                    to_remove.add(i)
-
-            j = 0
-            '''
 
         self.projectiles = list(
             filter(lambda proj: proj not in to_remove, self.projectiles)

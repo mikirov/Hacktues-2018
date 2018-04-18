@@ -25,6 +25,8 @@ class Heal(Ability):
     def __call__(self, *args, **kwargs):
         if args[0].hp + self.amount <= 100:
             args[0].hp += self.amount
+        else:
+            args[0].hp = 100
 
 
 class Build(Ability):
