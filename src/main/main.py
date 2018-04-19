@@ -36,21 +36,23 @@ player2 = player.Player(300, 150, get_image('mage_two.png'))
 
 rect_player1 = pygame.Rect(player1.frame * 64, 64 * player1.current_facing.value, 64, 64)
 rect_player2 = pygame.Rect(player2.frame * 64, 64 * player2.current_facing.value, 64, 64)
-player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
+player1.update_hitbox()
+player2.update_hitbox()
 FONT_SIZE = 60
-player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
+
 
 COOLDOWN = 0.5 # in seconds
 
 
 # main class
 class App:
-    def __init__(self):
+    def __init__(self, debug=False):
         self._running = True
         self.screen = None
         self.size = self.width, self.height = 620, 350
         self.clock = None
         self.projectiles = []
+        self.draw_hitboxes = debug
         self.objects = [player1, player2]
 
     def on_init(self):
@@ -118,8 +120,9 @@ class App:
     def loop(self, to_remove):
         to_remove.clear()
         to_remove_objs = set()
-        for pl in (player1, player2):
+        for pl in (player1, player2): # update players version
             pl.objects = self.objects
+
         for current_proj in self.projectiles:
             current_proj.move()
             all = current_proj.get_colliders(self.objects)
@@ -159,9 +162,10 @@ class App:
         for current_object in self.objects:
             if current_object == None or current_object == player1 or current_object == player2:
                 continue
-            current_object.render(self.screen)
+            #current_object.render(self.screen)
+            current_object.render(self.screen, self.draw_hitboxes)
         for projectile in self.projectiles:
-            projectile.render(self.screen)
+            projectile.render(self.screen, self.draw_hitboxes)
         self.hp1 = self.font.render("HP:" + str(player1.hp), True, (0, 0, 0))
         self.hp2 = self.font.render("HP:" + str(player2.hp), True, (0, 0, 0))
         self.screen.blit(self.hp1, (50, 300))
@@ -173,6 +177,9 @@ class App:
 
         self.screen.blit(player1.image, (player1.x, player1.y), rect_player1)
         self.screen.blit(player2.image, (player2.x, player2.y), rect_player2)
+        if self.draw_hitboxes:
+            player1.render_hitbox(self.screen)
+            player2.render_hitbox(self.screen)
         player1.frame += 0.5
         player2.frame += 0.5
         if player1.frame >= 9:
@@ -221,11 +228,11 @@ class App:
         self.objects = [player1, player2]
         player1.hp, player2.hp = 100, 100
         player1.x, player1.y = random.randint(10,250), random.randint(10, 250)
-        player2.x, player2.y = random.randint(300,550), random.randint(10, 250) 
-        player1.hitbox = pygame.Rect(player1.x, player1.y, 64, 64)
-        player2.hitbox = pygame.Rect(player2.x, player2.y, 64, 64)
+        player2.x, player2.y = random.randint(300,550), random.randint(10, 250)
+        player1.update_hitbox()
+        player2.update_hitbox()
 
 
 if __name__ == "__main__":
     theApp = App()
-    theApp.execute()
+    theApp.execute() # give True to enable hitbox drawing

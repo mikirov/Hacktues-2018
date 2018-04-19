@@ -69,5 +69,11 @@ class GameObject:
             self.__class__.__name__, self.x, self.y
         )
 
-    def render(self, screen):
+    def render(self, screen, hitboxes = False):
         screen.blit(self.image, (self.x, self.y))
+        if hitboxes and self.hitbox is not None:
+            pygame.draw.rect(screen, pygame.Color("red"), self.hitbox)
+
+    def render_hitbox(self, screen):
+        if self.hitbox is not None:
+            pygame.draw.rect(screen, pygame.Color("red"), self.hitbox)

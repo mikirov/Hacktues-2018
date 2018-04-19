@@ -5,6 +5,7 @@ from .direction import Direction
 from .game_object import GameObject
 from .projectile import Projectile
 from .abilities import *
+from pygame import Rect
 
 SCREEN_HEIGHT = 350
 SCREEN_WIDTH = 620
@@ -37,7 +38,7 @@ class Player(GameObject):
         if self.current_facing == Direction.LEFT:
             base_x -= self.hitbox.width + offset
         if self.current_facing == Direction.RIGHT:
-            base_x += self.hitbox.width - offset
+            base_x += self.hitbox.width + offset
         projectile = Projectile(
             base_x,
             base_y,
@@ -65,7 +66,6 @@ class Player(GameObject):
 
         direction = direction or self.direction  # TODO: ne pipai STEFO
         x,y = self.x, self.y
-        all = self.get_colliders(self.objects)
         if direction == Direction.UP and self.y > 0:
             self.y -= self.speed
         elif direction == Direction.DOWN and self.y  + self.hitbox.height < SCREEN_HEIGHT:
@@ -74,11 +74,14 @@ class Player(GameObject):
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
             self.x += self.speed
+        self.update_hitbox()
+        all = self.get_colliders(self.objects)
         for obj in all:
             if isinstance(obj, Stone):
                 self.x, self.y = x, y
+                self.update_hitbox()
+                break
         self.current_facing = direction
-        self.update_hitbox()
 
             #all_hitboxes = [obj.hitbox for obj in all_game_obj]
            # ind = self.hitbox.collidelist(all_hitboxes)
@@ -87,3 +90,5 @@ class Player(GameObject):
               #  self.y = y
                # self.hitbox.x = x
                 #self.hitbox.y = y
+    def update_hitbox(self):
+        self.hitbox = Rect(self.x + 15, self.y, 32, 64)
