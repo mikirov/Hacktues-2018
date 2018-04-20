@@ -5,6 +5,7 @@ from .direction import Direction
 from .game_object import GameObject
 from .projectile import Projectile
 from .abilities import *
+from .Animation import Animation
 from pygame import Rect
 
 SCREEN_HEIGHT = 350
@@ -20,6 +21,8 @@ class Player(GameObject):
         self.build_ability = Build(6, 50)
         self.special_abilities = special_abilities
         self.frame = frame
+        self.animations = []
+        self.base_animation = None
         self.last_projectile_fired_at = 0  # time since the epoch
         
     def heal(self):
@@ -57,6 +60,13 @@ class Player(GameObject):
         if distance < 26:
             another_player.hp -= self.melee_dmg
 
+    def add_animation(*args):
+        self = args[0]
+        anim = Animation(*args)
+        self.animations.append(anim)
+        if len(self.animations) == 1:
+            self.base_animation = self.animations[0]
+
 
     def move(self, direction=None, all_game_obj=None):
         #all_hitboxes = [obj.hitbox for obj in all_game_obj]
@@ -90,5 +100,7 @@ class Player(GameObject):
               #  self.y = y
                # self.hitbox.x = x
                 #self.hitbox.y = y
+
+
     def update_hitbox(self):
         self.hitbox = Rect(self.x + 15, self.y, 32, 64)

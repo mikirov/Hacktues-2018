@@ -70,9 +70,10 @@ class GameObject:
         )
 
     def render(self, screen, hitboxes = False):
-        screen.blit(self.image, (self.x, self.y))
         if hitboxes and self.hitbox is not None:
             pygame.draw.rect(screen, pygame.Color("red"), self.hitbox)
+        screen.blit(self.image, (self.x, self.y))
+
 
     def render_hitbox(self, screen):
         if self.hitbox is not None:
