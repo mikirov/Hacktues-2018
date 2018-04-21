@@ -1,15 +1,7 @@
 import evdev
-
-from helpers.device_finder import find_device
-
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
-<<<<<<< HEAD:src/main/keyboard_config.py
 keyboard = list(filter(lambda x: "Keyboard" in x.name or "keyboard" in x.name, devices))[0]
 #keyboard = evdev.InputDevice("/dev/input/event4")
-=======
-keyboard = find_device('keyboard')
-print(keyboard)
->>>>>>> origin/tuesfest:src/main/config/keyboard_config.py
 capabilities = keyboard.capabilities(verbose=True)
 #print(capabilities)
 keyCodes = capabilities[('EV_KEY', 1)]
