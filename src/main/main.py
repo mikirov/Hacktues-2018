@@ -6,8 +6,8 @@ from classes import player
 from classes import projectile
 from classes.abilities import *
 from helpers.image_getter import get_image
-#from controller_config import *
-from keyboard_config import *
+from controller_config import *
+# from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
 from select import select
@@ -25,8 +25,10 @@ def find_device(name):
 #gamepad2 = InputDevice('/dev/input/event1')
 #gamepad1 = list(filter(lambda x: "Micro" in x.name,ls))[0]
 #gamepad2 = list(filter(lambda x: "Dragon" in x.name, ls))[0]
-gamepad1 = find_device("Mircro")
-gamepad2 = find_device("Dragon")
+gamepad1 = find_device("Micro")
+gamepad2 = None
+keyboard = None
+# gamepad2 = find_device("Dragon")
 
 # set up players
 player1 = player.Player(50, 150, get_image('mage_one.png'))
@@ -206,15 +208,10 @@ class App:
         devs = {dev.fd: dev for dev in devices}
         print(devs)
         while self._running:
-            print("Running\n")
             r,w,x = select(devs, [], [], 1/60)
-            print("Still running")
             for fd in r:
-                print("In loop")
                 for event in devs[fd].read():
-                    print("Event read.")
                     if event.type == evdev.ecodes.EV_KEY:
-                        print("Valid event.")
                         dev = devs[fd]
                         if dev is devices[0]:
                             p = 1

@@ -1,6 +1,8 @@
 import random
 import math
 
+import pygame
+
 from .direction import Direction
 from .game_object import GameObject
 from .projectile import Projectile
@@ -8,7 +10,8 @@ from .abilities import *
 
 
 class Player(GameObject):
-    def __init__(self, start_x, start_y, image=None, speed=10, hp=100, special_abilities=None, frame = 0):
+    def __init__(self, start_x, start_y, image=None, speed=10, hp=100,
+                 special_abilities=None, frame = 0):
         super().__init__(start_x, start_y, image, speed)
         self.hp = hp
         self.melee_dmg = 30
@@ -18,6 +21,7 @@ class Player(GameObject):
         self.special_abilities = special_abilities
         self.frame = frame
         self.last_projectile_fired_at = 0  # time since the epoch
+        self.rect = pygame.Rect(self.frame * 64, 64 * self.current_facing.value, 64, 64)
 
     def heal(self):
         #if self.heal_ability.current_cooldown == 0:
