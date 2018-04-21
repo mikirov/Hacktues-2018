@@ -41,13 +41,18 @@ class Build(Ability):
         player = args[0]
         x = player.x
         y = player.y
+        offset = 16
         stone = Stone(x, y, self.image, 100)
         if facing == Direction.UP:
-            stone.y -= 64
+            stone.y -= 32
+            stone.x += offset
         if facing == Direction.DOWN:
             stone.y += 64
+            stone.x += offset
         if facing == Direction.LEFT:
-            stone.x -= 64
+            stone.x -= 32
+            stone.y += offset
         if facing == Direction.RIGHT:
             stone.x += 64
+            stone.y += offset
         return stone

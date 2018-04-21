@@ -33,15 +33,18 @@ class Player(GameObject):
     def shoot(self, projectile_image):
         base_x = self.x + self.hitbox.width // 2
         base_y = self.y + self.hitbox.height // 2
-        offset = 35
+        down_offset = 42
+        left_offset = 18
+        up_offset = 18
+        right_offset = 8
         if self.current_facing == Direction.UP:
-            base_y -= self.hitbox.height
+            base_y -= self.hitbox.height - up_offset
         if self.current_facing == Direction.DOWN:
-            base_y += self.hitbox.height - offset
+            base_y += self.hitbox.height - down_offset
         if self.current_facing == Direction.LEFT:
-            base_x -= self.hitbox.width + offset
+            base_x -= self.hitbox.width - left_offset
         if self.current_facing == Direction.RIGHT:
-            base_x += self.hitbox.width + offset
+            base_x += self.hitbox.width - right_offset
         projectile = Projectile(
             base_x,
             base_y,
