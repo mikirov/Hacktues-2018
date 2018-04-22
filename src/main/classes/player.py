@@ -7,6 +7,7 @@ from .direction import Direction
 from .game_object import GameObject
 from .projectile import Projectile
 from .abilities import *
+from .animation import Animation
 from config.game_config import MAX_HP, SCREEN_WIDTH, SCREEN_HEIGHT
 
 
@@ -23,6 +24,8 @@ class Player(GameObject):
         self.frame = frame
         self.last_projectile_fired_at = 0  # time since the epoch
         self.generate_rect()
+        self.animations = []
+        self.base_animation = None
 
     def move(self, direction=None, all_game_obj=None):
         #all_hitboxes = [obj.hitbox for obj in all_game_obj]
@@ -40,8 +43,14 @@ class Player(GameObject):
             self.x -= self.speed
         elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
             self.x += self.speed
-        self.current_facing = direction
         self.update_hitbox()
+        collisions = self.get_colliders(all_game_obj)
+        for obj in collisions:
+            if isinstance(obj, Stone):
+                self.x, self.y = x, y
+                self.update_hitbox()
+                break
+        self.current_facing = direction
 
             #all_hitboxes = [obj.hitbox for obj in all_game_obj]
            # ind = self.hitbox.collidelist(all_hitboxes)
@@ -50,6 +59,9 @@ class Player(GameObject):
               #  self.y = y
                # self.hitbox.x = x
                 #self.hitbox.y = y 
+
+    def update_hitbox(self):
+        self.hitbox = pygame.Rect(self.x + 15, self.y, 32, 64)
 
     def heal(self):
         # if self.heal_ability.current_cooldown == 0:
@@ -60,14 +72,18 @@ class Player(GameObject):
         base_x = self.x + self.hitbox.width // 2
         base_y = self.y + self.hitbox.height // 2
         offset = 35
+        down_offset = 42
+        left_offset = 18
+        up_offset = 18
+        right_offset = 8
         if self.current_facing == Direction.UP:
-            base_y -= self.hitbox.height
+            base_y -= self.hitbox.height - up_offset
         if self.current_facing == Direction.DOWN:
-            base_y += self.hitbox.height - offset
+            base_y += self.hitbox.height - down_offset
         if self.current_facing == Direction.LEFT:
-            base_x -= self.hitbox.width
+            base_x -= self.hitbox.width - left_offset
         if self.current_facing == Direction.RIGHT:
-            base_x += self.hitbox.width - offset
+            base_x += self.hitbox.width - right_offset
         projectile = Projectile(
             base_x,
             base_y,
@@ -88,4 +104,11 @@ class Player(GameObject):
 
     def generate_rect(self):
         self.rect = pygame.Rect(int(self.frame) * 64, 64 * self.current_facing.value, 64, 64)
+
+    def add_animation(self, *args):
+        anim = Animation(self, *args)
+        self.animations.append(anim)
+        if len(self.animations) == 1:
+            self.base_animation = self.animations[0]
+
 
