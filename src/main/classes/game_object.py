@@ -1,8 +1,8 @@
-from .direction import Direction
 import os
+
 import pygame
 
-
+from .direction import Direction
 
 
 class GameObject:
@@ -57,10 +57,10 @@ class GameObject:
         if self.hitbox is not None:
             return self.hitbox.colliderect(obj2.hitbox)
 
-    def get_colliders(self, ls):
+    def collides_any(self, ls):
         collides = []
         for obj in ls:
-            if obj is not self and self.collides_with(obj):
+            if self.collides_with(obj):
                 collides.append(obj)
         return collides
 
@@ -69,12 +69,5 @@ class GameObject:
             self.__class__.__name__, self.x, self.y
         )
 
-    def render(self, screen, hitboxes = False):
-        if hitboxes and self.hitbox is not None:
-            pygame.draw.rect(screen, pygame.Color("red"), self.hitbox)
+    def render(self, screen):
         screen.blit(self.image, (self.x, self.y))
-
-
-    def render_hitbox(self, screen):
-        if self.hitbox is not None:
-            pygame.draw.rect(screen, pygame.Color("red"), self.hitbox)

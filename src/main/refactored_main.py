@@ -18,9 +18,15 @@ class Game:
         self._running = False
         self.devices = [gamepad1, gamepad2]
         self.projectiles = []
-        self.player1 = Player(*PLAYER_1_STARTING_COORDS, get_image(PLAYER_1_IMAGE), hp=STARTING_HP)
+        self.player1 = Player(
+            *PLAYER_1_STARTING_COORDS, get_image(PLAYER_1_IMAGE),
+            speed=PLAYER_SPEED, hp=MAX_HP,
+        )
         self.player1.hitbox = pygame.Rect(self.player1.x, self.player1.y, 64, 64)
-        self.player2 = Player(*PLAYER_2_STARTING_COORDS, get_image(PLAYER_2_IMAGE), hp=STARTING_HP)
+        self.player2 = Player(
+            *PLAYER_2_STARTING_COORDS, get_image(PLAYER_2_IMAGE),
+            speed=PLAYER_SPEED, hp=MAX_HP,
+        )
         self.player2.hitbox = pygame.Rect(self.player2.x, self.player2.y, 64, 64)
         self.game_objects = [self.player1, self.player2]
         self.events = {
@@ -113,7 +119,7 @@ class Game:
     def loop(self):
         to_remove = set()
         for current_proj in self.projectiles:
-            current_proj.move()
+            current_proj.move(all_game_obj=self.game_objects)
             collisions = current_proj.collides_any(self.game_objects)
             if collisions:  # if the projectile collides
                 to_remove.add(current_proj)
@@ -156,26 +162,20 @@ class Game:
             projectile.render(self.screen)
 
         # Players
-        self.player1.rect = pygame.Rect(
-            self.player1.frame * 64, 64 * self.player1.current_facing.value,
-            64, 64,
-        )
+        self.player1.generate_rect()
         self.screen.blit(
             self.player1.image, (self.player1.x, self.player1.y),
             self.player1.rect,
         )
-        self.player1.frame += 1
+        self.player1.frame += PLAYER_FRAME_CHANGE
         if self.player1.frame >= 9:
             self.player1.frame = 0
-        self.player2.rect = pygame.Rect(
-            self.player2.frame * 64, 64 * self.player2.current_facing.value,
-            64, 64,
-        )
+        self.player2.generate_rect()
         self.screen.blit(
             self.player2.image, (self.player2.x, self.player2.y),
             self.player2.rect,
         )
-        self.player2.frame += 1
+        self.player2.frame += PLAYER_FRAME_CHANGE
         if self.player2.frame >= 9:
             self.player2.frame = 0
         pygame.display.flip()
@@ -206,7 +206,7 @@ class Game:
     def reset(self):
         self.projectiles = []
         self.game_objects = [self.player1, self.player2]
-        self.player1.hp, self.player2.hp = STARTING_HP, STARTING_HP
+        self.player1.hp, self.player2.hp = MAX_HP, MAX_HP
         self.player1.x, self.player1.y = PLAYER_1_STARTING_COORDS
         self.player1.hitbox = pygame.Rect(*PLAYER_1_STARTING_COORDS, 64, 64)
         self.player2.x, self.player2.y = PLAYER_2_STARTING_COORDS
