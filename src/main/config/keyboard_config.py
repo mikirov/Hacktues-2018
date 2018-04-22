@@ -7,7 +7,7 @@ keyCodes = capabilities[('EV_KEY', 1)]
 getkey = lambda key: list(filter(lambda x: key == x[0], keyCodes))[0][1]
 #print(keyCodes)
 
-#print(getkey('KEY_W'))
+#print(getkey('KEY_F'))
 C1_BUTTON_UP = getkey('KEY_W') #W
 C1_BUTTON_RIGHT = getkey('KEY_D') #D
 C1_BUTTON_DOWN = getkey('KEY_S') #S
