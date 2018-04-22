@@ -18,13 +18,17 @@ class Ability:
 
 
 class Heal(Ability):
-    def __init__(self, cooldown, amount):
+    def __init__(self, cooldown, amount, max_hp=100):
         super().__init__("Heal", "passive", cooldown)
         self.amount = amount
+        self.max_hp = max_hp
 
     def __call__(self, *args, **kwargs):
-        args[0].hp += self.amount
-
+        if args[0].hp + self.amount <= self.max_hp:
+            args[0].hp += self.amount
+        else:
+            args[0].hp = self.max_hp
+            
 
 class Build(Ability):
     def __init__(self, cooldown, hp):
@@ -40,11 +44,12 @@ class Build(Ability):
         y = player.y
         stone = Stone(x, y, self.image, 100)
         if facing == Direction.UP:
-            stone.y -= 32
+            stone.y -= 64
         if facing == Direction.DOWN:
-            stone.y += 32
+            stone.y += 64
         if facing == Direction.LEFT:
-            stone.x -= 32
+            stone.x -= 64
         if facing == Direction.RIGHT:
-            stone.x += 32
+            stone.x += 64
         return stone
+

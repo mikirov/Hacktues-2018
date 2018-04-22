@@ -1,9 +1,8 @@
-from .direction import Direction
 import os
+
 import pygame
 
-SCREEN_HEIGHT = 380
-SCREEN_WIDTH = 650
+from .direction import Direction
 
 
 class GameObject:
@@ -17,15 +16,20 @@ class GameObject:
 
 
     def move(self, direction=None, all_game_obj=None):
+        #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+        #hit = self.hitbox.collidelist(all_hitboxes)
+        #if hit != -1:
+        #    return
+
         direction = direction or self.direction  # TODO: ne pipai STEFO
         x,y = self.x, self.y
-        if direction == Direction.UP and self.y > 0:
+        if direction == Direction.UP:
             self.y -= self.speed
-        elif direction == Direction.DOWN and self.y  + self.hitbox.height < SCREEN_HEIGHT:
+        elif direction == Direction.DOWN:
             self.y += self.speed
-        elif direction == Direction.LEFT and self.x > 0:
+        elif direction == Direction.LEFT:
             self.x -= self.speed
-        elif direction == Direction.RIGHT and self.x + self.hitbox.width < SCREEN_WIDTH:
+        elif direction == Direction.RIGHT:
             self.x += self.speed
         self.current_facing = direction
         self.update_hitbox()
