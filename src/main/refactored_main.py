@@ -5,6 +5,7 @@ import evdev
 import pygame
 
 from helpers.image_getter import get_image
+from helpers.device_finder import find_device
 from classes.player import Player
 from classes.stone import Stone
 from classes.direction import Direction
@@ -144,49 +145,6 @@ class Game:
             self.reset()
         self.clock.tick(20)
 
-    """
-    def render(self):
-        self.screen.fill(WHITE)
-        self.screen.blit(get_image(BACKGROND_IMAGE), (0, 0))
-
-        # HP
-        hp1 = self.font.render('HP:' + str(self.player1.hp), True, (0, 0, 0))
-        hp2 = self.font.render('HP:' + str(self.player2.hp), True, (0, 0, 0))
-        self.screen.blit(hp1, HP1_RENDER_COORDS)
-        self.screen.blit(hp2, HP2_RENDER_COORDS)
-
-        # Game objects
-        for obj in self.game_objects:
-            if obj is None or obj == self.player1 or obj == self.player2:
-                continue
-            obj.render(self.screen, self._debug)
-
-        # Projectiles
-        for projectile in self.projectiles:
-            projectile.render(self.screen, self._debug)
-
-        # Players
-        self.player1.generate_rect()
-        self.screen.blit(
-            self.player1.image, (self.player1.x, self.player1.y),
-            self.player1.rect,
-        )
-        self.player1.frame += PLAYER_FRAME_CHANGE
-        if self.player1.frame >= 9:
-            self.player1.frame = 0
-        self.player2.generate_rect()
-        self.screen.blit(
-            self.player2.image, (self.player2.x, self.player2.y),
-            self.player2.rect,
-        )
-        self.player2.frame += PLAYER_FRAME_CHANGE
-        if self.player2.frame >= 9:
-            self.player2.frame = 0
-        if self._debug:
-            self.player1.render_hitbox(self.screen)
-            self.player2.render_hitbox(self.screen)
-        pygame.display.flip()
-    """
     def render(self):
         self.screen.fill(WHITE)
         self.screen.blit(get_image(BACKGROND_IMAGE), (0, 0))
@@ -220,7 +178,7 @@ class Game:
         self.screen.fill(WHITE)
         self.render()
 
-        devs = {dev.fd: dev for dev in devices if dev is not None}
+        devs = {dev.fd: dev for dev in self.devices if dev is not None}
         while self._running:
             r, w, x = select(devs, [], [], 1/FRAMERATE)
             for fd in r:
@@ -248,16 +206,9 @@ class Game:
         self.player2.update_hitbox()
 
 
-def find_device(name):
-    for dev in devices:
-        if name in dev.name:
-            return dev
-
-
 def main():
-    global devices, gamepad1, gamepad2
+    global gamepad1, gamepad2
 
-    devices = [evdev.InputDevice(dev) for dev in evdev.list_devices()]
     gamepad1 = find_device(GAMEPAD_NAME_1)
     gamepad2 = find_device(GAMEPAD_NAME_2)
 
