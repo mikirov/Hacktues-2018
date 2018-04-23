@@ -7,7 +7,7 @@ SCREEN_HEIGHT = 350
 SCREEN_WIDTH = 620
 w = SCREEN_WIDTH // STONE_SIZE 
 h = SCREEN_HEIGHT // STONE_SIZE
-grid = [[0 for y in range(SCREEN_HEIGHT)] for x in range(SCREEN_WIDTH)]
+
 # create an empty grid  for building stones
 
 #i = 0
@@ -48,6 +48,7 @@ class Heal(Ability):
 
 
 class Build(Ability):
+    grid = [[0 for y in range(w)] for x in range(h)]
     def __init__(self, cooldown, hp):
         super().__init__("Build", "active", cooldown)
         self.image = "wall.png"  # set file path
@@ -107,4 +108,16 @@ class Build(Ability):
                 #stone.y = y
             stone.x += 64
             stone.y += offset
+
+        new_x = stone.x - (stone.x % STONE_SIZE)
+        new_y = stone.y - (stone.y % STONE_SIZE)
+        ind_x = new_x // 32
+        ind_y = new_y // 32
+        if self.grid[ind_y][ind_x] == 1:
+            return None
+        stone.x = new_x
+        stone.y = new_y
+        stone.grid_x = ind_x
+        stone.grid_y = ind_y
+        self.grid[ind_y][ind_x] = 1
         return stone

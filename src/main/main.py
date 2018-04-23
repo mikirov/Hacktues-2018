@@ -10,6 +10,7 @@ from helpers.image_getter import get_image
 from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
+from classes.abilities import Build
 from select import select
 import random
 # set up gamepad
@@ -91,10 +92,13 @@ class App:
                 current_time = time()
                 if current_time - player1.last_wall_built_at >= COOLDOWN:
                     stone = player1.build()
-                    stone.image = get_image(stone.image)
-                    stone.make_hitbox()
-                    self.objects.append(stone)
-                    player1.last_wall_built_at = current_time
+                    if stone is not None:
+                        stone.image = get_image(stone.image)
+                        stone.make_hitbox()
+                        if player1.collides_with(stone):
+                            return
+                        self.objects.append(stone)
+                        player1.last_wall_built_at = current_time
                     
         if keyboard is not None:
             player = 2
@@ -121,6 +125,8 @@ class App:
                 stone = player2.build()
                 stone.image = get_image(stone.image)
                 stone.make_hitbox()
+                if player2.collides_with(stone):
+                    return
                 self.objects.append(stone)  # todo what da Fu
 
     def loop(self, to_remove):
@@ -139,6 +145,8 @@ class App:
                 if isinstance(obj, Stone) or isinstance(obj, player1.__class__):
                     obj.hp -= current_proj.damage
                     if obj.hp <= 0:
+                        if isinstance(obj, Stone):
+                            Build.grid[obj.grid_y][obj.grid_x] = 0
                         to_remove_objs.add(obj)
 
         self.projectiles = list(
