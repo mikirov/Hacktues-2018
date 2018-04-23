@@ -88,9 +88,10 @@ class App:
                     player1.last_projectile_fired_at = current_time
             elif event.code == C1_RIGHT2:
                 stone = player1.build()
-                stone.image = get_image(stone.image)
-                stone.make_hitbox()
-                self.objects.append(stone)  # todo what da Fu
+                if stone is not None:
+                    stone.image = get_image(stone.image)
+                    stone.make_hitbox()
+                    self.objects.append(stone)  # todo what da Fu
         if keyboard is not None:
             player = 2
         if player == 2:
@@ -114,9 +115,10 @@ class App:
                     player2.last_projectile_fired_at = current_time
             elif event.code == C2_RIGHT2:
                 stone = player2.build()
-                stone.image = get_image(stone.image)
-                stone.make_hitbox()
-                self.objects.append(stone)  # todo what da Fu
+                if stone is not None:
+                    stone.image = get_image(stone.image)
+                    stone.make_hitbox()
+                    self.objects.append(stone)  # todo what da Fu
 
     def loop(self, to_remove):
         to_remove.clear()
