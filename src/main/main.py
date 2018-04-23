@@ -86,16 +86,11 @@ class App:
                     projectile = player1.shoot(get_image('fireball.png'))
                     self.projectiles.append(projectile)
                     player1.last_projectile_fired_at = current_time
-            
             elif event.code == C1_RIGHT2:
-                current_time = time()
-                if current_time - player1.last_wall_built_at >= COOLDOWN:
-                    stone = player1.build()
-                    stone.image = get_image(stone.image)
-                    stone.make_hitbox()
-                    self.objects.append(stone)
-                    player1.last_wall_built_at = current_time
-                    
+                stone = player1.build()
+                stone.image = get_image(stone.image)
+                stone.make_hitbox()
+                self.objects.append(stone)  # todo what da Fu
         if keyboard is not None:
             player = 2
         if player == 2:

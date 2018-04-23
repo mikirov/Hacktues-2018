@@ -24,7 +24,6 @@ class Player(GameObject):
         self.animations = []
         self.base_animation = None
         self.last_projectile_fired_at = 0  # time since the epoch
-        self.last_wall_built_at = 0
         
     def heal(self):
         #if self.heal_ability.current_cooldown == 0:
@@ -55,7 +54,8 @@ class Player(GameObject):
         return projectile
 
     def build(self):  # todo not complete!!
-        
+        #if self.build_ability.current_cooldown == 0:
+            #self.build_ability.current_cooldown = self.build_ability.cool
         return self.build_ability(self)
 
     def hit(self, another_player):
