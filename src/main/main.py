@@ -26,7 +26,7 @@ def find_device(name):
 #gamepad2 = InputDevice('/dev/input/event1')
 #gamepad1 = list(filter(lambda x: "Micro" in x.name,ls))[0]
 #gamepad2 = list(filter(lambda x: "Dragon" in x.name, ls))[0]
-gamepad1 = find_device("Mircro")
+gamepad1 = find_device("Micro")
 gamepad2 = find_device("Dragon")
 
 # set up players
@@ -91,7 +91,8 @@ class App:
                 if stone is not None:
                     stone.image = get_image(stone.image)
                     stone.make_hitbox()
-                    self.objects.append(stone)  # todo what da Fu
+                    if not player1.collides_with(stone):
+                        self.objects.append(stone)  # todo what da Fu
         if keyboard is not None:
             player = 2
         if player == 2:
@@ -118,7 +119,8 @@ class App:
                 if stone is not None:
                     stone.image = get_image(stone.image)
                     stone.make_hitbox()
-                    self.objects.append(stone)  # todo what da Fu
+                    if not player2.collides_with(stone):
+                        self.objects.append(stone)  # todo what da Fu
 
     def loop(self, to_remove):
         to_remove.clear()

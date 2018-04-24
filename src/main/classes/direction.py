@@ -7,3 +7,4 @@ class Direction(Enum):
     LEFT = 1
     RIGHT = 0
 
+

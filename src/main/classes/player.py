@@ -106,4 +106,4 @@ class Player(GameObject):
 
 
     def update_hitbox(self):
-        self.hitbox = Rect(self.x + 15, self.y, 32, 64)
+        self.hitbox = Rect(self.x + 15, self.y+15, 32, 40)
