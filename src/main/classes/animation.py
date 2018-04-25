@@ -13,14 +13,14 @@ class Animation:
         self.width = width
         self.height = height
 
-    def play(self, screen):
+    def play(self, screen, loop=True):
         current_frame = pygame.Rect(
             int(self.frame) * self.width, self.height * self.owner.current_facing.value,
             self.width, self.height
         )
         screen.blit(self.owner.image, (self.owner.x, self.owner.y), current_frame)
         self.frame += self.speed
-        if self.frame >= self.max_frames:
+        if loop and self.frame >= self.max_frames:
             self.frame = self.starting_frame
 
     def stop(self, screen):

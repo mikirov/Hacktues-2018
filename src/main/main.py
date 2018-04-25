@@ -6,6 +6,7 @@ import evdev
 from classes import player
 from classes import projectile
 from classes.abilities import *
+from classes.stone import Stone
 from helpers.image_getter import get_image
 from controller_config import *
 # from keyboard_config import *
