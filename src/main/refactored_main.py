@@ -8,6 +8,7 @@ from helpers.image_getter import get_image
 from helpers.device_finder import find_device
 from classes.player import Player
 from classes.stone import Stone
+from classes.abilities import Build
 from classes.direction import Direction
 from config.controller_config import *
 # from config.keyboard_config import *
@@ -92,10 +93,16 @@ class Game:
                 self.projectiles.append(projectile)
                 self.player1.last_projectile_fired_at = current_time
         if self.events[C1_RIGHT2]:
-            stone = self.player1.build()
-            stone.image = get_image(stone.image)
-            stone.make_hitbox()
-            self.game_objects.append(stone)
+            current_time = time()
+            if current_time - self.player1.last_wall_built_at >= COOLDOWN:
+                stone = self.player1.build()
+                if stone is not None:
+                    stone.image = get_image(stone.image)
+                    stone.make_hitbox()
+                    if self.player1.collides_with(stone):
+                        return
+                    self.game_objects.append(stone)
+                    self.player1.last_wall_built_at = current_time
 
         # Player 2
         if self.events[C2_BUTTON_DOWN * 2]:
@@ -117,10 +124,17 @@ class Game:
                 self.projectiles.append(projectile)
                 self.player2.last_projectile_fired_at = current_time
         if self.events[C2_RIGHT2 * 2]:
-            stone = self.player2.build()
-            stone.image = get_image(stone.image)
-            stone.make_hitbox()
-            self.game_objects.append(stone)
+            current_time = time()
+            if current_time - self.player2.last_wall_built_at >= COOLDOWN:
+                stone = self.player2.build()
+                if stone is not None:
+                    stone.image = get_image(stone.image)
+                    stone.make_hitbox()
+                    if self.player2.collides_with(stone):
+                        return
+                    self.game_objects.append(stone)
+                    self.player2.last_wall_built_at = current_time
+                        
 
     def loop(self):
         to_remove = set()
@@ -133,6 +147,8 @@ class Game:
                     if isinstance(obj, Stone) or isinstance(obj, Player):
                         obj.hp -= current_proj.damage
                         if obj.hp <= 0:
+                            if isinstance(obj, Stone):
+                                Build.grid[obj.grid_y][obj.grid_x]
                             to_remove.add(obj)
 
         self.projectiles = list(
@@ -212,8 +228,6 @@ def main():
 
     gamepad1 = find_device(GAMEPAD_NAME_1)
     gamepad2 = find_device(GAMEPAD_NAME_2)
-    print(gamepad1)
-    print(gamepad2)
     # gamepad1 = gamepad2 = keyboard
 
     game = Game(True) # give True to enable hitbox drawing

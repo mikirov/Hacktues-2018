@@ -23,6 +23,7 @@ class Player(GameObject):
         self.special_abilities = special_abilities
         self.frame = frame
         self.last_projectile_fired_at = 0  # time since the epoch
+        self.last_wall_built_at = 0  # time since the epoch
         self.generate_rect()
         self.animations = []
         self.base_animation = None

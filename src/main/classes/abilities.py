@@ -1,5 +1,7 @@
 from .stone import Stone
 from .direction import Direction
+from config.game_config import SCREEN_WIDTH, SCREEN_HEIGHT
+from classes.stone import Stone
 
 
 class Ability:
@@ -31,6 +33,11 @@ class Heal(Ability):
             
 
 class Build(Ability):
+    grid = [
+        [0 for y in range(SCREEN_WIDTH // Stone.SIZE)]
+        for x in range(SCREEN_HEIGHT // Stone.SIZE)
+    ]
+
     def __init__(self, cooldown, hp):
         super().__init__("Build", "active", cooldown)
         self.image = "wall.png"  # set file path
@@ -41,7 +48,7 @@ class Build(Ability):
         player = args[0]
         x = player.x
         y = player.y
-        offset = 16
+        offset = 32
         stone = Stone(x, y, self.image, 100)
         if facing == Direction.UP:
             stone.y -= 32
@@ -55,5 +62,26 @@ class Build(Ability):
         if facing == Direction.RIGHT:
             stone.x += 64
             stone.y += offset
+
+        offset_x = stone.x % Stone.SIZE
+        offset_y = stone.y % Stone.SIZE
+        if offset_x < Stone.SIZE // 2:
+            new_x = stone.x - offset_x
+        else:
+            new_x = stone.x + Stone.SIZE - offset_x
+        if offset_y < Stone.SIZE // 2:
+            new_y = stone.y - offset_y
+        else:
+            new_y = stone.y + Stone.SIZE - offset_y 
+        #new_y = stone.y - (stone.y % Stone.SIZE)
+        ind_x = new_x // 32
+        ind_y = new_y // 32
+        if self.grid[ind_y][ind_x] == 1:
+            return None
+        stone.x = new_x
+        stone.y = new_y
+        stone.grid_x = ind_x
+        stone.grid_y = ind_y
+        self.grid[ind_y][ind_x] = 1
         return stone
 
