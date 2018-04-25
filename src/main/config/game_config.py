@@ -1,6 +1,6 @@
 # Controls
 GAMEPAD_NAME_1 = 'Micro'
-GAMEPAD_NAME_2 = 'Dragon'
+GAMEPAD_NAME_2 = 'Logitech'
 
 # Coordinates
 PLAYER_1_STARTING_COORDS = 50, 150
