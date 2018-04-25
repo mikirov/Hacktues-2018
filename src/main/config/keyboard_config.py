@@ -1,6 +1,9 @@
 import evdev
+
+from helpers.device_finder import find_device
+
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
-keyboard = list(filter(lambda x: "Keyboard" in x.name or "keyboard" in x.name, devices))[0]
+keyboard = find_device('keyboard')
 capabilities = keyboard.capabilities(verbose=True)
 #print(capabilities)
 keyCodes = capabilities[('EV_KEY', 1)]
