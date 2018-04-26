@@ -40,8 +40,8 @@ player1.update_hitbox()
 player2.update_hitbox()
 player1.add_animation(9,4) # base_animation
 player2.add_animation(9,4)
-player1.add_animation(6,1, image=get_image('heal_anim.png'), name="heal", loop=False)
-player2.add_animation(6,1, image=get_image('heal_anim.png'), name="heal", loop=False)
+player1.add_animation(6,1, image=get_image('heal_anim2.png'), name="heal", offset_x=-3,offset_y=-35, loop=False)
+player2.add_animation(6,1, image=get_image('heal_anim2.png'), name="heal",offset_x=-3,offset_y=-35, loop=False)
 FONT_SIZE = 60
 
 
@@ -182,13 +182,13 @@ class App:
             player1.render_hitbox(self.screen)
             player2.render_hitbox(self.screen)
 
-        player1.base_animation.play(self.screen)
-        player2.base_animation.play(self.screen)
+        player1.base_animation.play(self.screen, player1.current_facing.value)
+        player2.base_animation.play(self.screen, player2.current_facing.value)
 
         for pl in (player1, player2):
             for animation in pl.animations[1:]:
                 if animation.playing:
-                    animation.play(self.screen)
+                    animation.play(self.screen, 0) # play default first row
 
 
         pygame.display.flip()
