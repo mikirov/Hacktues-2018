@@ -1,5 +1,5 @@
-from .stone import Stone
-from .direction import Direction
+from classes.stone import Stone
+from classes.direction import Direction
 from config.game_config import SCREEN_WIDTH, SCREEN_HEIGHT
 from classes.stone import Stone
 

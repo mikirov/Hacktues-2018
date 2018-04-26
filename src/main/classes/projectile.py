@@ -1,5 +1,5 @@
-from .game_object import GameObject
-from .direction import Direction
+from classes.game_object import GameObject
+from classes.direction import Direction
 
 
 class Projectile(GameObject):

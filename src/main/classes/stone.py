@@ -1,4 +1,4 @@
-from .game_object import GameObject
+from classes.game_object import GameObject
 
 class Stone(GameObject):
     SIZE = 32
