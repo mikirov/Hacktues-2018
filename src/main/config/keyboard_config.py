@@ -4,7 +4,6 @@ from helpers.device_finder import find_device
 
 devices = [evdev.InputDevice(fn) for fn in evdev.list_devices()]
 keyboard = find_device('keyboard')
-print(keyboard)
 capabilities = keyboard.capabilities(verbose=True)
 #print(capabilities)
 keyCodes = capabilities[('EV_KEY', 1)]
