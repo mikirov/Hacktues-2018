@@ -223,8 +223,6 @@ class Game:
 def main():
     global gamepad1, gamepad2
 
-    gamepad1 = find_device(GAMEPAD_NAME_1)
-    gamepad2 = find_device(GAMEPAD_NAME_2)
     gamepad1 = gamepad2 = keyboard
 
     game = Game() # give True to enable hitbox drawing
