@@ -11,9 +11,10 @@ from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
 from select import select
+from classes.Animation import Animation
 import random
 # set up gamepad
-#TODO Make animation stop on key release(event.value == 0)
+#TODO Fix heal animation
 
 
 
@@ -37,8 +38,10 @@ player2 = player.Player(300, 150, get_image('mage_two.png'))
 #rect_player2 = pygame.Rect(player2.frame * 64, 64 * player2.current_facing.value, 64, 64)
 player1.update_hitbox()
 player2.update_hitbox()
-player1.add_animation(64,64,9)
-player2.add_animation(64,64,9)
+player1.add_animation(9,4) # base_animation
+player2.add_animation(9,4)
+player1.add_animation(6,1, image=get_image('heal_anim.png'), name="heal", loop=False)
+player2.add_animation(6,1, image=get_image('heal_anim.png'), name="heal", loop=False)
 FONT_SIZE = 60
 
 
@@ -181,6 +184,13 @@ class App:
 
         player1.base_animation.play(self.screen)
         player2.base_animation.play(self.screen)
+
+        for pl in (player1, player2):
+            for animation in pl.animations[1:]:
+                if animation.playing:
+                    animation.play(self.screen)
+
+
         pygame.display.flip()
 
     @staticmethod

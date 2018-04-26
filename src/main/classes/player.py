@@ -27,20 +27,31 @@ class Player(GameObject):
         
     def heal(self):
         #if self.heal_ability.current_cooldown == 0:
+        heal_anim = self.anim_get("heal")
+        if heal_anim is None:
+            print("No animation 'heal' found.")
+            return
+        heal_anim.playing = True
         self.heal_ability(self)
           #  self.heal_ability.current_cooldown = self.heal_ability.cool
+
+    def anim_get(self, name):
+        for anim in self.animations:
+            if anim.name == name:
+                return anim
+        return None
 
     def shoot(self, projectile_image):
         base_x = self.x + self.hitbox.width // 2
         base_y = self.y + self.hitbox.height // 2
-        down_offset = 42
+        down_offset = 18
         left_offset = 18
         up_offset = 18
         right_offset = 8
         if self.current_facing == Direction.UP:
             base_y -= self.hitbox.height - up_offset
         if self.current_facing == Direction.DOWN:
-            base_y += self.hitbox.height - down_offset
+            base_y += self.hitbox.height + down_offset
         if self.current_facing == Direction.LEFT:
             base_x -= self.hitbox.width - left_offset
         if self.current_facing == Direction.RIGHT:
@@ -63,9 +74,9 @@ class Player(GameObject):
         if distance < 26:
             another_player.hp -= self.melee_dmg
 
-    def add_animation(*args):
+    def add_animation(*args, **kwargs):
         self = args[0]
-        anim = Animation(*args)
+        anim = Animation(*args, **kwargs)
         self.animations.append(anim)
         if len(self.animations) == 1:
             self.base_animation = self.animations[0]
