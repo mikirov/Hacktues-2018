@@ -18,8 +18,8 @@ C1_BUTTON_LEFT = getkey('KEY_A') #A
 
 C1_LEFT1 = getkey('KEY_F') # LSHIFT
 C1_LEFT2 =  getkey('KEY_LEFTSHIFT')#SPACE
-C1_RIGHT1 = getkey('KEY_SPACE') #F
-C1_RIGHT2 = getkey('KEY_G') #G
+C1_RIGHT1 = getkey('KEY_G') #G
+C1_RIGHT2 = getkey('KEY_SPACE') #F
 
 C2_BUTTON_UP = getkey('KEY_I') #I
 C2_BUTTON_LEFT = getkey('KEY_J') #J
@@ -28,8 +28,8 @@ C2_BUTTON_RIGHT = getkey('KEY_L') #L
 
 C2_LEFT1 = getkey('KEY_Y') #y
 C2_LEFT2 = getkey('KEY_U') #u
-C2_RIGHT1 = getkey('KEY_O') #o
-C2_RIGHT2 = getkey('KEY_P') #p
+C2_RIGHT1 = getkey('KEY_P') #p
+C2_RIGHT2 = getkey('KEY_O') #o
 
 EXIT_BUTTON = getkey('KEY_ESC') #ESC
 VALID_CODES = [C1_BUTTON_DOWN,C1_BUTTON_LEFT,C1_BUTTON_RIGHT,C1_BUTTON_UP,C1_LEFT1,C1_LEFT2,C1_RIGHT1,C1_RIGHT2,
