@@ -4,6 +4,10 @@ from config.game_config import SCREEN_WIDTH, SCREEN_HEIGHT
 from classes.stone import Stone
 
 
+MAX_STONES_WIDTH = SCREEN_WIDTH // Stone.SIZE
+MAX_STONES_HEIGHT = SCREEN_HEIGHT // Stone.SIZE
+
+
 class Ability:
     def __init__(self, name, ab_type, cooldown):
         self.name = name
@@ -34,8 +38,8 @@ class Heal(Ability):
 
 class Build(Ability):
     grid = [
-        [0 for y in range(SCREEN_WIDTH // Stone.SIZE)]
-        for x in range(SCREEN_HEIGHT // Stone.SIZE)
+        [0 for y in range(MAX_STONES_WIDTH)]
+        for x in range(MAX_STONES_HEIGHT)
     ]
 
     def __init__(self, cooldown, hp):
@@ -76,12 +80,13 @@ class Build(Ability):
         #new_y = stone.y - (stone.y % Stone.SIZE)
         ind_x = new_x // 32
         ind_y = new_y // 32
-        if self.grid[ind_y][ind_x] == 1:
-            return None
-        stone.x = new_x
-        stone.y = new_y
-        stone.grid_x = ind_x
-        stone.grid_y = ind_y
-        self.grid[ind_y][ind_x] = 1
-        return stone
+        if 0 <= ind_x < MAX_STONES_WIDTH and 0 <= ind_y < MAX_STONES_HEIGHT:
+            if self.grid[ind_y][ind_x] == 1:
+                return None
+            stone.x = new_x
+            stone.y = new_y
+            stone.grid_x = ind_x
+            stone.grid_y = ind_y
+            self.grid[ind_y][ind_x] = 1
+            return stone
 

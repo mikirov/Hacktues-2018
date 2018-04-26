@@ -63,7 +63,6 @@ class Game:
         self.font = pygame.font.Font(None, FONT_SIZE)
 
     def on_event(self, event):
-        print(event)
         if event.code == EXIT_BUTTON:
             self._running = False
         else:
@@ -229,7 +228,7 @@ def main():
     gamepad2 = find_device(GAMEPAD_NAME_2)
     gamepad1 = gamepad2 = keyboard
 
-    game = Game(True) # give True to enable hitbox drawing
+    game = Game() # give True to enable hitbox drawing
     game.execute()  
 
 
