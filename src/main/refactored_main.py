@@ -11,7 +11,6 @@ from classes.stone import Stone
 from classes.abilities import Build
 from classes.direction import Direction
 from config.controller_config import *
-# from config.keyboard_config import *
 from config.game_config import *
 
 
@@ -63,7 +62,6 @@ class Game:
         self.font = pygame.font.Font(None, FONT_SIZE)
 
     def on_event(self, event, current_player):
-        print(event)
         if event.code == EXIT_BUTTON:
             self._running = False
         else:
@@ -86,13 +84,13 @@ class Game:
             self.player1.heal()
         if self.events[C1_LEFT2]:
             self.player1.hit(self.player2)
-        if self.events[C1_RIGHT1]:
+        if self.events[C1_RIGHT2]:
             current_time = time()
             if current_time - self.player1.last_projectile_fired_at >= COOLDOWN:
                 projectile = self.player1.shoot(get_image(PROJECTILE_IMAGE))
                 self.projectiles.append(projectile)
                 self.player1.last_projectile_fired_at = current_time
-        if self.events[C1_RIGHT2]:
+        if self.events[C1_RIGHT1]:
             current_time = time()
             if current_time - self.player1.last_wall_built_at >= COOLDOWN:
                 stone = self.player1.build()
@@ -117,13 +115,13 @@ class Game:
             self.player2.heal()
         if self.events[C2_LEFT2 * 2]:
             self.player2.hit(self.player1)
-        if self.events[C2_RIGHT1 * 2]:
+        if self.events[C2_RIGHT2 * 2]:
             current_time = time()
             if current_time - self.player2.last_projectile_fired_at >= COOLDOWN:
                 projectile = self.player2.shoot(get_image(PROJECTILE_IMAGE))
                 self.projectiles.append(projectile)
                 self.player2.last_projectile_fired_at = current_time
-        if self.events[C2_RIGHT2 * 2]:
+        if self.events[C2_RIGHT1 * 2]:
             current_time = time()
             if current_time - self.player2.last_wall_built_at >= COOLDOWN:
                 stone = self.player2.build()
@@ -228,9 +226,8 @@ def main():
 
     gamepad1 = find_device(GAMEPAD_NAME_1)
     gamepad2 = find_device(GAMEPAD_NAME_2)
-    # gamepad1 = gamepad2 = keyboard
 
-    game = Game(True) # give True to enable hitbox drawing
+    game = Game() # give True to enable hitbox drawing
     game.execute()  
 
 

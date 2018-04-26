@@ -2,7 +2,7 @@ import os
 
 import pygame
 
-from .direction import Direction
+from classes.direction import Direction
 
 
 class GameObject:
@@ -16,11 +16,6 @@ class GameObject:
 
 
     def move(self, direction=None, all_game_obj=None):
-        #all_hitboxes = [obj.hitbox for obj in all_game_obj]
-        #hit = self.hitbox.collidelist(all_hitboxes)
-        #if hit != -1:
-        #    return
-
         direction = direction or self.direction  # TODO: ne pipai STEFO
         x,y = self.x, self.y
         if direction == Direction.UP:
@@ -34,24 +29,14 @@ class GameObject:
         self.current_facing = direction
         self.update_hitbox()
 
-            #all_hitboxes = [obj.hitbox for obj in all_game_obj]
-           # ind = self.hitbox.collidelist(all_hitboxes)
-            #if ind != -1:
-             #   self.x = x
-              #  self.y = y
-               # self.hitbox.x = x
-                #self.hitbox.y = y
-
     def update_hitbox(self):
         if self.hitbox is not None:
             self.hitbox.x = self.x
             self.hitbox.y = self.y
-            #print(self.x, self.y)
 
     def make_hitbox(self):
         width, height = self.image.get_width(), self.image.get_height()
         self.hitbox = pygame.Rect(self.x, self.y, width, height)
-        # return hitbox
 
     def collides_with(self, obj2):
         if self.hitbox is not None:
