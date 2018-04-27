@@ -61,7 +61,7 @@ class App:
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size, pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
         self._running = True
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
