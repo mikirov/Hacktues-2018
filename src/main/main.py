@@ -6,8 +6,8 @@ from classes import player
 from classes import projectile
 from classes.abilities import *
 from helpers.image_getter import get_image
-#from controller_config import *
-from keyboard_config import *
+from controller_config import *
+#from keyboard_config import *
 from classes.direction import Direction
 from classes.stone import Stone
 from select import select
