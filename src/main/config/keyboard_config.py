@@ -16,8 +16,8 @@ C1_BUTTON_LEFT = getkey('KEY_A') #A
 
 C1_LEFT1 = getkey('KEY_F') # LSHIFT
 C1_LEFT2 =  getkey('KEY_LEFTSHIFT')#SPACE
-C1_RIGHT1 = getkey('KEY_SPACE') #F
-C1_RIGHT2 = getkey('KEY_G') #G
+C1_RIGHT2 = getkey('KEY_SPACE') #F
+C1_RIGHT1 = getkey('KEY_G') #G
 
 C2_BUTTON_UP = getkey('KEY_I') #I
 C2_BUTTON_LEFT = getkey('KEY_J') #J
