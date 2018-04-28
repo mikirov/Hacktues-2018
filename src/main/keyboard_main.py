@@ -8,7 +8,7 @@ from helpers.image_getter import get_image
 from helpers.device_finder import find_device
 from classes.player import Player
 from classes.stone import Stone
-from classes.abilities import Build
+from classes.abilities import *
 from classes.direction import Direction
 from config.keyboard_config import *
 from config.game_config import *
@@ -143,7 +143,7 @@ class Game:
                         obj.hp -= current_proj.damage
                         if obj.hp <= 0:
                             if isinstance(obj, Stone):
-                                Build.grid[obj.grid_y][obj.grid_x]
+                                Build.grid[obj.grid_y][obj.grid_x] = 0
                             to_remove.add(obj)
 
         self.projectiles = list(
@@ -222,6 +222,10 @@ class Game:
         self.player1.update_hitbox()
         self.player2.x, self.player2.y = PLAYER_2_STARTING_COORDS
         self.player2.update_hitbox()
+        Build.grid = [
+            [0 for y in range(MAX_STONES_WIDTH)]
+                for x in range(MAX_STONES_HEIGHT)
+        ]
 
 
 def main():
