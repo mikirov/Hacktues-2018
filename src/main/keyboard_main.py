@@ -96,16 +96,12 @@ class Game:
                 self.projectiles.append(projectile)
                 self.player1.last_projectile_fired_at = current_time
         if self.events[C1_RIGHT1]:
-            current_time = time()
-            if current_time - self.player1.last_wall_built_at >= COOLDOWN:
-                stone = self.player1.build()
-                if stone is not None:
-                    stone.image = get_image(stone.image)
-                    stone.make_hitbox()
-                    if self.player1.collides_with(stone):
-                        return
-                    self.game_objects.append(stone)
-                    self.player1.last_wall_built_at = current_time
+            stone = self.player1.build()
+            if stone is not None:
+                stone.image = get_image(stone.image)
+                stone.make_hitbox()
+                if not (self.player1.collides_with(stone) or self.player2.collides_with(stone)):
+                    self.game_objects.append(stone)  # todo what da Fu
 
         # Player 2
         if self.events[C2_BUTTON_DOWN]:
@@ -127,16 +123,12 @@ class Game:
                 self.projectiles.append(projectile)
                 self.player2.last_projectile_fired_at = current_time
         if self.events[C2_RIGHT1]:
-            current_time = time()
-            if current_time - self.player2.last_wall_built_at >= COOLDOWN:
-                stone = self.player2.build()
-                if stone is not None:
-                    stone.image = get_image(stone.image)
-                    stone.make_hitbox()
-                    if self.player2.collides_with(stone):
-                        return
-                    self.game_objects.append(stone)
-                    self.player2.last_wall_built_at = current_time
+            stone = self.player2.build()
+            if stone is not None:
+                stone.image = get_image(stone.image)
+                stone.make_hitbox()
+                if not (self.player1.collides_with(stone) or self.player2.collides_with(stone)):
+                    self.game_objects.append(stone)  # todo what da Fu
                         
 
     def loop(self):
