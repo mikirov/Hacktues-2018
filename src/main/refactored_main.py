@@ -11,7 +11,6 @@ from classes.stone import Stone
 from classes.abilities import Build
 from classes.direction import Direction
 from config.controller_config import *
-# from config.keyboard_config import *
 from config.game_config import *
 
 
@@ -19,6 +18,7 @@ class Game:
     def __init__(self, debug=False):
         self.size = self.width, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
         self._running = False
+        self._game_over = False 
         self._debug = debug
         self.devices = [gamepad1, gamepad2]
         self.projectiles = []
@@ -61,15 +61,17 @@ class Game:
 
     def on_init(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.size)
+        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
         self._running = True
+        pygame.mouse.set_visible(False)
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, FONT_SIZE)
 
     def on_event(self, event, current_player):
-        print(event)
         if event.code == EXIT_BUTTON:
             self._running = False
+        elif event.code == RESET_BUTTON and self._game_over:
+            self.reset()
         else:
             if event.value == 0:
                 self.events[event.code * current_player] = False
@@ -77,6 +79,9 @@ class Game:
                 self.events[event.code * current_player] = True
 
     def process_input(self):
+        if self._game_over:  # ignore input
+            return
+
         # Player 1
         if self.events[C1_BUTTON_DOWN]:
             self.player1.move(Direction.DOWN, self.game_objects)
@@ -90,13 +95,13 @@ class Game:
             self.player1.heal()
         if self.events[C1_LEFT2]:
             self.player1.hit(self.player2)
-        if self.events[C1_RIGHT1]:
+        if self.events[C1_RIGHT2]:
             current_time = time()
             if current_time - self.player1.last_projectile_fired_at >= COOLDOWN:
                 projectile = self.player1.shoot(get_image(PROJECTILE_IMAGE))
                 self.projectiles.append(projectile)
                 self.player1.last_projectile_fired_at = current_time
-        if self.events[C1_RIGHT2]:
+        if self.events[C1_RIGHT1]:
             current_time = time()
             if current_time - self.player1.last_wall_built_at >= COOLDOWN:
                 stone = self.player1.build()
@@ -121,13 +126,13 @@ class Game:
             self.player2.heal()
         if self.events[C2_LEFT2 * 2]:
             self.player2.hit(self.player1)
-        if self.events[C2_RIGHT1 * 2]:
+        if self.events[C2_RIGHT2 * 2]:
             current_time = time()
             if current_time - self.player2.last_projectile_fired_at >= COOLDOWN:
                 projectile = self.player2.shoot(get_image(PROJECTILE_IMAGE))
                 self.projectiles.append(projectile)
                 self.player2.last_projectile_fired_at = current_time
-        if self.events[C2_RIGHT2 * 2]:
+        if self.events[C2_RIGHT1 * 2]:
             current_time = time()
             if current_time - self.player2.last_wall_built_at >= COOLDOWN:
                 stone = self.player2.build()
@@ -164,7 +169,8 @@ class Game:
         
         # Game over
         if self.player1.hp <= 0 or self.player2.hp <= 0:
-            self.reset()
+            self._game_over = True
+            # self.reset()
         self.clock.tick(20)
 
     def render(self):
@@ -198,6 +204,12 @@ class Game:
         if self._debug:
             self.player1.render_hitbox(self.screen)
             self.player2.render_hitbox(self.screen)
+
+        # Game Over
+        if self._game_over:
+            winner = 1 if self.player1.hp > 0 else 2 
+            text = self.font.render('WINNER: {}'.format(winner), True, (0, 0, 0))
+            self.screen.blit(text, GAME_OVER_COORDS)
         pygame.display.flip()
 
     def execute(self):
@@ -223,6 +235,7 @@ class Game:
         pygame.quit()
 
     def reset(self):
+        self._game_over = False 
         self.projectiles = []
         self.game_objects = [self.player1, self.player2]
         self.player1.hp, self.player2.hp = MAX_HP, MAX_HP
@@ -237,9 +250,8 @@ def main():
 
     gamepad1 = find_device(GAMEPAD_NAME_1)
     gamepad2 = find_device(GAMEPAD_NAME_2)
-    # gamepad1 = gamepad2 = keyboard
 
-    game = Game(True) # give True to enable hitbox drawing
+    game = Game() # give True to enable hitbox drawing
     game.execute()  
 
 
