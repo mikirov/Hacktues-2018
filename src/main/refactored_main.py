@@ -70,7 +70,7 @@ class Game:
     def on_event(self, event, current_player):
         if event.code == EXIT_BUTTON:
             self._running = False
-        elif event.code == RESET_BUTTON and self._game_over:
+        elif (event.code == RESET_BUTTON or event.code == RESET_BUTTON2) and self._game_over:
             self.reset()
         else:
             if event.value == 0:
