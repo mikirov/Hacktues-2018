@@ -3,12 +3,12 @@ import math
 
 import pygame
 
-from classes.direction import Direction
-from classes.game_object import GameObject
-from classes.projectile import Projectile
-from classes.abilities import *
-from classes.animation import Animation
-from config.game_config import MAX_HP, SCREEN_WIDTH, SCREEN_HEIGHT, HEAL_AMOUNT
+from .direction import Direction
+from .game_object import GameObject
+from .projectile import Projectile
+from .abilities import *
+from .animation import Animation
+from config.game_config import MAX_HP, SCREEN_WIDTH, SCREEN_HEIGHT
 
 
 class Player(GameObject):
@@ -18,7 +18,7 @@ class Player(GameObject):
         self.hp = hp
         self.melee_dmg = 30
         self.current_facing = Direction.DOWN
-        self.heal_ability = Heal(5, HEAL_AMOUNT, max_hp=MAX_HP)
+        self.heal_ability = Heal(5, random.randint(1, 10), max_hp=MAX_HP)
         self.build_ability = Build(6, 50)
         self.special_abilities = special_abilities
         self.frame = frame
@@ -29,6 +29,11 @@ class Player(GameObject):
         self.base_animation = None
 
     def move(self, direction=None, all_game_obj=None):
+        #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+        #hit = self.hitbox.collidelist(all_hitboxes)
+        #if hit != -1:
+        #    return
+
         direction = direction or self.direction  # TODO: ne pipai STEFO
         x,y = self.x, self.y
         if direction == Direction.UP and self.y > 0:
@@ -48,11 +53,32 @@ class Player(GameObject):
                 break
         self.current_facing = direction
 
+            #all_hitboxes = [obj.hitbox for obj in all_game_obj]
+           # ind = self.hitbox.collidelist(all_hitboxes)
+            #if ind != -1:
+             #   self.x = x
+              #  self.y = y
+               # self.hitbox.x = x
+                #self.hitbox.y = y 
+
     def update_hitbox(self):
         self.hitbox = pygame.Rect(self.x + 15, self.y, 32, 64)
 
+    def anim_get(self, name):
+        for anim in self.animations:
+            if anim.name == name:
+                return anim
+        return None
+
     def heal(self):
+        # if self.heal_ability.current_cooldown == 0:
+        heal_anim = self.anim_get("heal")
+        if heal_anim is None:
+            print("No animation 'heal' found.")
+            return
+        heal_anim.playing = True
         self.heal_ability(self)
+        #  self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self, projectile_image):
         base_x = self.x + self.hitbox.width // 2
@@ -78,7 +104,9 @@ class Player(GameObject):
         projectile.make_hitbox()
         return projectile
 
-    def build(self):
+    def build(self):  # todo not complete!!
+        #if self.build_ability.current_cooldown == 0:
+            #self.build_ability.current_cooldown = self.build_ability.cool
         return self.build_ability(self)
 
     def hit(self, another_player):
@@ -89,8 +117,8 @@ class Player(GameObject):
     def generate_rect(self):
         self.rect = pygame.Rect(int(self.frame) * 64, 64 * self.current_facing.value, 64, 64)
 
-    def add_animation(self, *args):
-        anim = Animation(self, *args)
+    def add_animation(self, *args, **kwargs):
+        anim = Animation(self, *args, **kwargs)
         self.animations.append(anim)
         if len(self.animations) == 1:
             self.base_animation = self.animations[0]

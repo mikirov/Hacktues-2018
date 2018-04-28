@@ -27,13 +27,17 @@ class Game:
             speed=PLAYER_SPEED, hp=MAX_HP,
         )
         self.player1.update_hitbox()
-        self.player1.add_animation(64, 64, 9)
+        self.player1.add_animation(9, 4)
+        self.player1.add_animation(6, 1, image=get_image('heal_anim2.png'), \
+                                   name="heal", offset_x=-3, offset_y=-35, loop=False)
         self.player2 = Player(
             *PLAYER_2_STARTING_COORDS, get_image(PLAYER_2_IMAGE),
             speed=PLAYER_SPEED, hp=MAX_HP,
         )
         self.player2.update_hitbox()
-        self.player2.add_animation(64, 64, 9)
+        self.player2.add_animation(9, 4)
+        self.player2.add_animation(6, 1, image=get_image('heal_anim2.png'), \
+                                   name="heal", offset_x=-3, offset_y=-35, loop=False)
         self.game_objects = [self.player1, self.player2]
         self.events = {
             C1_BUTTON_DOWN: False,
@@ -190,8 +194,13 @@ class Game:
             projectile.render(self.screen, self._debug)
 
         # Players
-        self.player1.base_animation.play(self.screen)
-        self.player2.base_animation.play(self.screen)
+        self.player1.base_animation.play(self.screen, self.player1.current_facing.value)
+        self.player2.base_animation.play(self.screen, self.player2.current_facing.value)
+
+        for pl in (self.player1, self.player2):
+            for animation in pl.animations[1:]:
+                if animation.playing:
+                    animation.play(self.screen, 0)  # play default first row
         if self._debug:
             self.player1.render_hitbox(self.screen)
             self.player2.render_hitbox(self.screen)
