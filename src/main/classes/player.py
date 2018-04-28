@@ -64,10 +64,21 @@ class Player(GameObject):
     def update_hitbox(self):
         self.hitbox = pygame.Rect(self.x + 15, self.y, 32, 64)
 
+    def anim_get(self, name):
+        for anim in self.animations:
+            if anim.name == name:
+                return anim
+        return None
+
     def heal(self):
         # if self.heal_ability.current_cooldown == 0:
+        heal_anim = self.anim_get("heal")
+        if heal_anim is None:
+            print("No animation 'heal' found.")
+            return
+        heal_anim.playing = True
         self.heal_ability(self)
-            # self.heal_ability.current_cooldown = self.heal_ability.cool
+        #  self.heal_ability.current_cooldown = self.heal_ability.cool
 
     def shoot(self, projectile_image):
         base_x = self.x + self.hitbox.width // 2
@@ -106,8 +117,8 @@ class Player(GameObject):
     def generate_rect(self):
         self.rect = pygame.Rect(int(self.frame) * 64, 64 * self.current_facing.value, 64, 64)
 
-    def add_animation(self, *args):
-        anim = Animation(self, *args)
+    def add_animation(self, *args, **kwargs):
+        anim = Animation(self, *args, **kwargs)
         self.animations.append(anim)
         if len(self.animations) == 1:
             self.base_animation = self.animations[0]
